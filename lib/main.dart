@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,7 +51,6 @@ class _MainPageState extends State<MainPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                /*
                 Padding(
                   padding: const EdgeInsets.only(top: 0),
                   child: SvgPicture.asset(
@@ -63,12 +63,13 @@ class _MainPageState extends State<MainPage> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
+                      /*
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => login(),
                         ),
-                      );
+                      );*/
                     },
                     child: const Text("Iniciar Sesión",
                         style: TextStyle(
@@ -93,12 +94,13 @@ class _MainPageState extends State<MainPage> {
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () {
+                      /*
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => PaginaSettings(),
                         ),
-                      );
+                      );*/
                     },
                     child: const Text("Catálogo",
                         style: TextStyle(
@@ -117,7 +119,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),*/
+                SizedBox(height: 20),
               ],
             ),
           )),
