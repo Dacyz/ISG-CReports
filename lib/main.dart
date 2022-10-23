@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'view/System/Start/login.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -62,14 +64,13 @@ class _MainPageState extends State<MainPage> {
                 Container(
                   width: 300,
                   child: ElevatedButton(
-                    onPressed: () {
-                      /*
+                    onPressed: () async {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => login(),
                         ),
-                      );*/
+                      );
                     },
                     child: const Text("Iniciar Sesión",
                         style: TextStyle(
@@ -93,7 +94,7 @@ class _MainPageState extends State<MainPage> {
                 Container(
                   width: 300,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       /*
                       Navigator.push(
                         context,
