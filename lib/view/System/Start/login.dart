@@ -1,25 +1,47 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
-class login extends StatelessWidget {
+import '../Home/HomePage.dart';
+
+class login extends StatefulWidget {
+  @override
+  State<login> createState() => _loginState();
+}
+
+class _loginState extends State<login> {
+  static Future<User?> loginUsingPass(
+      {required String userd,
+      required String pass,
+      required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+    try {
+      UserCredential userCredential =
+          await auth.signInWithEmailAndPassword(email: userd, password: pass);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        print("No se encontraron usuarios");
+      }
+    }
+  }
+
   bool _isVisible = false;
+
   @override
   Widget build(BuildContext context) {
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
+
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            Color(0xFF101A26),
-            Color(0xFF111C28),
-            Color(0xFF101B27)
-          ]),
-        ),
-        child: SafeArea(
-          child: Center(
-              child: SingleChildScrollView(
-            reverse: true,
-            padding: EdgeInsets.all(8),
+      body: SafeArea(
+        child: Center(
+            child: SingleChildScrollView(
+          reverse: true,
+          padding: EdgeInsets.all(8),
+          child: Padding(
+            padding: const EdgeInsets.all(defaultPadding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -27,102 +49,72 @@ class login extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 0),
                   child: SvgPicture.asset(
                     "assets/icons/InsergeSVGM.svg",
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                 ),
-                SizedBox(height: 15),
+                const SizedBox(height: defaultPadding),
                 //Usuario
-                Padding(
-                  padding: const EdgeInsets.only(right: 23),
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 7.0),
-                      child: TextFormField(
-                        style: TextStyle(color: Color(0xFFFFFFFF)),
-                        decoration: const InputDecoration(
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xFFFFFFFF),
-                              ),
-                            ),
-                            focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xFFFC4B08), width: 2),
-                            ),
-                            icon: Icon(
-                              Icons.perm_identity,
-                              color: Color(0xFFFFFFFF),
-                            ),
-                            labelText: "Usuario",
-                            labelStyle: TextStyle(
-                              color: Color(0xFFFFFFFF),
-                            )),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: const EdgeInsets.only(right: 23),
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 7.0),
-                      child: TextFormField(
-                        obscureText: !_isVisible,
-                        style: TextStyle(color: Color(0xFFFFFFFF)),
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              _isVisible = !_isVisible;
-                              (context as Element).markNeedsBuild();
-                            },
-                            icon: _isVisible
-                                ? Icon(
-                                    Icons.visibility,
-                                    color: Color(0xFFFC4B08),
-                                    size: 17,
-                                  )
-                                : Icon(
-                                    Icons.visibility_off,
-                                    color: Color(0xFFFFFFFF),
-                                    size: 17,
-                                  ),
-                          ),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFFFFFFFF),
-                            ),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Color(0xFFFC4B08), width: 2),
-                          ),
-                          icon: Icon(
-                            Icons.password,
-                            color: Color(0xFFFFFFFF),
-                          ),
-                          labelText: "Contraseña",
-                          labelStyle: TextStyle(
-                            color: Color(0xFFFFFFFF),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 40),
-
-                //Bton Ingresar
                 Container(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      /*
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>  HomePage(),
-                            ),
-                          );*/
+                  child: TextField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        hintText: "Correo Institucional",
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Colors.black,
+                        )),
+                  ),
+                ),
+                const SizedBox(height: defaultPadding),
+                Container(
+                  child: TextField(
+                    controller: _passwordController,
+                    obscureText: !_isVisible,
+                    decoration: InputDecoration(
+                        hintText: "Contraseña",
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: Colors.black,
+                        ),
+                        suffixIcon: GestureDetector(
+                          child: Icon(
+                            _isVisible
+                                ? Icons.remove_red_eye_outlined
+                                : Icons.remove_red_eye_rounded,
+                            color: Colors.black,
+                          ),
+                          onTap: () {
+                            setState(() {
+                              _isVisible = !_isVisible;
+                            });
+                          },
+                        )),
+                  ),
+                ),
+                const SizedBox(height: defaultPadding * 2),
+                Container(
+                  child: RawMaterialButton(
+                    fillColor: Colors.blueAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(defaultBorderRadius)),
+                    onPressed: () async {
+                      User? user = await loginUsingPass(
+                          userd: _emailController.text,
+                          pass: _passwordController.text,
+                          context: context);
+                      print(_emailController.text + _passwordController.text);
+                      if (user != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => StartHomePage(),
+                          ),
+                        );
+                      } else {
+                        print('Usuario incorrecto');
+                      }
                     },
                     child: const Text("Ingresar",
                         style: TextStyle(
@@ -130,28 +122,17 @@ class login extends StatelessWidget {
                           fontSize: 15,
                           color: Colors.white,
                         )),
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0x03E9F4),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 70.0, vertical: 14),
-                      side: BorderSide(color: Color(0xFF084460)),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      shadowColor: Colors.lightBlue,
-                    ),
                   ),
                 ),
-
-                SizedBox(height: 20),
-                //No puedo acceder--contactar con genrente
+                const SizedBox(height: defaultPadding),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text("¿Problemas al acceder?",
                         style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFFFFFFF))),
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        )),
                     Text(
                       "  Contactanos",
                       style: TextStyle(
@@ -161,11 +142,11 @@ class login extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: defaultPadding),
               ],
             ),
-          )),
-        ),
+          ),
+        )),
       ),
     );
   }

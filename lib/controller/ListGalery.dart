@@ -1,16 +1,4 @@
-import 'package:flutter/material.dart';
-
-class ModeloCardGallery {
-  final String type, modulo, src;
-  final String? desc;
-
-  ModeloCardGallery({
-    this.desc,
-    required this.type,
-    required this.modulo,
-    required this.src,
-  });
-}
+import '../model/ModeloImageGallery.dart';
 
 List<ModeloCardGallery> modeloCardGallery = [
   ModeloCardGallery(

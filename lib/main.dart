@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
+import 'view/Pages/StatusPages/Visualizator/VisualizatorPage.dart';
 import 'view/System/Start/login.dart';
 
 void main() {
@@ -32,25 +36,21 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  Future<FirebaseApp> _initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+    return firebaseApp;
+  }
+
   bool _isVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            Color(0xFF101A26),
-            Color(0xFF111C28),
-            Color(0xFF101B27)
-          ]),
-        ),
-        child: SafeArea(
-          child: Center(
-              child: SingleChildScrollView(
-            reverse: true,
-            padding: EdgeInsets.all(8),
-            child: Column(
+      body: FutureBuilder(
+        future: _initializeFirebase(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Center(
+                child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
@@ -60,7 +60,7 @@ class _MainPageState extends State<MainPage> {
                     color: Colors.blueAccent,
                   ),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: defaultPadding * 2),
                 Container(
                   width: 300,
                   child: ElevatedButton(
@@ -89,19 +89,17 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
-                //Bton Ingresar
+                const SizedBox(height: defaultPadding),
                 Container(
                   width: 300,
                   child: ElevatedButton(
                     onPressed: () async {
-                      /*
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => PaginaSettings(),
+                          builder: (context) => const VisualizatorPage(),
                         ),
-                      );*/
+                      );
                     },
                     child: const Text("Catálogo",
                         style: TextStyle(
@@ -120,11 +118,14 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
               ],
-            ),
-          )),
-        ),
+            ));
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
