@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -36,97 +35,71 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  Future<FirebaseApp> _initializeFirebase() async {
-    FirebaseApp firebaseApp = await Firebase.initializeApp();
-    return firebaseApp;
-  }
-
-  bool _isVisible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder(
-        future: _initializeFirebase(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 0),
-                  child: SvgPicture.asset(
-                    "assets/icons/InsergeSVGM.svg",
-                    color: Colors.blueAccent,
-                  ),
-                ),
-                const SizedBox(height: defaultPadding * 2),
-                Container(
-                  width: 300,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => login(),
-                        ),
-                      );
-                    },
-                    child: const Text("Iniciar Sesión",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.white,
-                        )),
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0x03E9F4),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 70.0, vertical: 14),
-                      side: BorderSide(color: Color(0xFF084460)),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      shadowColor: Colors.lightBlue,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: defaultPadding),
-                Container(
-                  width: 300,
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const VisualizatorPage(),
-                        ),
-                      );
-                    },
-                    child: const Text("Catálogo",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: Colors.white,
-                        )),
-                    style: ElevatedButton.styleFrom(
-                      primary: Color(0x03E9F4),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 70.0, vertical: 14),
-                      side: BorderSide(color: Color(0xFF084460)),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      shadowColor: Colors.lightBlue,
-                    ),
-                  ),
-                ),
-              ],
-            ));
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
+        body: Center(
+            child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 0),
+          child: SvgPicture.asset(
+            "assets/icons/InsergeSVGM.svg",
+            color: Colors.blueAccent,
+          ),
+        ),
+        const SizedBox(height: defaultPadding * 2),
+        ElevatedButton(
+          onPressed: () async {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => login(),
+              ),
             );
-          }
-        },
-      ),
-    );
+          },
+          child: const Text("Iniciar Sesión",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+                color: Colors.white,
+              )),
+          style: ElevatedButton.styleFrom(
+            primary: Color(0x03E9F4),
+            padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 14),
+            side: BorderSide(color: Color(0xFF084460)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shadowColor: Colors.lightBlue,
+          ),
+        ),
+        const SizedBox(height: defaultPadding),
+        ElevatedButton(
+          onPressed: () async {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const VisualizatorPage(),
+              ),
+            );
+          },
+          child: const Text("Catálogo",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+                color: Colors.white,
+              )),
+          style: ElevatedButton.styleFrom(
+            primary: Color(0x03E9F4),
+            padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 14),
+            side: BorderSide(color: Color(0xFF084460)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shadowColor: Colors.lightBlue,
+          ),
+        ),
+      ],
+    )));
   }
 }
