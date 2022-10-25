@@ -32,7 +32,6 @@ class _loginState extends State<login> {
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         print(e);
-        print("No se encontraron usuarios");
       }
     }
     return user;
@@ -53,7 +52,7 @@ class _loginState extends State<login> {
                 child: Center(
                     child: SingleChildScrollView(
                   reverse: true,
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(defaultPadding / 2),
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding),
                     child: Column(
@@ -68,77 +67,66 @@ class _loginState extends State<login> {
                         ),
                         const SizedBox(height: defaultPadding),
                         //Usuario
-                        Container(
-                          child: TextField(
-                            controller: _emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                                hintText: "Correo Institucional",
-                                prefixIcon: Icon(
-                                  Icons.email,
-                                  color: Colors.black,
-                                )),
-                          ),
+                        TextField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
+                              hintText: "Correo Institucional",
+                              prefixIcon: Icon(
+                                Icons.email,
+                                color: Colors.black,
+                              )),
                         ),
                         const SizedBox(height: defaultPadding),
-                        Container(
-                          child: TextField(
-                            controller: _passwordController,
-                            obscureText: !_isVisible,
-                            decoration: InputDecoration(
-                                hintText: "Contraseña",
-                                prefixIcon: Icon(
-                                  Icons.lock,
+                        TextField(
+                          controller: _passwordController,
+                          obscureText: !_isVisible,
+                          decoration: InputDecoration(
+                              hintText: "Contraseña",
+                              prefixIcon: const Icon(
+                                Icons.lock,
+                                color: Colors.black,
+                              ),
+                              suffixIcon: GestureDetector(
+                                child: Icon(
+                                  _isVisible
+                                      ? Icons.remove_red_eye_outlined
+                                      : Icons.remove_red_eye_rounded,
                                   color: Colors.black,
                                 ),
-                                suffixIcon: GestureDetector(
-                                  child: Icon(
-                                    _isVisible
-                                        ? Icons.remove_red_eye_outlined
-                                        : Icons.remove_red_eye_rounded,
-                                    color: Colors.black,
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      _isVisible = !_isVisible;
-                                    });
-                                  },
-                                )),
-                          ),
+                                onTap: () {
+                                  setState(() {
+                                    _isVisible = !_isVisible;
+                                  });
+                                },
+                              )),
                         ),
                         const SizedBox(height: defaultPadding * 2),
-                        Container(
-                          child: RawMaterialButton(
-                            fillColor: Colors.blueAccent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.circular(defaultBorderRadius)),
-                            onPressed: () async {
-                              User? user = await loginUsingPass(
-                                  userd: _emailController.text,
-                                  pass: _passwordController.text,
-                                  context: context);
-                              print(_emailController.text +
-                                  _passwordController.text);
-                              if (user != null) {
-                                print(user);
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => StartHomePage(),
-                                  ),
-                                );
-                              } else {
-                                print('Usuario incorrecto');
-                              }
-                            },
-                            child: const Text("Ingresar",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                )),
-                          ),
+                        RawMaterialButton(
+                          fillColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(defaultBorderRadius)),
+                          onPressed: () async {
+                            User? user = await loginUsingPass(
+                                userd: _emailController.text,
+                                pass: _passwordController.text,
+                                context: context);
+                            if (user != null) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => StartHomePage(),
+                                ),
+                              );
+                            } else {
+                              print('Usuario incorrecto');
+                            }
+                          },
+                          child: const Text("Ingresar",
+                              style: TextStyle(
+                                color: Colors.white,
+                              )),
                         ),
                         const SizedBox(height: defaultPadding),
                         Row(

@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
@@ -39,67 +38,61 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-            child: Column(
+          child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 0),
-          child: SvgPicture.asset(
-            "assets/icons/InsergeSVGM.svg",
-            color: Colors.blueAccent,
+          Padding(
+            padding: const EdgeInsets.only(top: 0),
+            child: SvgPicture.asset(
+              "assets/icons/InsergeSVGM.svg",
+              color: Colors.black,
+            ),
           ),
-        ),
-        const SizedBox(height: defaultPadding * 2),
-        ElevatedButton(
-          onPressed: () async {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => login(),
+          const SizedBox(height: defaultPadding),
+          RawMaterialButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(defaultBorderRadius)),
+            fillColor: Colors.blueAccent,
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => login(),
+                ),
+              );
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(defaultPadding),
+              child: Text(
+                "Iniciar Sesión",
+                style: TextStyle(color: Colors.white),
               ),
-            );
-          },
-          child: const Text("Iniciar Sesión",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: Colors.white,
-              )),
-          style: ElevatedButton.styleFrom(
-            primary: Color(0x03E9F4),
-            padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 14),
-            side: BorderSide(color: Color(0xFF084460)),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            shadowColor: Colors.lightBlue,
+            ),
           ),
-        ),
-        const SizedBox(height: defaultPadding),
-        ElevatedButton(
-          onPressed: () async {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const VisualizatorPage(),
+          const SizedBox(height: defaultPadding),
+          RawMaterialButton(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(defaultBorderRadius)),
+            fillColor: Colors.blueAccent,
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const VisualizatorPage(),
+                ),
+              );
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(defaultPadding),
+              child: Text(
+                "Catálogo",
+                style: TextStyle(color: Colors.white),
               ),
-            );
-          },
-          child: const Text("Catálogo",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-                color: Colors.white,
-              )),
-          style: ElevatedButton.styleFrom(
-            primary: Color(0x03E9F4),
-            padding: EdgeInsets.symmetric(horizontal: 70.0, vertical: 14),
-            side: BorderSide(color: Color(0xFF084460)),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            shadowColor: Colors.lightBlue,
+            ),
           ),
-        ),
       ],
-    )));
+    ),
+        ));
   }
 }
