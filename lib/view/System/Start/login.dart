@@ -108,6 +108,8 @@ class _loginState extends State<login> {
                               borderRadius:
                                   BorderRadius.circular(defaultBorderRadius)),
                           onPressed: () async {
+                            //// Comentado para entrar de una XD
+                            /* 
                             User? user = await loginUsingPass(
                                 userd: _emailController.text,
                                 pass: _passwordController.text,
@@ -121,7 +123,13 @@ class _loginState extends State<login> {
                               );
                             } else {
                               print('Usuario incorrecto');
-                            }
+                            }*/
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => StartHomePage(),
+                              ),
+                            );
                           },
                           child: const Text("Ingresar",
                               style: TextStyle(

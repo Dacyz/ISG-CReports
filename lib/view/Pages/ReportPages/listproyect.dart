@@ -14,32 +14,6 @@ class _listproyectState extends State<listproyect> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {},
-          icon: Image.asset(
-            "assets/images/logooficial2.png",
-            height: 30,
-            width: 40,
-            fit: BoxFit.scaleDown,
-          ),
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text("Proyectos", style: TextStyle(color: Colors.black))
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.brightness_medium_outlined,
-                color: Color(0xFFF27900)),
-          )
-        ],
-      ),
       body: Padding(
         padding: const EdgeInsets.all(defaultPadding),
         child: StreamBuilder<List<ProyectoModel>>(
@@ -49,7 +23,7 @@ class _listproyectState extends State<listproyect> {
                 return const Center(child: CircularProgressIndicator());
               }
               if (snapshot.hasError) {
-                return const Center(child: Text("some error ocurred"));
+                return Center(child: Text("Ocurrio el siguiente error al listar: '${snapshot.error}'", style: const TextStyle(color: Colors.red),));
               }
               if (snapshot.hasData) {
                 final proyectoData = snapshot.data;
@@ -68,46 +42,44 @@ class _listproyectState extends State<listproyect> {
                   itemBuilder: (context, index) {
                     final singleproyecto = proyectoData[index];
                     return SizedBox(
-                      child: Container(
-                        child: ListTile(
-                          leading: const Icon(Icons.book_outlined,
-                              color: Color(0xFFFC4B08)),
-                          title: Text(
-                            "${singleproyecto.address}",
-                            style: const TextStyle(
-                              fontSize: 16,
-                            ),
+                      child: ListTile(
+                        leading: const Icon(Icons.book_outlined,
+                            color: Color(0xFFFC4B08)),
+                        title: Text(
+                          "${singleproyecto.address}",
+                          style: const TextStyle(
+                            fontSize: 16,
                           ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "${singleproyecto.codProyecto}",
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                              Text(
-                                "${singleproyecto.beneficiario}",
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
-                          ),
-                          trailing: const Icon(Icons.arrow_forward_rounded,
-                              color: Color(0xFFFC4B08)),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    proyectodetalle(singleproyecto),
-                              ),
-                            );
-                          },
                         ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "${singleproyecto.codProyecto}",
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              "${singleproyecto.beneficiario}",
+                              style: const TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: const Icon(Icons.arrow_forward_rounded,
+                            color: Color(0xFFFC4B08)),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  proyectodetalle(singleproyecto),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },

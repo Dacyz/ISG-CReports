@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:insergemobileapplication/view/System/Start/login.dart';
 
 import '../../Pages/MainPages/EntityChatPage.dart';
 import '../../Pages/MainPages/MyReportsPage.dart';
 import '../../Pages/MainPages/StartPage.dart';
+import '../ProfileConstant.dart';
 
 class StartHomePage extends StatefulWidget {
   const StartHomePage({super.key});
@@ -37,70 +39,78 @@ class _StartHomePageState extends State<StartHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SvgPicture.asset(
-            "assets/icons/InsergeSVGM.svg",
-            color: Colors.blueAccent,
-          ),
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(width: 16 / 2),
-            Text(
-              "Piura 2022",
-              style: Theme.of(context).textTheme.subtitle2,
-            )
+    return WillPopScope(
+      onWillPop: () {
+        _onWillPopScope(context);
+        return Future.value(false);
+      },
+      child: Scaffold(
+        appBar: defaultAppBar,
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: ((value) {
+            setState(() {
+              _selectedIndex = value;
+            });
+          }),
+          children: const [
+            MyReportsPage(),
+            StartPage(),
+            EntityChatPage(),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              /*
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UserPage(),
-                ),
-              );*/
-            },
-            icon: Icon(Icons.person_outline_rounded),
-            color: Colors.blue,
-          ),
-        ],
-      ),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: ((value) {
-          setState(() {
-            _selectedIndex = value;
-          });
-        }),
-        children: const [
-          MyReportsPage(),
-          StartPage(),
-          EntityChatPage(),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: _PageList,
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          _pageController.animateToPage(
-            index,
-            duration: Duration(milliseconds: 250),
-            curve: Curves.easeIn,
-          );
-        },
-        selectedItemColor: Colors.blueAccent,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.shifting,
+        bottomNavigationBar: BottomNavigationBar(
+          items: _PageList,
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            _pageController.animateToPage(
+              index,
+              duration: Duration(milliseconds: 250),
+              curve: Curves.easeIn,
+            );
+          },
+          selectedItemColor: Colors.blueAccent,
+          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.shifting,
+        ),
       ),
     );
+  }
+
+  void _onWillPopScope(BuildContext context) async {
+    if (_selectedIndex == 1) {
+      return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Salir"),
+            content: Text("¿Seguro que quieres cerrar sesión?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => login(),
+                    ),
+                  );
+                },
+                child: Text("Sí"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text("No"),
+              )
+            ],
+          );
+        },
+      );
+    } else {
+      _pageController.animateToPage(
+        1,
+        duration: Duration(milliseconds: 250),
+        curve: Curves.easeIn,
+      );
+    }
   }
 }

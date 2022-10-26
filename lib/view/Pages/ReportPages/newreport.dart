@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../System/ProfileConstant.dart';
+import 'galleryCamera.dart';
 
 class newreport extends StatefulWidget {
   @override
@@ -12,8 +13,19 @@ class _newreportState extends State<newreport> {
   bool isVisible2 = false;
   bool isVisible3 = false;
   bool value1 = false;
-  int _groupValue = 7;
-  int _disable = 6;
+  bool value2 = false;
+  bool value3 = false;
+
+  int? groupValue = 9;
+  int? groupValueInit;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    groupValueInit = groupValue! - 1;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +36,7 @@ class _newreportState extends State<newreport> {
         leading: IconButton(
           onPressed: () {},
           icon: Image.asset(
-            "assets/images/logooficial2.png",
+            "assets/images/InsergeSVGM.svg",
             height: 30,
             width: 40,
             fit: BoxFit.scaleDown,
@@ -134,9 +146,60 @@ class _newreportState extends State<newreport> {
                 height: 140,
                 child: ListView(
                   children: [
-                    checkbox(namepregunta: "Se encontraba el Beneficiario"),
-                    checkbox(namepregunta: "Se encontraba el maestro a cargo"),
-                    checkbox(namepregunta: "Se encontraban obreros trabajando"),
+                    Row(
+                      children: [
+                        Transform.scale(
+                          scale: 1,
+                          child: Checkbox(
+                            hoverColor: Color(0xFF1E88E5),
+                            focusColor: Color(0xFFF27900),
+                            activeColor: Color(0xFFF27900),
+                            value: value1,
+                            onChanged: (value) {
+                              value1 = value!;
+                              (context as Element).markNeedsBuild();
+                            },
+                          ),
+                        ),
+                        Text("Se encontraba el Beneficiario"),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Transform.scale(
+                          scale: 1,
+                          child: Checkbox(
+                            hoverColor: Color(0xFF1E88E5),
+                            focusColor: Color(0xFFF27900),
+                            activeColor: Color(0xFFF27900),
+                            value: value2,
+                            onChanged: (value) {
+                              value2 = value!;
+                              (context as Element).markNeedsBuild();
+                            },
+                          ),
+                        ),
+                        Text("Se encontraba el maestro a cargo"),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Transform.scale(
+                          scale: 1,
+                          child: Checkbox(
+                            hoverColor: Color(0xFF1E88E5),
+                            focusColor: Color(0xFFF27900),
+                            activeColor: Color(0xFFF27900),
+                            value: value3,
+                            onChanged: (value) {
+                              value3 = value!;
+                              (context as Element).markNeedsBuild();
+                            },
+                          ),
+                        ),
+                        const Text("Se encontraban obreros trabajando"),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -193,22 +256,31 @@ class _newreportState extends State<newreport> {
               child: Container(
                 child: ElevatedButton(
                   onPressed: () {
+                    print('Estado: ' +
+                        groupValue.toString() +
+                        ' / Checklist: ' +
+                        value1.toString() +
+                        ', ' +
+                        value2.toString() +
+                        ', ' +
+                        value3.toString() +
+                        ' / ');
                     _showMessageDialog(context);
                   },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFF1E88E5),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50.0, vertical: 14),
+                    side: const BorderSide(color: Color(0xFF084460)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                    shadowColor: Colors.lightBlue,
+                  ),
                   child: const Text("Siguiente",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                           color: Colors.white)),
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF1E88E5),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 50.0, vertical: 14),
-                    side: BorderSide(color: Color(0xFF084460)),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    shadowColor: Colors.lightBlue,
-                  ),
                 ),
               ),
             ),
@@ -222,16 +294,17 @@ class _newreportState extends State<newreport> {
     return Container(
       width: 120,
       child: Card(
-        color: index > _disable ? Colors.white : Colors.white54,
+        color: index > groupValueInit! ? Colors.white : Colors.white54,
         child: Column(
           children: [
             Radio(
               value: index,
-              groupValue: _groupValue,
+              groupValue: groupValue,
               onChanged: (newValue) {
                 setState(() {
-                  if (index > _disable) {
-                    _groupValue = newValue!;
+                  if (index > groupValueInit!) {
+                    groupValue = newValue!;
+                    print(groupValue);
                   }
                 });
               },
@@ -247,27 +320,6 @@ class _newreportState extends State<newreport> {
     );
   }
 
-  checkbox({required String namepregunta}) {
-    return Row(
-      children: [
-        Transform.scale(
-          scale: 1,
-          child: Checkbox(
-            hoverColor: Color(0xFF1E88E5),
-            focusColor: Color(0xFFF27900),
-            activeColor: Color(0xFFF27900),
-            value: value1,
-            onChanged: (value) {
-              this.value1 = value!;
-              (context as Element).markNeedsBuild();
-            },
-          ),
-        ),
-        Text(namepregunta),
-      ],
-    );
-  }
-
   _showMessageDialog(BuildContext context) => showDialog(
         context: context,
         barrierDismissible: false,
@@ -275,13 +327,11 @@ class _newreportState extends State<newreport> {
           title: Text("Seguir a cámara"),
           content: Text("¿Esta seguro que quiere continuar?"),
           actions: [
-            /*
             TextButton(
-              
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HomeScreen())),
+              onPressed: () => Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => galleryCamera())),
               child: Text("Sí"),
-            ),*/
+            ),
             TextButton(
               onPressed: () => Navigator.of(context).pop("Cancel"),
               child: Text("No"),

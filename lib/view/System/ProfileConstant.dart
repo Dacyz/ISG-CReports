@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 //Diapositivos como Tables:
 extension ContextExtension on BuildContext {
@@ -14,6 +15,41 @@ const double defaultPadding = 16.0;
 const double defaultShortPadding = 8.0;
 const double defaultLargePadding = 20.0;
 const double defaultBorderRadius = 12.0;
+AppBar defaultAppBar = AppBar(
+  backgroundColor: Colors.transparent,
+  elevation: 0,
+  leading: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: SvgPicture.asset(
+      "assets/icons/InsergeSVGM.svg",
+      color: Colors.blueAccent,
+    ),
+  ),
+  title: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      const Text(
+        "Piura 2022",
+        style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
+      ),
+    ],
+  ),
+  actions: [
+    IconButton(
+      onPressed: () {
+        /*
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UserPage(),
+                ),
+              );*/
+      },
+      icon: Icon(Icons.person_outline_rounded),
+      color: Colors.blue,
+    ),
+  ],
+);
 
 //Propiedades
 const OutlineInputBorder outlineInputBorder = OutlineInputBorder(
