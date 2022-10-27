@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../controller/ListProyects.dart';
-import '../../System/CardConstant.dart';
-import '../../System/ProfileConstant.dart';
+import '../../../../controller/ListProyects.dart';
+import '../../../System/CardConstant.dart';
+import '../../../System/ProfileConstant.dart';
 import 'DetalleProyectosScreen.dart';
 
 class ProyectSearchPage extends StatelessWidget {

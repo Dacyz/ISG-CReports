@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../model/ModeloCardProyecto.dart';
-import '../../System/ProfileConstant.dart';
+import '../../../../model/ModeloCardProyecto.dart';
+import '../../../System/ProfileConstant.dart';
+
 
 
 class DetalleProyecto extends StatelessWidget {
