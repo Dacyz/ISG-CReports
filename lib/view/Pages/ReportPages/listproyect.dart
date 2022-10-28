@@ -23,7 +23,16 @@ class _listproyectState extends State<listproyect> {
                 return const Center(child: CircularProgressIndicator());
               }
               if (snapshot.hasError) {
-                return Center(child: Text("Ocurrio el siguiente error al listar: '${snapshot.error}'", style: const TextStyle(color: Colors.red),));
+                return Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Ocurrio el siguiente error al listar: '${snapshot.error}'",
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ));
               }
               if (snapshot.hasData) {
                 final proyectoData = snapshot.data;
@@ -56,17 +65,12 @@ class _listproyectState extends State<listproyect> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              "${singleproyecto.codProyecto}",
+                              "[${singleproyecto.codProyecto}] ${singleproyecto.beneficiario}",
                               style: const TextStyle(
                                 fontSize: 14,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            Text(
-                              "${singleproyecto.beneficiario}",
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
+                            )
                           ],
                         ),
                         trailing: const Icon(Icons.arrow_forward_rounded,

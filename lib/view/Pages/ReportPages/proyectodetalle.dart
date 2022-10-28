@@ -4,51 +4,16 @@ import '../../../model/proyecto_Model.dart';
 import '../../System/ProfileConstant.dart';
 import 'newreport.dart';
 
-class proyectodetalle extends StatefulWidget {
+class proyectodetalle extends StatelessWidget {
   final ProyectoModel proyectoModel;
 
-  proyectodetalle(this.proyectoModel);
+  const proyectodetalle(this.proyectoModel, {super.key});
 
-  @override
-  State<proyectodetalle> createState() => _proyectodetalleState();
-}
-
-class _proyectodetalleState extends State<proyectodetalle> {
   @override
   Widget build(BuildContext context) {
     var textStyle = TextStyle(fontSize: 15);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {},
-          icon: Image.asset(
-            "assets/images/logooficial2.png",
-            height: 30,
-            width: 40,
-            fit: BoxFit.scaleDown,
-          ),
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "${widget.proyectoModel.codProyecto}",
-              style: TextStyle(color: Colors.black),
-            )
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.brightness_medium_outlined,
-              color: Color(0xFFF27900),
-            ),
-          )
-        ],
-      ),
+      appBar: defaultAppBar,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(defaultPadding),
         child: Column(
@@ -116,12 +81,12 @@ class _proyectodetalleState extends State<proyectodetalle> {
                 children: [
                   ClipRRect(
                       borderRadius: BorderRadius.circular(5),
-                      child: Image.asset("assets/images/imagencasa.jpg")),
+                      child: Image.asset("assets/images/FachadaModulo6.jpeg")),
                   const SizedBox(
                     height: 6,
                   ),
                   Text(
-                    "Dirección: " + "${widget.proyectoModel.address}",
+                    "Dirección: " + "${proyectoModel.address}",
                     style: const TextStyle(fontSize: 15),
                   ),
                 ],
@@ -148,40 +113,32 @@ class _proyectodetalleState extends State<proyectodetalle> {
                         )),
                         const SizedBox(height: 17),
                         Text(
-                            "Beneficiario:  " +
-                                "${widget.proyectoModel.beneficiario}",
+                            "Beneficiario:  " + "${proyectoModel.beneficiario}",
                             style: textStyle),
                         const SizedBox(height: 12),
-                        Text("DNI:  " + "${widget.proyectoModel.dni}",
+                        Text("DNI:  " + "${proyectoModel.dni}",
                             style: textStyle),
                         const SizedBox(height: 12),
-                        Text("Teléfono:  " + "${widget.proyectoModel.telefono}",
+                        Text("Teléfono:  " + "${proyectoModel.telefono}",
                             style: textStyle),
                         const SizedBox(height: 12),
-                        Text(
-                            "Contrato:  " +
-                                "${widget.proyectoModel.codProyecto}",
+                        Text("Contrato:  " + "${proyectoModel.codProyecto}",
                             style: textStyle),
                         const SizedBox(height: 12),
-                        Text("Modulo:  " + "${widget.proyectoModel.modulo}",
+                        Text("Modulo:  " + "${proyectoModel.modulo}",
                             style: textStyle),
                         const SizedBox(height: 12),
-                        Text(
-                            "Coordenadas:  " +
-                                "${widget.proyectoModel.coordenadas}",
+                        Text("Coordenadas:  " + "${proyectoModel.coordenadas}",
                             style: textStyle),
                         const SizedBox(height: 12),
                         Text(
-                            "Departamento:  " +
-                                "${widget.proyectoModel.departamento}",
+                            "Departamento:  " + "${proyectoModel.departamento}",
                             style: textStyle),
                         const SizedBox(height: 12),
-                        Text(
-                            "Provincia:  " +
-                                "${widget.proyectoModel.provincia}",
+                        Text("Provincia:  " + "${proyectoModel.provincia}",
                             style: textStyle),
                         const SizedBox(height: 12),
-                        Text("Distrito:  " + "${widget.proyectoModel.distrito}",
+                        Text("Distrito:  " + "${proyectoModel.distrito}",
                             style: textStyle),
                       ],
                     ),

@@ -3,13 +3,19 @@ import 'package:flutter/material.dart';
 import '../../../../model/ModeloCardProyecto.dart';
 import '../../../System/ProfileConstant.dart';
 
+class DetalleProyecto extends StatefulWidget {
+  final ModeloCardProyecto Lista;
 
+  DetalleProyecto({super.key, required this.Lista});
 
-class DetalleProyecto extends StatelessWidget {
-  const DetalleProyecto({Key? key, required this.proyecto_model})
-      : super(key: key);
+  @override
+  State<DetalleProyecto> createState() => _DetalleProyectoState(Lista: Lista);
+}
 
-  final ModeloCardProyecto proyecto_model;
+class _DetalleProyectoState extends State<DetalleProyecto> {
+
+  final ModeloCardProyecto Lista;
+  _DetalleProyectoState({required this.Lista});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +41,7 @@ class DetalleProyecto extends StatelessWidget {
       body: Column(
         children: [
           Image.asset(
-            proyecto_model.url_imagen,
+            Lista.url_imagen,
             height: MediaQuery.of(context).size.height * 0.4, // Es 40%
             fit: BoxFit.cover,
           ),
@@ -55,31 +61,6 @@ class DetalleProyecto extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          proyecto_model.cod_proyecto,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.blueAccent,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: defaultPadding),
-                      Text(
-                        proyecto_model.modulo,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.orange,
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
                   _RowConstant('Código:', "ISG-022-013"),
                   const SizedBox(height: defaultPadding),
                   _RowConstant('Beneficiario:', "Diego Arturo Yangua Merino"),

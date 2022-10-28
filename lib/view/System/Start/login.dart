@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:insergemobileapplication/main.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
 import '../Home/HomePage.dart';
@@ -44,129 +45,149 @@ class _loginState extends State<login> {
     TextEditingController _emailController = TextEditingController();
     TextEditingController _passwordController = TextEditingController();
 
-    return Scaffold(
-      body: FutureBuilder(
-          builder: (context, snapshot) {
-            if (ConnectionState.done == snapshot.connectionState) {
-              return SafeArea(
-                child: Center(
-                    child: SingleChildScrollView(
-                  reverse: true,
-                  padding: const EdgeInsets.all(defaultPadding / 2),
-                  child: Padding(
-                    padding: const EdgeInsets.all(defaultPadding),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 0),
-                          child: SvgPicture.asset(
-                            "assets/icons/InsergeSVGM.svg",
-                            color: Colors.black,
+    return WillPopScope(
+      onWillPop: () {
+        /*
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MainPage(),
+          ),
+        );*/
+        return Future.value(true);
+      },
+      child: Scaffold(
+        body: FutureBuilder(
+            builder: (context, snapshot) {
+              if (ConnectionState.done == snapshot.connectionState) {
+                return SafeArea(
+                  child: Center(
+                      child: SingleChildScrollView(
+                    reverse: true,
+                    padding: const EdgeInsets.all(defaultPadding / 2),
+                    child: Padding(
+                      padding: const EdgeInsets.all(defaultPadding),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0),
+                            child: SvgPicture.asset(
+                              "assets/icons/InsergeSVGM.svg",
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: defaultPadding),
-                        //Usuario
-                        TextField(
-                          controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
-                              hintText: "Correo Institucional",
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: Colors.black,
-                              )),
-                        ),
-                        const SizedBox(height: defaultPadding),
-                        TextField(
-                          controller: _passwordController,
-                          obscureText: !_isVisible,
-                          decoration: InputDecoration(
-                              hintText: "Contraseña",
-                              prefixIcon: const Icon(
-                                Icons.lock,
-                                color: Colors.black,
-                              ),
-                              suffixIcon: GestureDetector(
-                                child: Icon(
-                                  _isVisible
-                                      ? Icons.remove_red_eye_outlined
-                                      : Icons.remove_red_eye_rounded,
+                          const SizedBox(height: defaultPadding),
+                          //Usuario
+                          TextField(
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: const InputDecoration(
+                                hintText: "Correo Institucional",
+                                prefixIcon: Icon(
+                                  Icons.email,
+                                  color: Colors.black,
+                                )),
+                          ),
+                          const SizedBox(height: defaultPadding),
+                          TextField(
+                            controller: _passwordController,
+                            obscureText: !_isVisible,
+                            decoration: InputDecoration(
+                                hintText: "Contraseña",
+                                prefixIcon: const Icon(
+                                  Icons.lock,
                                   color: Colors.black,
                                 ),
-                                onTap: () {
-                                  setState(() {
-                                    _isVisible = !_isVisible;
-                                  });
-                                },
-                              )),
-                        ),
-                        const SizedBox(height: defaultPadding * 2),
-                        RawMaterialButton(
-                          fillColor: Colors.blueAccent,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(defaultBorderRadius)),
-                          onPressed: () async {
-                            //// Comentado para entrar de una XD
-                            /* 
-                            User? user = await loginUsingPass(
-                                userd: _emailController.text,
-                                pass: _passwordController.text,
-                                context: context);
-                            if (user != null) {
+                                suffixIcon: GestureDetector(
+                                  child: Icon(
+                                    _isVisible
+                                        ? Icons.remove_red_eye_outlined
+                                        : Icons.remove_red_eye_rounded,
+                                    color: Colors.black,
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      _isVisible = !_isVisible;
+                                    });
+                                  },
+                                )),
+                          ),
+                          const SizedBox(height: defaultPadding * 2),
+                          RawMaterialButton(
+                            fillColor: Colors.blueAccent,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(defaultBorderRadius)),
+                            onPressed: () async {
+                              //// Comentado para entrar de una XD
+                              /* 
+                              User? user = await loginUsingPass(
+                                  userd: _emailController.text,
+                                  pass: _passwordController.text,
+                                  context: context);
+                              if (user != null) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => StartHomePage(),
+                                  ),
+                                );
+                              } else {
+                                print('Usuario incorrecto');
+                              }*/
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                content: const Text("Sesión iniciada"),
+                                action: SnackBarAction(
+                                  label: 'Ok',
+                                  onPressed: () {},
+                                ),
+                              ));
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => StartHomePage(),
                                 ),
                               );
-                            } else {
-                              print('Usuario incorrecto');
-                            }*/
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => StartHomePage(),
-                              ),
-                            );
-                          },
-                          child: const Text("Ingresar",
-                              style: TextStyle(
-                                color: Colors.white,
-                              )),
-                        ),
-                        const SizedBox(height: defaultPadding),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text("¿Problemas al acceder?",
+                            },
+                            child: const Text("Ingresar",
                                 style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 )),
-                            Text(
-                              "  Contactanos",
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: defaultPadding),
-                      ],
+                          ),
+                          const SizedBox(height: defaultPadding),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text("¿Problemas al acceder?",
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              Text(
+                                "  Contactanos",
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: defaultPadding),
+                        ],
+                      ),
                     ),
-                  ),
-                )),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-          future: _initializeFirebase()),
+                  )),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+            future: _initializeFirebase()),
+      ),
     );
   }
 }
