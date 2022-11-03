@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../controller/ListProyects.dart';
+import '../../../../controller/models/proyecto_Model.dart';
+import '../../../../controller/remote_data_source/proyectos_helper.dart';
 import '../../../../model/ModeloCardProyecto.dart';
 import '../../../System/CardConstant.dart';
 import '../../../System/ProfileConstant.dart';
@@ -40,7 +42,8 @@ class _ProyectSearchPageState extends State<ProyectSearchPage> {
       body: SafeArea(
         //SingleChildScrollView
         child: Container(
-          padding: const EdgeInsets.all(defaultPadding),
+          padding: const EdgeInsets.only(
+              top: defaultPadding, left: defaultPadding, right: defaultPadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,76 +59,9 @@ class _ProyectSearchPageState extends State<ProyectSearchPage> {
                 "Repositorio de Proyectos Inserge",
                 style: TextStyle(fontSize: 18),
               ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "Ver todo",
-                  style: TextStyle(color: Colors.black54),
-                ),
+              const Expanded(
+                child: barra_busqueda(),
               ),
-              const Expanded(child: barra_busqueda()),
-              /*
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(
-                    listaModulos.length,
-                    (index) => Padding(
-                      padding: const EdgeInsets.only(right: defaultPadding),
-                      child: ModeloCategoriaModulos(
-                        titulo: listaModulos[index],
-                        presionar: () {},
-                      ),
-                    ),
-                  ),
-                ),
-              ),*/
-              const SizedBox(height: defaultPadding),
-              /*
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    itemCount: lista.length,
-                    itemBuilder: (context, index) {
-                      final listaM = lista[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 12.0),
-                        child: Container(
-                          padding: EdgeInsets.all(5.0),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              border: Border.all(color: Colors.black12),
-                              borderRadius: BorderRadius.circular(8)),
-                          child: ListTile(
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Container(
-                                  height: 100,
-                                  child: Image.asset(
-                                    listaM.url_imagen,
-                                  ),
-                                ),
-                              ),
-                              title: Text(listaM.modulo),
-                              subtitle: Text(listaM.cod_proyecto),
-                              onTap: () {
-                                /*
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: ((context) => DetalleProyecto(
-                                        Lista: listaM,
-                                      )),
-                                ),
-                              ), */
-                              }),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),*/
             ],
           ),
         ),
@@ -152,7 +88,7 @@ class _barra_busquedaState extends State<barra_busqueda> {
   final TextEditingController _searchQuery = TextEditingController();
 
   @override
-  void dipose() {
+  void dispose() {
     _searchQuery.dispose();
     super.dispose();
   }
@@ -226,7 +162,7 @@ class _barra_busquedaState extends State<barra_busqueda> {
               ),
             ),
           ],
-        ),
+        ), 
         Expanded(
           child: (_viewType == ViewType.list)
               ? Container(
@@ -302,9 +238,9 @@ class _barra_busquedaState extends State<barra_busqueda> {
                                           )))),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                  color: Colors.white,
-                                boxShadow: defaultBoxShadow),
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    color: Colors.white,
+                                    boxShadow: defaultBoxShadow),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -367,119 +303,5 @@ class _barra_busquedaState extends State<barra_busqueda> {
       return modulo.contains(input) || direccion.contains(input);
     }).toList();
     setState(() => lista = sugerencias);
-  }
-}
-
-class cardsP extends StatefulWidget {
-  const cardsP({super.key});
-
-  @override
-  State<cardsP> createState() => _cardsP();
-}
-
-class _cardsP extends State<cardsP> {
-  int _crossAxisCount = 2;
-  double _aspectRatio = 1.5;
-  ViewType _viewType = ViewType.grid;
-  List<ModeloCardProyecto> lista = modeloCardProyectos;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Proyectos',
-              style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500,
-                  ),
-            ),
-            SizedBox(
-              child: IconButton(
-                icon: Icon(_viewType == ViewType.list
-                    ? Icons.grid_on
-                    : Icons.view_list),
-                onPressed: () {
-                  if (_viewType == ViewType.list) {
-                    _crossAxisCount = 2;
-                    _aspectRatio = 1.5;
-                    _viewType = ViewType.grid;
-                  } else {
-                    _crossAxisCount = 1;
-                    _aspectRatio = 5;
-                    _viewType = ViewType.list;
-                  }
-                  setState(() {});
-                },
-              ),
-            ),
-          ],
-        ),
-        Expanded(
-          child: GridView.count(
-            crossAxisCount: _crossAxisCount,
-            childAspectRatio: _aspectRatio,
-            children: modeloCardProyectos.map((ModeloCardProyecto modeloCP) {
-              return getGridItem(modeloCP);
-            }).toList(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  GridTile getGridItem(ModeloCardProyecto modeloCP) {
-    return GridTile(
-      child: (_viewType == ViewType.list)
-          ? Container(
-              margin: const EdgeInsets.all(5),
-              child: Row(children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      modeloCP.url_imagen,
-                    )),
-                const SizedBox(
-                  width: 5,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      modeloCP.modulo,
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                    Text(
-                      modeloCP.cod_proyecto,
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                  ],
-                )
-              ]),
-            )
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        modeloCP.url_imagen,
-                      )),
-                ),
-                Text(
-                  modeloCP.modulo,
-                  style: const TextStyle(fontSize: 17),
-                ),
-                const SizedBox(
-                  height: 5,
-                )
-              ],
-            ),
-    );
   }
 }

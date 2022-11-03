@@ -191,8 +191,11 @@ class _galleryCameraState extends State<galleryCamera> {
           content: Text("¿Estás seguro que quieres guardar?"),
           actions: [
             TextButton(
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => StartHomePage())),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+              },
               child: const Text("Sí"),
             ),
             TextButton(

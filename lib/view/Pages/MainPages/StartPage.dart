@@ -51,7 +51,7 @@ class StartPage extends StatelessWidget {
           ),
           const SizedBox(height: defaultPadding),
           GestureDetector(
-            onTap: () {
+            onTap: () async {
               Navigator.push(
                 context,
                 MaterialPageRoute(

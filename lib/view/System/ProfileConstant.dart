@@ -15,6 +15,7 @@ const double defaultPadding = 16.0;
 const double defaultShortPadding = 8.0;
 const double defaultLargePadding = 20.0;
 const double defaultBorderRadius = 12.0;
+
 AppBar defaultAppBar = AppBar(
   backgroundColor: Colors.transparent,
   elevation: 0,
@@ -26,29 +27,15 @@ AppBar defaultAppBar = AppBar(
     ),
   ),
   title: Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      const Text(
-        "Piura 2022",
-        style: TextStyle(fontWeight: FontWeight.normal, fontSize: 12),
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: const [
+      Text(
+        "Piura, 2022",
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black87),
       ),
     ],
   ),
-  actions: [
-    IconButton(
-      onPressed: () {
-        /*
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => UserPage(),
-                ),
-              );*/
-      },
-      icon: Icon(Icons.person_outline_rounded),
-      color: Colors.blue,
-    ),
-  ],
 );
 
 //Propiedades

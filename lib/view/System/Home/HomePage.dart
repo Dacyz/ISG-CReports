@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insergemobileapplication/view/System/Start/login.dart';
 
@@ -8,15 +10,18 @@ import '../../Pages/MainPages/StartPage.dart';
 import '../ProfileConstant.dart';
 
 class StartHomePage extends StatefulWidget {
-  const StartHomePage({super.key});
+  final User user;
+  StartHomePage({super.key, required this.user});
 
   @override
-  State<StartHomePage> createState() => _StartHomePageState();
+  State<StartHomePage> createState() => _StartHomePageState(usuario: user);
 }
 
 class _StartHomePageState extends State<StartHomePage> {
-  int _selectedIndex = 1;
+  final User usuario;
+  _StartHomePageState({required this.usuario});
 
+  int _selectedIndex = 1;
   final PageController _pageController = PageController(
     initialPage: 1,
     keepPage: true,
@@ -32,13 +37,17 @@ class _StartHomePageState extends State<StartHomePage> {
       label: 'Inicio',
     ),
     const BottomNavigationBarItem(
-      icon: Icon(Icons.messenger_outline_rounded),
-      label: 'Chat',
+      icon: Icon(Icons.person),
+      label: 'Person',
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.black,
+        systemStatusBarContrastEnforced: true));
     return WillPopScope(
       onWillPop: () {
         _onWillPopScope(context);
@@ -53,10 +62,10 @@ class _StartHomePageState extends State<StartHomePage> {
               _selectedIndex = value;
             });
           }),
-          children: const [
-            MyReportsPage(),
-            StartPage(),
-            EntityChatPage(),
+          children: [
+            const MyReportsPage(),
+            const StartPage(),
+            EntityChatPage(user: usuario),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -83,23 +92,19 @@ class _StartHomePageState extends State<StartHomePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Salir"),
-            content: Text("¿Seguro que quieres cerrar sesión?"),
+            title: const Text("Salir"),
+            content: const Text("¿Seguro que quieres cerrar sesión?"),
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => login(),
-                    ),
-                  );
+                  Navigator.of(context).pop(true);
+                  Navigator.of(context).pop(true);
                 },
-                child: Text("Sí"),
+                child: const Text("Sí"),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: Text("No"),
+                child: const Text("No"),
               )
             ],
           );
@@ -108,7 +113,7 @@ class _StartHomePageState extends State<StartHomePage> {
     } else {
       _pageController.animateToPage(
         1,
-        duration: Duration(milliseconds: 250),
+        duration: const Duration(milliseconds: 250),
         curve: Curves.easeIn,
       );
     }

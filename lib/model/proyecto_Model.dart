@@ -11,6 +11,7 @@ class ProyectoModel {
   final String? departamento;
   final String? provincia;
   final String? distrito;
+  final String? image;
 
   ProyectoModel(
       {this.codProyecto,
@@ -22,7 +23,8 @@ class ProyectoModel {
       this.coordenadas,
       this.departamento,
       this.provincia,
-      this.distrito});
+      this.distrito,
+      this.image});
 
   factory ProyectoModel.fromSnapshot(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
@@ -37,6 +39,7 @@ class ProyectoModel {
       departamento: snapshot["departamento"],
       provincia: snapshot["provincia"],
       distrito: snapshot["distrito"],
+      image: 'assets/images/FachadaModulo63.jpg',
     );
   }
 
