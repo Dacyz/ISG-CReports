@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
-import 'view/Pages/StatusPages/Visualizator/VisualizatorPage.dart';
+import 'view/Pages/Visualizator/VisualizatorPage.dart';
 import 'view/System/Start/login.dart';
 
 void main() {

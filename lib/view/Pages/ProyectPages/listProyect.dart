@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:insergemobileapplication/view/Pages/ProyectPages/proyectDetail.dart';
 
 import '../../../controller/remote_data_source/proyectos_helper.dart';
 import '../../../model/proyecto_Model.dart';
 import '../../System/ProfileConstant.dart';
-import 'proyectodetalle.dart';
 
 class listproyect extends StatefulWidget {
   @override

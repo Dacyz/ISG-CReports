@@ -29,8 +29,8 @@ class _StartHomePageState extends State<StartHomePage> {
 
   final _PageList = [
     const BottomNavigationBarItem(
-      icon: Icon(Icons.file_present_outlined),
-      label: 'Mis reportes',
+      icon: Icon(Icons.paypal_rounded),
+      label: 'Proyectos',
     ),
     const BottomNavigationBarItem(
       icon: Icon(Icons.home_outlined),

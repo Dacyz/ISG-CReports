@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../controller/ListGalery.dart';
-import '../../../../model/ModeloImageGallery.dart';
-import '../../../System/CardConstant.dart';
-import '../../../System/ProfileConstant.dart';
+import '../../../controller/ListGalery.dart';
+import '../../../model/ModeloImageGallery.dart';
+import '../../System/CardConstant.dart';
+import '../../System/ProfileConstant.dart';
 import 'MinimalPages/RendersPage.dart';
 
 class VisualizatorPage extends StatefulWidget {

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../model/proyecto_Model.dart';
+import '../../../model/reportes_Model.dart';
 import '../../System/ProfileConstant.dart';
-import 'galleryCamera.dart';
+import 'CameraPages/galleryCamera.dart';
 
 class newreport extends StatefulWidget {
+  ProyectoModel proyectoModel;
+  newreport(this.proyectoModel);
   @override
   State<newreport> createState() => _newreportState();
 }
@@ -16,8 +20,16 @@ class _newreportState extends State<newreport> {
   bool value2 = false;
   bool value3 = false;
 
-  int? groupValue = 9;
+  int? groupValue = 3;
   int? groupValueInit;
+
+  //Varobservacion
+  TextEditingController _observacionController = TextEditingController();
+
+  void dispose() {
+    _observacionController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -30,34 +42,7 @@ class _newreportState extends State<newreport> {
   Widget build(BuildContext context) {
     return Scaffold(
       //UiAppbar
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {},
-          icon: Image.asset(
-            "assets/images/InsergeSVGM.svg",
-            height: 30,
-            width: 40,
-            fit: BoxFit.scaleDown,
-          ),
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text("Nuevo Reporte", style: TextStyle(color: Colors.black))
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.brightness_medium_outlined,
-              color: Color(0xFFF27900),
-            ),
-          )
-        ],
-      ),
+      appBar: defaultAppBar,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(defaultPadding),
         child: Column(
@@ -240,10 +225,12 @@ class _newreportState extends State<newreport> {
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: TextFormField(
+                      controller: _observacionController,
                       maxLines: 5,
                       keyboardType: TextInputType.multiline, //or null
                       decoration: InputDecoration.collapsed(
-                          hintText: "Ingresa tu observación aquí"),
+                        hintText: "Ingresa tu observación aquí",
+                      ),
                       inputFormatters: [
                         new LengthLimitingTextInputFormatter(200)
                       ],
@@ -304,7 +291,6 @@ class _newreportState extends State<newreport> {
                 setState(() {
                   if (index > groupValueInit!) {
                     groupValue = newValue!;
-                    print(groupValue);
                   }
                 });
               },
@@ -320,23 +306,36 @@ class _newreportState extends State<newreport> {
     );
   }
 
+  //Metodo Mensaje de confimasion siguiente
   _showMessageDialog(BuildContext context) => showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          title: Text("Seguir a cámara"),
-          content: Text("¿Esta seguro que quiere continuar?"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => galleryCamera())),
-              child: Text("Sí"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop("Cancel"),
-              child: Text("No"),
-            )
-          ],
-        ),
-      );
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+            title: Text("Seguir a cámara"),
+            content: Text("¿Esta seguro que quiere continuar?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  ReportesModel reportenuevo = ReportesModel(
+                      estado: groupValue,
+                      fecharegistro: DateTime.now(),
+                      preguntaone: value1,
+                      preguntatwo: value2,
+                      preguntathree: value3,
+                      observacion: _observacionController.text);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => galleryCamera(
+                              widget.proyectoModel,
+                              reporte: reportenuevo)));
+                },
+                child: Text("Sí"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop("Cancel"),
+                child: Text("No"),
+              )
+            ],
+          ));
 }

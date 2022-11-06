@@ -38,6 +38,56 @@ AppBar defaultAppBar = AppBar(
   ),
 );
 
+AppBar defaultAppBarTitle(String title) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    leading: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SvgPicture.asset(
+        "assets/icons/InsergeSVGM.svg",
+        color: Colors.blueAccent,
+      ),
+    ),
+    title: Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black87),
+        ),
+      ],
+    ),
+  );
+}
+
+AppBar defaultAppBarBack = AppBar(
+  foregroundColor: Colors.black,
+  backgroundColor: Colors.transparent,
+  elevation: 0,
+  title: Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    children: [
+      const Text(
+        "Piura, 2022",
+        style: TextStyle(
+            fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black87),
+      ),
+      SizedBox(
+        width: 40,
+        height: 30,
+        child: ClipRRect(
+          child: SvgPicture.asset(
+            "assets/icons/InsergeSVGM.svg",
+            color: Colors.blueAccent,
+          ),
+        ),
+      ),
+    ],
+  ),
+);
+
 //Propiedades
 const OutlineInputBorder outlineInputBorder = OutlineInputBorder(
   borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),

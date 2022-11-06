@@ -1,14 +1,18 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 import 'package:photo_view/photo_view.dart';
 
-import '../../System/Home/HomePage.dart';
-import 'listproyect.dart';
+import '../../../../controller/remote_data_source/reportes_helper.dart';
+import '../../../../model/proyecto_Model.dart';
+import '../../../../model/reportes_Model.dart';
 import 'photosPrint.dart';
 
 class PhotoViewScream extends StatelessWidget {
-  PhotoViewScream({required this.imageFile});
+  PhotoViewScream({super.key, required this.imageFile});
   File imageFile;
   @override
   Widget build(BuildContext context) {
@@ -21,49 +25,24 @@ class PhotoViewScream extends StatelessWidget {
 }
 
 class galleryCamera extends StatefulWidget {
+  ProyectoModel proyectoModel;
+  final ReportesModel reporte;
+  galleryCamera(this.proyectoModel, {required this.reporte});
+
   @override
-  State<galleryCamera> createState() => _galleryCameraState();
+  State<galleryCamera> createState() => _galleryCameraState(nreporte: reporte);
 }
 
 class _galleryCameraState extends State<galleryCamera> {
+  final ReportesModel nreporte;
   List<XFile> images = [];
-  ImagePicker _imagePicker = ImagePicker();
+  _galleryCameraState({required this.nreporte});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //UiAppbar
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {},
-          icon: Image.asset(
-            "assets/images/logooficial2.png",
-            height: 30,
-            width: 40,
-            fit: BoxFit.scaleDown,
-          ),
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Cámara",
-              style: TextStyle(color: Colors.black),
-            )
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.brightness_medium_outlined,
-              color: Color(0xFFF27900),
-            ),
-          )
-        ],
-      ),
+      appBar: defaultAppBar,
       body: GridView.builder(
         padding: EdgeInsets.all(10),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -114,30 +93,53 @@ class _galleryCameraState extends State<galleryCamera> {
               shadowColor: Colors.lightBlue,
             ),
           ),
-          FloatingActionButton(
-            onPressed: _optionsDialogBox,
-            child: Icon(Icons.add),
-          ),
+          images.length != 3
+              ? FloatingActionButton(
+                  onPressed: _optionsDialogBox,
+                  child: Icon(Icons.add),
+                )
+              : FloatingActionButton(
+                  onPressed: () {},
+                ),
         ],
       ),
     );
   }
 
-  void _openCamera() async {
-    XFile? picture = await _imagePicker.pickImage(source: ImageSource.camera);
-    Navigator.pop(context);
-    setState(() {
-      images.add(picture!);
-    });
-  }
-
-  void _openGallery() async {
-    XFile? picture = await _imagePicker.pickImage(source: ImageSource.gallery);
-    Navigator.pop(context);
-    setState(() {
-      images.add(picture!);
-    });
-  }
+  _showMessageDialog(BuildContext context) => showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+            title: const Text("Guardar"),
+            content: const Text("¿Estás seguro que quieres guardar?"),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  //print(images[0].name);
+                  List<String> imagenesurls = [];
+                  nreporte.url = imagenesurls;
+                  DocumentReference as = await Reportes_helper.create(
+                      nreporte, widget.proyectoModel.id.toString());
+                  images.forEach(
+                    (element) async {
+                      File imageFile = File(element.path);
+                      Reference imageref = FirebaseStorage.instance.ref().child("reportes").child(widget.proyectoModel.dni.toString()).child(element.name);
+                      await imageref.putFile(imageFile);
+                      imagenesurls.add(await imageref.getDownloadURL());
+                      as.update({
+                        "url": imagenesurls,
+                      });
+                    },
+                  );
+                },
+                child: const Text("Sí"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop("Cancel"),
+                child: const Text("No"),
+              )
+            ],
+          ));
 
   Future<void> _optionsDialogBox() {
     return showDialog(
@@ -147,20 +149,6 @@ class _galleryCameraState extends State<galleryCamera> {
             content: SingleChildScrollView(
               child: ListBody(
                 children: [
-                  // GestureDetector(
-                  //   child: Text('image_picker: Take a picture'),
-                  //   onTap: _openCamera,
-                  // ),
-                  // Padding(
-                  //     padding: EdgeInsets.all(8)
-                  // ),
-                  // GestureDetector(
-                  //   child: Text("image_picker: Select from gallery"),
-                  //   onTap: _openGallery,
-                  // ),
-                  // Padding(
-                  //     padding: EdgeInsets.all(8)
-                  // ),
                   GestureDetector(
                     child: new Text("Usar Cámara"),
                     onTap: () async {
@@ -182,27 +170,4 @@ class _galleryCameraState extends State<galleryCamera> {
           );
         });
   }
-
-  _showMessageDialog(BuildContext context) => showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          title: const Text("Guardar"),
-          content: Text("¿Estás seguro que quieres guardar?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-                Navigator.of(context).pop(true);
-                Navigator.of(context).pop(true);
-              },
-              child: const Text("Sí"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop("Cancel"),
-              child: const Text("No"),
-            )
-          ],
-        ),
-      );
 }

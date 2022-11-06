@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../System/CardConstant.dart';
 import '../../System/ProfileConstant.dart';
-import '../StatusPages/SearchPages/ProyectSearchPage.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
@@ -51,14 +50,7 @@ class StartPage extends StatelessWidget {
           ),
           const SizedBox(height: defaultPadding),
           GestureDetector(
-            onTap: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProyectSearchPage(),
-                ),
-              );
-            },
+            onTap: () {},
             child: Container(
               color: Colors.white,
               child: Row(

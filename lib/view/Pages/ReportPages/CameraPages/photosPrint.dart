@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
 class photoPrint extends StatefulWidget {
   @override
@@ -50,37 +51,7 @@ class _photoPrintState extends State<photoPrint> {
   Widget _builScaffold(BuildContext context, Widget body) {
     return Scaffold(
       //UiAppbar
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {},
-          icon: Image.asset(
-            "assets/images/logooficial2.png",
-            height: 30,
-            width: 40,
-            fit: BoxFit.scaleDown,
-          ),
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Cámara",
-              style: TextStyle(color: Colors.black),
-            )
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.brightness_medium_outlined,
-              color: Color(0xFFF27900),
-            ),
-          )
-        ],
-      ),
+      appBar: defaultAppBar,
       body: body,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
