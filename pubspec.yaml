@@ -45,7 +45,7 @@ dependencies:
   image_picker: ^0.8.6
   cloud_firestore:
   restart_app: 
-  http:
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:

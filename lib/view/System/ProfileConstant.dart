@@ -7,6 +7,7 @@ extension ContextExtension on BuildContext {
 }
 
 //Variables
+const Color primaryHColor = Colors.indigo;
 const Color primaryColor = Colors.blueAccent;
 const Color secondColor = Colors.orange;
 const Color bgColor = Colors.white;
@@ -15,6 +16,26 @@ const double defaultPadding = 16.0;
 const double defaultShortPadding = 8.0;
 const double defaultLargePadding = 20.0;
 const double defaultBorderRadius = 12.0;
+
+GestureDetector Miau = GestureDetector(
+  onTap: () {},
+  child: Container(
+    color: Colors.white,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: const [
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Icon(Icons.search_outlined),
+        ),
+        Text(
+          "Buscar...",
+          style: TextStyle(color: Colors.black54),
+        )
+      ],
+    ),
+  ),
+);
 
 AppBar defaultAppBar = AppBar(
   backgroundColor: Colors.transparent,

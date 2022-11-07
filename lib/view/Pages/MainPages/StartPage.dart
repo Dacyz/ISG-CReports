@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../System/CardConstant.dart';
 import '../../System/ProfileConstant.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import '../Visualizator/VisualizatorPage.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
@@ -34,39 +38,6 @@ class StartPage extends StatelessWidget {
                 ),
               )
             ],
-          ),
-          const SizedBox(height: defaultPadding),
-          Row(
-            children: const [
-              Text(
-                ' Martes, 27 de setiembre 2022',
-                style: TextStyle(
-                  color: Colors.black26,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: defaultPadding),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Icon(Icons.search_outlined),
-                  ),
-                  Text(
-                    "Buscar...",
-                    style: TextStyle(color: Colors.black54),
-                  )
-                ],
-              ),
-            ),
           ),
           const SizedBox(height: defaultPadding),
           Row(
@@ -110,35 +81,33 @@ class StartPage extends StatelessWidget {
                   size: 36,
                 ),
               ),
-              cardMenu(
-                onTap: () {},
-                title: 'Operacion 3',
-                desc: 'Desc Operacion',
-                icono: const Icon(
-                  Icons.image,
-                  color: secondColor,
-                  size: 36,
-                ),
-              ),
-              cardMenu(
-                onTap: () {
-                  /*
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const VisualizatorPage(),
-                    ),
-                  );*/
-                },
-                title: 'Proyectos Asig.',
-                desc: '15',
-                icono: const Icon(
-                  Icons.brush_sharp,
-                  color: secondColor,
-                  size: 36,
+            ],
+          ),
+          const SizedBox(height: defaultPadding),
+          Row(
+            children: const [
+              Text(
+                'Herramientas',
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: defaultPadding),
+          buttonMenu(
+            onTap: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const VisualizatorPage(),
+                ),
+              );
+            },
+            title: 'Modulos',
+            desc: 'Modelados 3D',
           ),
         ],
       ),

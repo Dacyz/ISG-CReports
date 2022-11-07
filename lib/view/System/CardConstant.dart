@@ -95,6 +95,40 @@ Widget cardMenu({
   );
 }
 
+Widget buttonMenu({
+  required String title,
+  required String desc,
+  VoidCallback? onTap,
+  Color fontColor = Colors.white,
+}) {
+  return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+        minimumSize: Size(double.infinity, 60),
+        primary: Colors.orange,
+        padding: EdgeInsets.all(defaultShortPadding),
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(50)))),
+    onPressed: onTap,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(height: 1),
+        Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold, color: fontColor),
+        ),
+        const SizedBox(height: 1),
+        Text(
+          desc,
+          style: TextStyle(fontWeight: FontWeight.normal, color: fontColor),
+        )
+      ],
+    ),
+  );
+}
+
 class ModeloCategoriaModulos extends StatelessWidget {
   const ModeloCategoriaModulos({
     Key? key,
