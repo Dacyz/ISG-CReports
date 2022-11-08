@@ -9,7 +9,7 @@ import 'package:photo_view/photo_view.dart';
 import '../../../../controller/remote_data_source/reportes_helper.dart';
 import '../../../../model/proyecto_Model.dart';
 import '../../../../model/reportes_Model.dart';
-import 'photosPrint.dart';
+import 'PhotosPrintPage.dart';
 
 class PhotoViewScream extends StatelessWidget {
   PhotoViewScream({super.key, required this.imageFile});

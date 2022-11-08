@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import '../../../model/proyecto_Model.dart';
 import '../../../model/reportes_Model.dart';
 import '../../System/ProfileConstant.dart';
-import 'CameraPages/galleryCamera.dart';
+import 'CameraPages/GalleryCameraPage.dart';
 
 class newreport extends StatefulWidget {
   ProyectoModel proyectoModel;

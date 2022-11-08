@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:insergemobileapplication/view/Pages/ProyectPages/proyectDetail.dart';
+import 'package:insergemobileapplication/view/Pages/ProyectPages/DetailProyectPage.dart';
 
 import '../../../controller/remote_data_source/proyectos_helper.dart';
 import '../../../model/proyecto_Model.dart';

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../System/CardConstant.dart';
 import '../../System/ProfileConstant.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import '../Visualizator/VisualizatorPage.dart';
 

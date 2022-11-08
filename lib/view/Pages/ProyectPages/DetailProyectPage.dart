@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../model/proyecto_Model.dart';
 import '../../System/ProfileConstant.dart';
-import '../ReportPages/listreportes.dart';
+import '../ReportPages/ListReportPage.dart';
 import '../ReportPages/newReport.dart';
 
 class proyectodetalle extends StatefulWidget {

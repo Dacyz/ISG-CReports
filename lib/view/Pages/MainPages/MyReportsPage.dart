@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../ProyectPages/listProyect.dart';
+import '../ProyectPages/ListProyectPage.dart';
 
 class MyReportsPage extends StatelessWidget {
   const MyReportsPage({super.key});

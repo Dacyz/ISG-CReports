@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:insergemobileapplication/view/Pages/ReportPages/reportedetalle.dart';
+import 'package:insergemobileapplication/view/Pages/ReportPages/DetailReportPage.dart';
 
 import '../../../controller/remote_data_source/reportes_helper.dart';
 import '../../../model/proyecto_Model.dart';
