@@ -96,58 +96,57 @@ class _GalleryPageState extends State<GalleryPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SingleChildScrollView(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(defaultPadding),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      customRadioButton("3M", 1),
-                      customRadioButton("3.5M", 2),
-                      customRadioButton("4M", 3),
-                      customRadioButton("5M", 4),
-                      customRadioButton("6M", 5),
-                      customRadioButton("7M", 6),
-                    ],
+          physics: BouncingScrollPhysics(),
+          child: Container(
+            padding: const EdgeInsets.all(defaultPadding),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    customRadioButton("3M", 1),
+                    customRadioButton("3.5M", 2),
+                    customRadioButton("4M", 3),
+                    customRadioButton("5M", 4),
+                    customRadioButton("6M", 5),
+                    customRadioButton("7M", 6),
+                  ],
+                ),
+                const SizedBox(height: defaultShortPadding),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    customRadioButton2("Fotografias", 1),
+                    customRadioButton2("Renders", 2),
+                    customRadioButton2("Planos", 3),
+                  ],
+                ),
+                const SizedBox(height: defaultPadding),
+                GridView.count(
+                  padding: const EdgeInsets.all(0),
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  mainAxisSpacing: defaultPadding,
+                  primary: false,
+                  crossAxisSpacing: defaultPadding,
+                  children: List.generate(
+                    _listGallery.length,
+                    growable: true,
+                    (index) {
+                      return cardImage(
+                          index: index,
+                          image: _listGallery[index].src,
+                          title: _listGallery[index].desc != '' &&
+                                  _listGallery[index].desc != null
+                              ? '${_listGallery[index].desc}'
+                              : '${_listGallery[index].type} de ${_listGallery[index].modulo}',
+                          context: context,
+                          list: _listGallery);
+                    },
                   ),
-                  const SizedBox(height: defaultShortPadding),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      customRadioButton2("Fotografias", 1),
-                      customRadioButton2("Renders", 2),
-                      customRadioButton2("Planos", 3),
-                    ],
-                  ),
-                  const SizedBox(height: defaultPadding),
-                  GridView.count(
-                    padding: const EdgeInsets.all(0),
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    mainAxisSpacing: defaultPadding,
-                    primary: false,
-                    crossAxisSpacing: defaultPadding,
-                    children: List.generate(
-                      _listGallery.length,
-                      growable: true,
-                      (index) {
-                        return cardImage(
-                            index: index,
-                            image: _listGallery[index].src,
-                            title: _listGallery[index].desc != '' &&
-                                    _listGallery[index].desc != null
-                                ? '${_listGallery[index].desc}'
-                                : '${_listGallery[index].type} de ${_listGallery[index].modulo}',
-                            context: context,
-                            list: _listGallery);
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

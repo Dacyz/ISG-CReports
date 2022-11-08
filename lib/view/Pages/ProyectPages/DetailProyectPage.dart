@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../model/proyecto_Model.dart';
 import '../../System/ProfileConstant.dart';
 import '../ReportPages/ListReportPage.dart';
-import '../ReportPages/newReport.dart';
+import '../ReportPages/NewReportPage.dart';
 
 class proyectodetalle extends StatefulWidget {
   final ProyectoModel proyectoModel;
@@ -88,6 +88,12 @@ class _proyectodetalleState extends State<proyectodetalle> {
                         width: 100.0,
                         padding: const EdgeInsets.symmetric(
                             vertical: 7.0, horizontal: 12.0),
+                        decoration: const BoxDecoration(
+                            color: Colors.blueAccent,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(95.0),
+                                topLeft: Radius.circular(95.0),
+                                bottomRight: Radius.circular(200.0))),
                         child: Text(
                           'Nuevo Reporte',
                           style: Theme.of(context)
@@ -95,14 +101,8 @@ class _proyectodetalleState extends State<proyectodetalle> {
                               .button
                               ?.apply(color: Colors.black),
                         ),
-                        decoration: BoxDecoration(
-                            color: Colors.blueAccent,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(95.0),
-                                topLeft: Radius.circular(95.0),
-                                bottomRight: Radius.circular(200.0))),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.article_outlined,
                         size: 30.0,
                       )

@@ -61,7 +61,7 @@ class StartPage extends StatelessWidget {
             children: [
               cardMenu(
                 onTap: () {},
-                title: 'Ult Proyecto',
+                title: 'Ult. Proyecto',
                 desc: 'Villa Esperanza',
                 icono: const Icon(
                   Icons.business,
@@ -71,7 +71,7 @@ class StartPage extends StatelessWidget {
               ),
               cardMenu(
                 onTap: () {},
-                title: 'Operacion 2',
+                title: 'Ult. Reporte',
                 desc: 'Desc Operacion',
                 icono: const Icon(
                   Icons.open_in_browser,

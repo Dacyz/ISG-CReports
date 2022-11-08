@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
+import 'package:insergemobileapplication/view/System/Start/ContactPage.dart';
 
 import '../Home/HomePage.dart';
 
@@ -245,18 +245,28 @@ class _loginState extends State<login> {
                       const SizedBox(height: defaultPadding),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text("¿Problemas al acceder?",
+                        children: [
+                          const Text("¿Problemas al acceder?",
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               )),
-                          Text(
-                            "  Contactanos",
-                            style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ContactPage(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "  Contactanos",
+                              style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ],
                       ),

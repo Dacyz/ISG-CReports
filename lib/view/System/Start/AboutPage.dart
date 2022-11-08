@@ -1,81 +1,143 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class AboutPage extends StatefulWidget {
+  const AboutPage({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<AboutPage> createState() => _AboutPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blueAccent,
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.all(defaultShortPadding),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text('Inserge Movil - Copyright'),
+            Icon(Icons.copyright)
+          ],
+        ),
+      ),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(defaultPadding),
-              decoration: const BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(90),
-                    bottomRight: Radius.circular(90)),
-              ),
-              child: Center(
-                child: Padding(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: double.infinity,
                   padding: const EdgeInsets.all(defaultPadding),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(defaultPadding),
-                      child: SvgPicture.asset(
-                        "assets/icons/InsergeSVGM.svg",
-                        color: Colors.blueAccent,
-                        height: 80,
+                  decoration: const BoxDecoration(
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(90),
+                        bottomRight: Radius.circular(90)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(defaultPadding),
+                        child: SvgPicture.asset(
+                          "assets/icons/InsergeSVGM.svg",
+                          color: Colors.white,
+                          height: 80,
+                        ),
                       ),
+                      const Padding(
+                          padding: EdgeInsets.all(defaultPadding),
+                          child: Icon(
+                            Icons.join_inner_rounded,
+                            color: Colors.white,
+                          )),
+                      Container(
+                        width: 120,
+                        padding: const EdgeInsets.all(defaultPadding),
+                        child: Image.asset(
+                            'assets/icons/logo-universidad-cesar-vallejo.png'),
+                      ),
+                    ],
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(defaultLargePadding),
+                  child: Text(
+                    'Inserge - UCV',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
                     ),
                   ),
                 ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(defaultLargePadding),
-              child: Text(
-                'Inserge - Piura',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
+                const Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: defaultLargePadding),
+                  child: Text(
+                    'Este aplicativo movil fue desarrollado como proyecto para los cursos de Patrones de diseño de realidad virtual, Programación de aplicativos moviles y Sistemas inteligentes del septimo ciclo de la Universidad Cesar Vallejo Sede Piura',
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: defaultLargePadding),
-              child: Text(
-                'Ingenieria y Servicios Generales Piura S.A.C.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 24,
+                const Padding(
+                  padding: EdgeInsets.all(defaultPadding),
+                  child: Text(
+                    'Tecnologias usadas',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
-              ),
+                const Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: defaultLargePadding),
+                  child: Text(
+                    'La principal tecnologia para desarrollar este aplicativo fue Flutter, sin embargo, para distintas funciones referentes a herramientas como la busqueda interpretada, visualizador de modulos en 3D, etc. hemos usado: Unity, Python, Flask, Heroku, Firestore, TensorFlow, Revit, etc.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 100,
+                      padding: const EdgeInsets.all(defaultPadding),
+                      child: Image.asset('assets/icons/logo-flutter.png'),
+                    ),
+                    Container(
+                      width: 120,
+                      padding: const EdgeInsets.all(defaultPadding),
+                      child: Image.asset('assets/icons/logo-python.png'),
+                    ),
+                    Container(
+                      width: 120,
+                      padding: const EdgeInsets.all(defaultPadding),
+                      child: Image.asset('assets/icons/logo-unity.png'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: defaultPadding),
+                const Text('Piura - Perú'),
+                const SizedBox(height: defaultShortPadding),
+                const Text('2022'),
+              ],
             ),
-            const Text(
-              'Elige lo que gustas ver...',
-              style: TextStyle(fontWeight: FontWeight.w400),
-            ),
-            const Flexible(child: SizedBox()),
-          ],
+          ),
         ),
       ),
     );

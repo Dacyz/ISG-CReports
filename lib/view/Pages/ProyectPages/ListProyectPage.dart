@@ -153,6 +153,7 @@ class _listproyectState extends State<listproyect> {
                   return Expanded(
                     child: (_viewType != ViewType.list)
                         ? ListView.separated(
+                            physics: const BouncingScrollPhysics(),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: defaultPadding,
                                 vertical: defaultShortPadding),

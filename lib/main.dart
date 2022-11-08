@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
 import 'view/Pages/Visualizator/VisualizatorPage.dart';
+import 'view/System/Start/AboutPage.dart';
 import 'view/System/Start/LoginPage.dart';
 
 void main() {
@@ -16,8 +17,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.blueAccent));
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Inserge Application Demo',
@@ -39,35 +38,39 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.blueAccent));
     return Scaffold(
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(defaultPadding),
-              decoration: const BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(90),
-                    bottomRight: Radius.circular(90)),
-              ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(defaultPadding),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(defaultPadding),
-                      child: SvgPicture.asset(
-                        "assets/icons/InsergeSVGM.svg",
-                        color: Colors.blueAccent,
-                        height: 80,
+            Flexible(
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(defaultPadding),
+                decoration: const BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(90),
+                      bottomRight: Radius.circular(90)),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(defaultPadding),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(defaultPadding),
+                        child: SvgPicture.asset(
+                          "assets/icons/InsergeSVGM.svg",
+                          color: Colors.blueAccent,
+                          height: 80,
+                        ),
                       ),
                     ),
                   ),
@@ -178,22 +181,27 @@ class _MainPageState extends State<MainPage> {
             const SizedBox(height: defaultPadding),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
+              children: [
+                const Text(
                   '¿Qué hago aquí?',
                   style: TextStyle(fontWeight: FontWeight.w400),
                 ),
-                SizedBox(width: defaultShortPadding),
-                Text(
-                  'Más información...',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400, color: Colors.blueGrey),
+                const SizedBox(width: defaultShortPadding),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AboutPage(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Más información...',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400, color: Colors.blueGrey),
+                  ),
                 ),
-                SizedBox(width: 2),
-                Icon(
-                  Icons.link,
-                  color: Colors.blueGrey,
-                )
               ],
             ),
             const SizedBox(height: defaultPadding),
