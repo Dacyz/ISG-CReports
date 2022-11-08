@@ -146,6 +146,17 @@ Widget iconModify({
   );
 }
 
+Widget labelModify({
+  required Icon icono,
+  VoidCallback? onTap,
+}) {
+  return InkWell(
+      onTap: onTap,
+      child: Center(
+        child: icono,
+      ));
+}
+
 Widget buttonModify({
   required String Action,
   VoidCallback? onTap,
