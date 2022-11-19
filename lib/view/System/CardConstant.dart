@@ -23,10 +23,9 @@ class CardProyecto extends StatelessWidget {
       onTap: presionar,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius:
               const BorderRadius.all(Radius.circular(defaultBorderRadius)),
-          boxShadow: defaultBoxShadow,
+          boxShadow: defaultBoxShadow(Theme.of(context).shadowColor),
         ),
         child: Column(
           children: [
@@ -59,43 +58,106 @@ class CardProyecto extends StatelessWidget {
   }
 }
 
-Widget cardMenu({
-  required String title,
-  required String desc,
-  required Icon icono,
-  VoidCallback? onTap,
-  Color fontColor = Colors.grey,
-}) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(defaultBorderRadius),
-        boxShadow: defaultBoxShadow,
+class CardMenu extends StatelessWidget {
+  const CardMenu({
+    Key? key,
+    required this.title,
+    required this.desc,
+    required this.icono,
+    required this.onTap,
+  }) : super(key: key);
+
+  final String title;
+  final String desc;
+  final Icon icono;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(defaultBorderRadius),
+          boxShadow: defaultBoxShadow(Theme.of(context).shadowColor),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icono,
+            const SizedBox(height: 1),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(height: 1),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: defaultShortPadding),
+              child: Text(
+                desc,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal),
+              ),
+            )
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class largeButtonRound extends StatelessWidget {
+  const largeButtonRound({
+    Key? key,
+    required this.title,
+    required this.desc,
+    required this.onTap,
+  }) : super(key: key);
+
+  final String title;
+  final String desc;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          minimumSize: Size(double.infinity, 60),
+          primary: Theme.of(context).focusColor,
+          padding: EdgeInsets.all(defaultShortPadding),
+          elevation: 0,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50)))),
+      onPressed: onTap,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          icono,
           const SizedBox(height: 1),
           Text(
             title,
-            style: TextStyle(fontWeight: FontWeight.bold, color: fontColor),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 1),
           Text(
             desc,
-            style: TextStyle(fontWeight: FontWeight.normal, color: fontColor),
+            style: const TextStyle(fontWeight: FontWeight.normal),
           )
         ],
       ),
-    ),
-  );
+    );
+    ;
+  }
 }
 
-Widget buttonMenu({
+Widget largeButtonRaaound({
   required String title,
   required String desc,
   VoidCallback? onTap,
@@ -124,6 +186,34 @@ Widget buttonMenu({
           desc,
           style: TextStyle(fontWeight: FontWeight.normal, color: fontColor),
         )
+      ],
+    ),
+  );
+}
+
+Widget shortButtonRound({
+  required String title,
+  VoidCallback? onTap,
+  Color fontColor = Colors.white,
+}) {
+  return ElevatedButton(
+    style: ElevatedButton.styleFrom(
+        minimumSize: Size(160, 42),
+        primary: Colors.orange,
+        padding: EdgeInsets.all(defaultShortPadding),
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(50)))),
+    onPressed: onTap,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(height: 1),
+        Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold, color: fontColor),
+        ),
       ],
     ),
   );
@@ -191,7 +281,7 @@ Widget cardImage({
         color: Colors.white,
         borderRadius:
             const BorderRadius.all(Radius.circular(defaultBorderRadius)),
-        boxShadow: defaultBoxShadow,
+        boxShadow: defaultBoxShadow(Theme.of(context).shadowColor),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

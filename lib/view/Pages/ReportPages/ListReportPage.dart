@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:insergemobileapplication/view/Pages/ReportPages/DetailReportPage.dart';
 
 import '../../../controller/remote_data_source/reportes_helper.dart';
 import '../../../model/proyecto_Model.dart';
 import '../../../model/reportes_Model.dart';
 import '../../System/ProfileConstant.dart';
+import 'DetailReportPage.dart';
 
 class listreportes extends StatefulWidget {
   ProyectoModel proyectoModel;
+
   listreportes(this.proyectoModel);
 
   @override
@@ -24,7 +25,6 @@ class _listreportestState extends State<listreportes> {
         child: StreamBuilder<List<ReportesModel>>(
             stream: Reportes_helper.read(widget.proyectoModel.id.toString()),
             builder: (context, snapshot) {
-              print(widget.proyectoModel.dni.toString());
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(),
@@ -55,15 +55,20 @@ class _listreportestState extends State<listreportes> {
                     return SizedBox(
                       child: Container(
                         child: ListTile(
-                          leading: Icon(Icons.book_outlined,
-                              color: Color(0xFFFC4B08)),
+                          leading: Icon(
+                            Icons.account_balance_wallet_outlined,
+                            color: Color(0xFFFC4B08),
+                            size: 35,
+                          ),
                           title: Text(
-                            "${singlereportes.fecharegistro?.month}/${singlereportes.fecharegistro?.year}",
+                            "Fecha: " +
+                                "${singlereportes.fecharegistro?.day}/${singlereportes.fecharegistro?.month}/${singlereportes.fecharegistro?.year}",
                             style: TextStyle(
                               fontSize: 16,
                             ),
                           ),
-                          subtitle: Text(singlereportes.estado.toString()),
+                          subtitle: Text("Hora: " +
+                              "${singlereportes.fecharegistro?.hour}:${singlereportes.fecharegistro?.minute}"),
                           trailing: Icon(Icons.arrow_forward_rounded,
                               color: Color(0xFFFC4B08)),
                           onTap: () {
@@ -71,7 +76,7 @@ class _listreportestState extends State<listreportes> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        reportedetalle(singlereportes)));
+                                        DetailReportPage(singlereportes)));
                           },
                         ),
                       ),

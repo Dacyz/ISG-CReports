@@ -37,7 +37,7 @@ class _GalleryPageState extends State<GalleryPage> {
       },
       child: Container(
         padding: const EdgeInsets.all(defaultPadding),
-        decoration: defaultBoxDecoration,
+        decoration: defaultBoxDecoration(Theme.of(context).primaryColor,Theme.of(context).shadowColor),
         child: Text(
           title,
           style: TextStyle(
@@ -67,7 +67,7 @@ class _GalleryPageState extends State<GalleryPage> {
       },
       child: Container(
         padding: const EdgeInsets.all(defaultPadding),
-        decoration: defaultBoxDecoration,
+        decoration: defaultBoxDecoration(Theme.of(context).primaryColor,Theme.of(context).shadowColor),
         child: Text(
           title,
           style: TextStyle(

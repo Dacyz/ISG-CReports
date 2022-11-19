@@ -35,7 +35,7 @@ class galleryCamera extends StatefulWidget {
 
 class _galleryCameraState extends State<galleryCamera> {
   final ReportesModel nreporte;
-  List<XFile> images = [];
+  List<XFile> images = [XFile('')];
   _galleryCameraState({required this.nreporte});
 
   @override
@@ -43,65 +43,59 @@ class _galleryCameraState extends State<galleryCamera> {
     return Scaffold(
       //UiAppbar
       appBar: defaultAppBar,
-      body: GridView.builder(
-        padding: EdgeInsets.all(10),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemCount: images.length,
-        itemBuilder: (BuildContext context, int index) {
-          File imageFile = File(images[index].path);
-          return Card(
-            child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PhotoViewScream(
-                                imageFile: imageFile,
-                              )));
-                },
-                child: Image.file(imageFile)),
-          );
-        },
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            width: 80,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              _showMessageDialog(context);
-              //Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      body: SafeArea(
+        child: SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: images.length,
+            itemBuilder: (BuildContext context, int index) {
+              File imageFile = File(images[index].path);
+              if (images.length - 1 == index) {
+                if (images.length < 6) {
+                  return IconButton(
+                    onPressed: () async {
+                      String paths = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => photoPrint()));
+                      XFile pickedFile = XFile(paths);
+                      images.insert(0, pickedFile);
+                      setState(() {});
+                    },
+                    icon: const Icon(Icons.add),
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              } else {
+                return Stack(children: [
+                  Card(
+                    child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PhotoViewScream(
+                                        imageFile: imageFile,
+                                      )));
+                        },
+                        child: Image.file(imageFile)),
+                  ),
+                  Positioned(
+                      top: 1,
+                      right: 1,
+                      child: IconButton(
+                          onPressed: () {
+                            images.removeAt(index);
+                            setState(() {});
+                          },
+                          icon: const Icon(Icons.close))),
+                ]);
+              }
             },
-            child: const Text("Guardar",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: Colors.white,
-                )),
-            style: ElevatedButton.styleFrom(
-              primary: Color(0xFF2196F3),
-              padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 14),
-              side: BorderSide(color: Color(0xFF084460)),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              shadowColor: Colors.lightBlue,
-            ),
           ),
-          images.length != 3
-              ? FloatingActionButton(
-                  onPressed: _optionsDialogBox,
-                  child: Icon(Icons.add),
-                )
-              : FloatingActionButton(
-                  onPressed: () {},
-                ),
-        ],
+        ),
       ),
     );
   }
@@ -111,26 +105,28 @@ class _galleryCameraState extends State<galleryCamera> {
       barrierDismissible: false,
       builder: (context) => AlertDialog(
             title: const Text("Guardar"),
-            content: const Text("¿Estás seguro que quieres guardar?"),
             actions: [
               TextButton(
                 onPressed: () async {
-                  //print(images[0].name);
                   List<String> imagenesurls = [];
                   nreporte.url = imagenesurls;
                   DocumentReference as = await Reportes_helper.create(
                       nreporte, widget.proyectoModel.id.toString());
-                  images.forEach(
-                    (element) async {
-                      File imageFile = File(element.path);
-                      Reference imageref = FirebaseStorage.instance.ref().child("reportes").child(widget.proyectoModel.dni.toString()).child(element.name);
+                  for (var i = 0; i < images.length; i++) {
+                    if (images.length - 1 != i) {
+                      File imageFile = File(images.elementAt(i).path);
+                      Reference imageref = FirebaseStorage.instance
+                          .ref()
+                          .child("reportes")
+                          .child(widget.proyectoModel.dni.toString())
+                          .child(images.elementAt(i).name);
                       await imageref.putFile(imageFile);
                       imagenesurls.add(await imageref.getDownloadURL());
                       as.update({
                         "url": imagenesurls,
                       });
-                    },
-                  );
+                    }
+                  }
                 },
                 child: const Text("Sí"),
               ),
@@ -140,34 +136,4 @@ class _galleryCameraState extends State<galleryCamera> {
               )
             ],
           ));
-
-  Future<void> _optionsDialogBox() {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: [
-                  GestureDetector(
-                    child: new Text("Usar Cámara"),
-                    onTap: () async {
-                      String paths = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => photoPrint()));
-                      //
-                      XFile pickedFile = XFile(paths);
-                      images.add(pickedFile);
-                      //regresar al modal
-                      Navigator.pop(context);
-                      setState(() {});
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
 }

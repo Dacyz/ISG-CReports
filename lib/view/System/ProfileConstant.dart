@@ -1,10 +1,74 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:insergemobileapplication/model/user_model.dart';
 
 //Diapositivos como Tables:
 extension ContextExtension on BuildContext {
   bool get isTablet => MediaQuery.of(this).size.shortestSide > 600;
 }
+
+class ThemesConstants {
+  static final darkTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.grey.shade900,
+    colorScheme: const ColorScheme.dark(
+      primary: Colors.orange,
+      secondary: Colors.blue,
+      onError: Colors.redAccent,
+    ),
+    primaryColor: Colors.blueAccent,
+    appBarTheme: AppBarTheme(
+      color: Colors.white,
+    ),
+    shadowColor: Colors.white.withOpacity(0.1),
+    cardColor: Colors.black26,
+    hoverColor: Colors.orange,
+    dialogBackgroundColor: Colors.black26,
+    unselectedWidgetColor: Colors.white60,
+    focusColor: Colors.orange,
+  );
+  static final lightTheme = ThemeData(
+    shadowColor: Colors.grey.withOpacity(0.5),
+    colorScheme: const ColorScheme.light(
+      primary: Colors.orange,
+      secondary: Colors.blueAccent,
+      onError: Colors.redAccent,
+    ),
+    appBarTheme:
+        AppBarTheme(color: Colors.black, foregroundColor: Colors.black),
+    cardColor: Colors.white,
+    primaryColor: Colors.blueAccent,
+    unselectedWidgetColor: Colors.black45,
+    focusColor: Colors.orange,
+  );
+}
+
+//Propiedades
+const OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+  borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
+  borderSide: BorderSide.none,
+);
+
+//Propiedades de Widgets predeterminadas
+BoxDecoration defaultBoxDecoration(Color colorBackground, Color shadowColor) {
+  return BoxDecoration(
+    color: colorBackground,
+    borderRadius: BorderRadius.circular(defaultBorderRadius),
+    boxShadow: defaultBoxShadow(shadowColor),
+  );
+}
+
+List<BoxShadow> defaultBoxShadow(Color shadowColor) {
+  return [
+    BoxShadow(
+      color: shadowColor,
+      spreadRadius: 1,
+      blurRadius: 2,
+      offset: Offset(0, 2), // changes position of shadow
+    )
+  ];
+}
+
+UserModel UsuarioGlobal = UserModel();
 
 //Variables
 const Color primaryHColor = Colors.indigo;
@@ -12,9 +76,10 @@ const Color primaryColor = Colors.blueAccent;
 const Color secondColor = Colors.orange;
 const Color bgColor = Colors.white;
 
+const double defaultLargePadding = 20.0;
 const double defaultPadding = 16.0;
 const double defaultShortPadding = 8.0;
-const double defaultLargePadding = 20.0;
+const double defaultMiniPadding = 4.0;
 const double defaultBorderRadius = 12.0;
 
 GestureDetector Miau = GestureDetector(
@@ -52,8 +117,7 @@ AppBar defaultAppBar = AppBar(
     children: const [
       Text(
         "Piura, 2022",
-        style: TextStyle(
-            fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black87),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
     ],
   ),
@@ -75,8 +139,7 @@ AppBar defaultAppBarTitle(String title) {
       children: [
         Text(
           title,
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black87),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
       ],
     ),
@@ -84,7 +147,6 @@ AppBar defaultAppBarTitle(String title) {
 }
 
 AppBar defaultAppBarBack = AppBar(
-  foregroundColor: Colors.black,
   backgroundColor: Colors.transparent,
   elevation: 0,
   title: Row(
@@ -92,8 +154,7 @@ AppBar defaultAppBarBack = AppBar(
     children: [
       const Text(
         "Piura, 2022",
-        style: TextStyle(
-            fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black87),
+        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
       ),
       SizedBox(
         width: 40,
@@ -108,28 +169,6 @@ AppBar defaultAppBarBack = AppBar(
     ],
   ),
 );
-
-//Propiedades
-const OutlineInputBorder outlineInputBorder = OutlineInputBorder(
-  borderRadius: BorderRadius.all(Radius.circular(defaultBorderRadius)),
-  borderSide: BorderSide.none,
-);
-
-//Propiedades de Widgets predeterminadas
-BoxDecoration defaultBoxDecoration = BoxDecoration(
-  color: Colors.white,
-  borderRadius: BorderRadius.circular(defaultBorderRadius),
-  boxShadow: defaultBoxShadow,
-);
-
-List<BoxShadow> defaultBoxShadow = [
-  BoxShadow(
-    color: Colors.grey.withOpacity(0.5),
-    spreadRadius: 1,
-    blurRadius: 2,
-    offset: const Offset(0, 2), // changes position of shadow
-  )
-];
 
 Widget iconModify({
   required Icon icono,
@@ -188,7 +227,7 @@ Widget buttonModify({
     child: Material(
       color: Colors.transparent,
       child: InkWell(
-          onTap: () {},
+          onTap: onTap,
           child: Center(
             child: Text(Action,
                 style: const TextStyle(

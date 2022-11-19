@@ -56,112 +56,109 @@ class _proyectodetalleState extends State<proyectodetalle> {
       //Barra
       appBar: defaultAppBarBack,
       bottomNavigationBar: BottomAppBar(
-        child: Padding(
-          padding: const EdgeInsets.all(defaultShortPadding),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              //Botón Nuevo Reporte
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              newreport(widget.proyectoModel)));
-                },
-                child: Container(
-                  width: 150.0,
-                  decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(
-                            offset: Offset(0.0, 20),
-                            blurRadius: 30.0,
-                            color: Colors.black12)
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(22.0)),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        height: 50.0,
-                        width: 100.0,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 7.0, horizontal: 12.0),
-                        decoration: const BoxDecoration(
-                            color: Colors.blueAccent,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(95.0),
-                                topLeft: Radius.circular(95.0),
-                                bottomRight: Radius.circular(200.0))),
-                        child: Text(
-                          'Nuevo Reporte',
-                          style: Theme.of(context)
-                              .textTheme
-                              .button
-                              ?.apply(color: Colors.black),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.article_outlined,
-                        size: 30.0,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              //Botón Historial de Reportes
-              InkWell(
-                onTap: () => Navigator.push(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            //Botón Nuevo Reporte
+            InkWell(
+              onTap: () {
+                Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            listreportes(widget.proyectoModel))),
-                child: Container(
-                  width: 150.0,
-                  decoration: BoxDecoration(
-                      boxShadow: const [
-                        BoxShadow(
-                            offset: Offset(0.0, 20),
-                            blurRadius: 30.0,
-                            color: Colors.black12)
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(22.0)),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        height: 50.0,
-                        width: 100.0,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 7.0, horizontal: 12.0),
-                        decoration: const BoxDecoration(
-                            color: Colors.blueAccent,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(95.0),
-                                topLeft: Radius.circular(95.0),
-                                bottomRight: Radius.circular(200.0))),
-                        child: Text(
-                          'Historial de Reportes',
-                          style: Theme.of(context)
-                              .textTheme
-                              .button
-                              ?.apply(color: Colors.black),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.amp_stories_outlined,
-                        size: 30.0,
-                      )
+                        builder: (context) => newreport(widget.proyectoModel)));
+              },
+              child: Container(
+                width: 150.0,
+                decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                          offset: Offset(0.0, 20),
+                          blurRadius: 30.0,
+                          color: Colors.black12)
                     ],
-                  ),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(22.0)),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 50.0,
+                      width: 100.0,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 7.0, horizontal: 12.0),
+                      decoration: const BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(95.0),
+                              topLeft: Radius.circular(95.0),
+                              bottomRight: Radius.circular(200.0))),
+                      child: Text(
+                        'Nuevo Reporte',
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            ?.apply(color: Colors.black),
+                      ),
+                    ),
+                    const Icon(
+                      Icons.article_outlined,
+                      size: 30.0,
+                    )
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+            //Botón Historial de Reportes
+            InkWell(
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          listreportes(widget.proyectoModel))),
+              child: Container(
+                width: 150.0,
+                decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                          offset: Offset(0.0, 20),
+                          blurRadius: 30.0,
+                          color: Colors.black12)
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(22.0)),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      height: 50.0,
+                      width: 100.0,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 7.0, horizontal: 12.0),
+                      decoration: const BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(95.0),
+                              topLeft: Radius.circular(95.0),
+                              bottomRight: Radius.circular(200.0))),
+                      child: Text(
+                        'Historial de Reportes',
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            ?.apply(color: Colors.black),
+                      ),
+                    ),
+                    const Icon(
+                      Icons.amp_stories_outlined,
+                      size: 30.0,
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             //Imagen
@@ -169,7 +166,7 @@ class _proyectodetalleState extends State<proyectodetalle> {
               children: [
                 ImagenesURLs.isNotEmpty
                     ? Card(
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(15))),
                         color: Color(0xFFFAFAFA),
@@ -183,31 +180,33 @@ class _proyectodetalleState extends State<proyectodetalle> {
                           ),
                         ),
                       )
-                    : const SizedBox(),
-                const SizedBox(
-                  height: 6,
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      defaultPadding, 5.0, defaultPadding, 0.0),
-                  child: Text(
-                    "Dirección: ${widget.proyectoModel.address}",
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
+                    : const SizedBox(
+                        height: 100,
+                        child: Center(
+                          child: Text(
+                              'Aún no hay fotografias en los reportes para mostrar'),
+                        ),
+                      ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                  defaultPadding, 5.0, defaultPadding, 0.0),
+              child: Text(
+                "Dirección: ${widget.proyectoModel.address}",
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
             //DETALLES DEL PROYECTO
             Container(
               padding: const EdgeInsets.fromLTRB(defaultPadding, defaultPadding,
                   defaultPadding, defaultPadding),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(defaultBorderRadius * 3),
                   topRight: Radius.circular(defaultBorderRadius * 3),
                 ),
@@ -224,25 +223,25 @@ class _proyectodetalleState extends State<proyectodetalle> {
                   const SizedBox(height: defaultPadding),
                   _RowConstant(
                       'Beneficiario:', "${widget.proyectoModel.beneficiario}"),
-                  const SizedBox(height: defaultPadding),
+                  const SizedBox(height: defaultShortPadding),
                   _RowConstant('DNI:', "${widget.proyectoModel.dni}"),
-                  const SizedBox(height: defaultPadding),
+                  const SizedBox(height: defaultShortPadding),
                   _RowConstant('Teléfono:', "${widget.proyectoModel.telefono}"),
-                  const SizedBox(height: defaultPadding),
+                  const SizedBox(height: defaultShortPadding),
                   _RowConstant(
                       'Contrato:', "${widget.proyectoModel.codProyecto}"),
-                  const SizedBox(height: defaultPadding),
+                  const SizedBox(height: defaultShortPadding),
                   _RowConstant('Módulo:', "${widget.proyectoModel.modulo}"),
-                  const SizedBox(height: defaultPadding),
+                  const SizedBox(height: defaultShortPadding),
                   _RowConstant(
                       'Coordenadas:', "${widget.proyectoModel.coordenadas}"),
-                  const SizedBox(height: defaultPadding),
+                  const SizedBox(height: defaultShortPadding),
                   _RowConstant(
                       'Departamento:', "${widget.proyectoModel.departamento}"),
-                  const SizedBox(height: defaultPadding),
+                  const SizedBox(height: defaultShortPadding),
                   _RowConstant(
                       'Provincia:', "${widget.proyectoModel.provincia}"),
-                  const SizedBox(height: defaultPadding),
+                  const SizedBox(height: defaultShortPadding),
                   _RowConstant('Distrito:', "${widget.proyectoModel.distrito}"),
                 ],
               ),
@@ -254,27 +253,23 @@ class _proyectodetalleState extends State<proyectodetalle> {
   }
 }
 
-_RowConstant(String title, String content) {
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.center,
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(
-        title,
-        style: const TextStyle(
-          fontSize: 17,
-          color: Colors.black,
-          fontWeight: FontWeight.w600,
+_RowConstant(String title, String content) => Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 17,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-      ),
-      Text(
-        content,
-        style: const TextStyle(
-            fontSize: 15,
-            color: Colors.black,
-            fontWeight: FontWeight.w400,
-            overflow: TextOverflow.fade),
-      ),
-    ],
-  );
-}
+        Text(
+          content,
+          style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w400,
+              overflow: TextOverflow.fade),
+        ),
+      ],
+    );

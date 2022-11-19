@@ -7,7 +7,7 @@ class Reportes_helper {
     final reportesCollection = FirebaseFirestore.instance
         .collection("proyectos")
         .doc(id)
-        .collection("reportes");
+        .collection("reportes").orderBy("fecharegistro",descending: true);
     return reportesCollection.snapshots().map((querySnapshot) =>
         querySnapshot.docs.map((e) => ReportesModel.fromSnapshot(e)).toList());
   }

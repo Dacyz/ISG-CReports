@@ -73,8 +73,7 @@ class _photoPrintState extends State<photoPrint> {
     //activar camaras
     _cameras = await availableCameras();
     //selecionar camara y resolucion
-    _cameraController = new CameraController(
-        _cameras[0], ResolutionPreset.medium,
+    _cameraController = CameraController(_cameras[0], ResolutionPreset.medium,
         imageFormatGroup: ImageFormatGroup.yuv420, enableAudio: false);
     //Inicializar camara await obliga a que si o si se inicialize
     await _cameraController.initialize();

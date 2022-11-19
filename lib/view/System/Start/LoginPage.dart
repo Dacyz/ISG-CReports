@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:insergemobileapplication/controller/usermanagement.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 import 'package:insergemobileapplication/view/System/Start/ContactPage.dart';
 
+import '../../../model/user_model.dart';
 import '../Home/HomePage.dart';
 
 class login extends StatefulWidget {
@@ -19,22 +21,6 @@ class _loginState extends State<login> {
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     return firebaseApp;
-  }
-
-  static Future<User?> loginUsingPass(
-      {required String userd,
-      required String pass,
-      required BuildContext context}) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user;
-    try {
-      UserCredential userCredential =
-          await auth.signInWithEmailAndPassword(email: userd, password: pass);
-      user = userCredential.user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {}
-    }
-    return user;
   }
 
   TextEditingController _emailController = TextEditingController();
@@ -134,6 +120,7 @@ class _loginState extends State<login> {
                       ),
                       const SizedBox(height: defaultPadding),
                       TextFormField(
+                        cursorColor: Colors.amber,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "Ingresa una contraseña";
@@ -144,7 +131,7 @@ class _loginState extends State<login> {
                         controller: _passwordController,
                         obscureText: !_isVisible,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(
+                            border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.all(
                                     Radius.circular(defaultBorderRadius))),
                             hintText: "Contraseña",
@@ -157,7 +144,6 @@ class _loginState extends State<login> {
                                 _isVisible
                                     ? Icons.remove_red_eye_outlined
                                     : Icons.remove_red_eye_rounded,
-                                color: Colors.black,
                               ),
                               onTap: () {
                                 _isVisible = !_isVisible;
@@ -172,31 +158,19 @@ class _loginState extends State<login> {
                                 BorderRadius.circular(defaultBorderRadius)),
                         fillColor: Colors.blueAccent,
                         onPressed: () async {
-                          print(formKey.currentState!.validate());
                           if (formKey.currentState!.validate()) {
-                            User? user = await loginUsingPass(
+                            User? user = await UserManagement.loginUsingPass(
                                 userd: _emailController.text,
                                 pass: _passwordController.text,
                                 context: context);
                             if (user != null) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: const Text("Sesión iniciada"),
-                                action: SnackBarAction(
-                                  label: 'Ok',
-                                  onPressed: () {},
-                                ),
+                              ScaffoldMessenger.of(this.context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text("Sesión iniciada"),
                               ));
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => StartHomePage(
-                                    user: user,
-                                  ),
-                                ),
-                              );
+                              Navigator.pop(context);
                             } else {
-                              ScaffoldMessenger.of(context)
+                              ScaffoldMessenger.of(this.context)
                                   .showSnackBar(SnackBar(
                                 content: const Text("Usuario incorrecto"),
                                 action: SnackBarAction(
@@ -207,40 +181,27 @@ class _loginState extends State<login> {
                             }
                           }
                         },
-                        child: FutureBuilder(
-                            builder: (context, snapshot) {
-                              if (ConnectionState.done ==
-                                  snapshot.connectionState) {
-                                return Container(
-                                  width: double.infinity,
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.all(defaultPadding),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: const [
-                                        Text(
-                                          "Continuar",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Icon(
-                                          Icons.chevron_right,
-                                          color: Colors.white,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            },
-                            future: _initializeFirebase()),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.all(defaultPadding),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: const [
+                                Text(
+                                  "Continuar",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.white,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: defaultPadding),
                       Row(

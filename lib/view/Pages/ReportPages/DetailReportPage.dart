@@ -1,19 +1,20 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/reportes_Model.dart';
 import '../../System/ProfileConstant.dart';
 
-class reportedetalle extends StatefulWidget {
+class DetailReportPage extends StatefulWidget {
   final ReportesModel reporteModel;
 
-  reportedetalle(this.reporteModel);
+  DetailReportPage(this.reporteModel);
 
   @override
-  State<reportedetalle> createState() => _reportedetalleState();
+  State<DetailReportPage> createState() => _DetailReportPageState();
 }
 
-class _reportedetalleState extends State<reportedetalle> {
+class _DetailReportPageState extends State<DetailReportPage> {
   List<Widget> generateImages() {
     return widget.reporteModel.url!
         .map((element) => ClipRRect(
@@ -28,83 +29,109 @@ class _reportedetalleState extends State<reportedetalle> {
 
   @override
   Widget build(BuildContext context) {
+    String _estadoString = "Estado:  " "${_estado()}";
+    String _observacionString =
+        "Observacion: ${widget.reporteModel.observacion}";
+    String _fechaString =
+        "Fecha: ${widget.reporteModel.fecharegistro?.day}/${widget.reporteModel.fecharegistro?.month}/${widget.reporteModel.fecharegistro?.year}";
+    String _horaString =
+        "Hora: ${widget.reporteModel.fecharegistro?.hour}:${widget.reporteModel.fecharegistro?.minute}";
+    String _preguntaUnoString = "${_preguntaone()}";
+    String _preguntaDosString = "${_preguntatwo()}";
+    String _preguntaTresString = "${_preguntathree()}";
+
     return Scaffold(
       appBar: defaultAppBarTitle('Reportes'),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(defaultPadding),
-        child: Column(
-          children: [
-            const SizedBox(height: defaultPadding),
-            //Card con Imagen
-            Container(
-              padding: EdgeInsets.all(12),
-              width: 360,
-              height: 300,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Color(0xFFFFFFFF),
-                //Color(0xFFFFFFFF),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  color: Color(0xFFFAFAFA),
-                  elevation: 0,
-                  child: CarouselSlider(
-                    items: generateImages(),
-                    options: CarouselOptions(
-                      enlargeCenterPage: true,
-                      aspectRatio: 1,
-                      viewportFraction: 1,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            //Card Detalle
-            SizedBox(
-              width: 350,
-              height: 330,
+      body: Column(
+        children: [
+          //Card con Imagen
+          Flexible(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
               child: Card(
-                child: Container(
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 16.0, left: 8, right: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Center(
-                            child: Text(
-                          "DETALLE DEL PROYECTO",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        )),
-                        SizedBox(
-                          height: 17,
-                        ),
-                        Text(
-                          "Estado:  " "${_estado()}",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Text(
-                          "Observacion:  " +
-                              "${widget.reporteModel.observacion}",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ],
-                    ),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                color: const Color(0xFFFAFAFA),
+                elevation: 0,
+                child: CarouselSlider(
+                  items: generateImages(),
+                  options: CarouselOptions(
+                    enlargeCenterPage: true,
+                    aspectRatio: 1,
+                    viewportFraction: 1,
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          //Card Detalle
+          Container(
+            padding: EdgeInsets.all(defaultPadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: defaultPadding),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Center(
+                        child: Text(
+                      "Detalle de reporte",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    )),
+                    IconButton(
+                        icon: Icon(Icons.content_copy),
+                        onPressed: () async {
+                          await FlutterClipboard.copy(
+                              "${_estadoString}\n${_observacionString}\n${_fechaString}\n${_horaString}\n${_preguntaUnoString}\n${_preguntaDosString}\n${_preguntaTresString}");
+                          ScaffoldMessenger.of(this.context)
+                              .showSnackBar(SnackBar(
+                            content: const Text("Copiado correctamente"),
+                          ));
+                        })
+                  ],
+                ),
+                const SizedBox(height: defaultPadding),
+                Text(
+                  "Estado: ${_estado()}",
+                  style: const TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: defaultPadding),
+                Text(
+                  "Observacion: ${widget.reporteModel.observacion}",
+                  style: const TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: defaultPadding),
+                Text(
+                  "Fecha: ${widget.reporteModel.fecharegistro?.day}/${widget.reporteModel.fecharegistro?.month}/${widget.reporteModel.fecharegistro?.year}",
+                  style: const TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: defaultPadding),
+                Text(
+                  "Hora: ${widget.reporteModel.fecharegistro?.hour}:${widget.reporteModel.fecharegistro?.minute}",
+                  style: const TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: defaultPadding),
+                Text(
+                  "${_preguntaone()}",
+                  style: const TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: defaultPadding),
+                Text(
+                  "${_preguntatwo()}",
+                  style: const TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: defaultPadding),
+                Text(
+                  "${_preguntathree()}",
+                  style: const TextStyle(fontSize: 15),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -112,25 +139,58 @@ class _reportedetalleState extends State<reportedetalle> {
   _estado() {
     switch (widget.reporteModel.estado) {
       case 1:
-        return "Entrega de Materiales";
+        return "Entrega de Materiales.";
       case 2:
-        return "Ubicación y limpieza de terreno";
+        return "Ubicación y limpieza de terreno.";
       case 3:
-        return "Trazo y excavación de zanjas para cimiento";
+        return "Trazo y excavación de zanjas para cimiento.";
       case 4:
-        return "Armado de columnas";
+        return "Armado de columnas.";
       case 5:
-        return "xd";
+        return "Vaciado de cimientos.";
       case 6:
-        return "Armado y vaciado de sobrecimiento";
+        return "Armado y vaciado de sobrecimiento.";
       case 7:
-        return "Asentado de ladrillos";
+        return "Asentado de ladrillos.";
       case 8:
-        return "Vaciado de Columna";
+        return "Vaciado de Columna.";
       case 9:
-        return "Acero de techo y encofrado";
+        return "Acero de techo y encofrado.";
       default:
-        return "Error al seleccionar";
+        return "Error al seleccionar.";
+    }
+  }
+
+  _preguntaone() {
+    switch (widget.reporteModel.preguntaone) {
+      case true:
+        return "Si se encontraba el Beneficiario.";
+      case false:
+        return "No se encontraba el beneficiario.";
+      default:
+        return "Error al seleccionar.";
+    }
+  }
+
+  _preguntatwo() {
+    switch (widget.reporteModel.preguntatwo) {
+      case true:
+        return "Si se encontraba el maestro a cargo.";
+      case false:
+        return "No se encontraba el maestro a cargo.";
+      default:
+        return "Error al seleccionar.";
+    }
+  }
+
+  _preguntathree() {
+    switch (widget.reporteModel.preguntathree) {
+      case true:
+        return "Si se encontraban los obreros trabajando.";
+      case false:
+        return "No se encontraban los obreros trabajando.";
+      default:
+        return "Error al seleccionar.";
     }
   }
 }

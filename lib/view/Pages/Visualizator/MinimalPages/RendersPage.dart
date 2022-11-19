@@ -20,11 +20,20 @@ class _RendersPageState extends State<RendersPage> {
   int listPersonIndex = 0;
 
   final List<List<String>> _listModuls = [
-    ["3 metros", "Descripcion del modulo 3"],
-    ["4 metros", "Descripcion del modulo 4"],
-    ["5 metros", "Descripcion del modulo 5"],
-    ["6 metros", "Descripcion del modulo 6"],
-    ["7 metros", "Descripcion del modulo 7"]
+    [
+      "3 metros",
+      "Módulo que cuenta con dos plantas, en el primero se tiene espacios para cocina, comedor, baño y lavandería, en la segunda planta se tiene espacios para dos dormitorios uno en frente del otro, perfecto para una convivencia tranquila. "
+    ],
+    [
+      "4 metros",
+      "Módulo que cuenta con una planta con espacios para cocina, comedor, sala, lavandería contiguo con el baño como ambientes comunes y dos dormitorios adjuntos."
+    ],
+    ["5 metros", "En desarrollo..."],
+    [
+      "6 metros",
+      "Módulo que cuenta con una planta con espacios para para cocina, comedor, sala, lavandería, y baño frente a uno de los dos dormitorios adjuntos."
+    ],
+    ["7 metros", "En desarrollo..."]
   ];
 
   final List<String> _listPersons = [
@@ -175,9 +184,8 @@ class _RendersPageState extends State<RendersPage> {
                 child: Column(
                   children: <Widget>[
                     const Padding(
-                      padding:  EdgeInsets.only(top: 10),
-                      child: Text(
-                          "Velocidad de Rotación"),
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text("Velocidad de Rotación"),
                     ),
                     Slider(
                       onChanged: (value) {

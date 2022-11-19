@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insergemobileapplication/view/Pages/ProyectPages/DetailProyectPage.dart';
+import 'package:insergemobileapplication/view/Pages/ProyectPages/ResultProyectPage.dart';
 
 import '../../../controller/remote_data_source/proyectos_helper.dart';
 import '../../../model/proyecto_Model.dart';
@@ -13,6 +14,7 @@ class listproyect extends StatefulWidget {
 enum ViewType { grid, list }
 
 class _listproyectState extends State<listproyect> {
+  final formKey = GlobalKey<FormState>();
   late List<ProyectoModel> lista;
 
   int _crossAxisCount = 2;
@@ -21,16 +23,6 @@ class _listproyectState extends State<listproyect> {
 
   final TextEditingController _searchQuery = TextEditingController();
   List<ProyectoModel>? proyectoData;
-
-  void buscar(String query) {
-    final sugerencias = proyectoData?.where((listaM) {
-      final modulo = listaM.address?.toLowerCase();
-      final input = query.toLowerCase();
-      return modulo!.contains(input);
-    }).toList();
-    print("sugerencias: $sugerencias.");
-    setState(() => lista = sugerencias!);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +42,10 @@ class _listproyectState extends State<listproyect> {
               children: [
                 Text(
                   "Proyectos",
-                  style: Theme.of(context).textTheme.headline4!.copyWith(
-                      fontWeight: FontWeight.w500, color: Colors.black),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline4!
+                      .copyWith(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: defaultPadding),
                 const Text(
@@ -60,13 +54,19 @@ class _listproyectState extends State<listproyect> {
                 ),
                 const SizedBox(height: defaultPadding),
                 Form(
-                  child: TextField(
-                    onChanged: buscar,
+                  key: formKey,
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Ingresa una busqueda";
+                      } else {
+                        return null;
+                      }
+                    },
                     controller: _searchQuery,
                     decoration: InputDecoration(
                         hintText: "Buscar Proyectos...",
                         filled: true,
-                        fillColor: Colors.white,
                         border: InputBorder.none,
                         enabledBorder: outlineInputBorder,
                         focusedBorder: outlineInputBorder,
@@ -74,24 +74,24 @@ class _listproyectState extends State<listproyect> {
                           padding: EdgeInsets.all(12),
                           child: Icon(Icons.search),
                         ),
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: defaultPadding / 2),
-                          child: SizedBox(
-                            height: 48,
-                            width: 48,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blueAccent,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(defaultBorderRadius))),
-                              ),
-                              child:
-                                  const Icon(Icons.candlestick_chart_outlined),
-                            ),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ResultProyectPage(
+                                            query: _searchQuery.text,
+                                          )));
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blueAccent,
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(defaultBorderRadius))),
                           ),
+                          icon: const Icon(Icons.filter_alt_outlined),
                         )),
                   ),
                 ),
@@ -101,7 +101,6 @@ class _listproyectState extends State<listproyect> {
                     Text(
                       'Proyectos',
                       style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                            color: Colors.black,
                             fontWeight: FontWeight.w500,
                           ),
                     ),
@@ -167,18 +166,11 @@ class _listproyectState extends State<listproyect> {
                             itemBuilder: (context, index) {
                               final singleproyecto = proyectoData![index];
                               return Container(
-                                decoration: defaultBoxDecoration,
+                                decoration: defaultBoxDecoration(
+                                    Theme.of(context).cardColor,
+                                    Theme.of(context).shadowColor),
                                 padding: EdgeInsets.all(4),
                                 child: ListTile(
-                                  leading: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: SizedBox(
-                                      height: 100,
-                                      child: Image.asset(
-                                        "${singleproyecto.image}",
-                                      ),
-                                    ),
-                                  ),
                                   title: Text(
                                     "${singleproyecto.address}",
                                     style: const TextStyle(
@@ -237,51 +229,62 @@ class _listproyectState extends State<listproyect> {
                                   );
                                 },
                                 child: Container(
-                                  decoration: defaultBoxDecoration,
+                                  padding: const EdgeInsets.all(defaultPadding),
+                                  decoration: defaultBoxDecoration(
+                                      Theme.of(context).cardColor,
+                                      Theme.of(context).shadowColor),
                                   child: Column(
-                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      ClipRRect(
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(16.0),
-                                            topRight: Radius.circular(16.0)),
-                                        child: Image.asset(
-                                          "${listaM.image}",
-                                          height: 120,
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                        ),
+                                      Text(
+                                        "${listaM.codProyecto}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1!
+                                            .merge(
+                                              const TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              "${listaM.beneficiario}",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle1!
-                                                  .merge(
-                                                    const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                  ),
-                                              overflow: TextOverflow.ellipsis,
+                                      const SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      Text(
+                                        "${listaM.beneficiario}",
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1!
+                                            .merge(
+                                              const TextStyle(
+                                                  fontWeight: FontWeight.w700),
                                             ),
-                                            const SizedBox(
-                                              height: 8.0,
+                                      ),
+                                      const SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      Text(
+                                        "${listaM.dni}",
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1!
+                                            .merge(
+                                              const TextStyle(
+                                                  fontWeight: FontWeight.w700),
                                             ),
-                                            Text(
-                                              "${listaM.codProyecto}",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .subtitle2!
-                                                  .merge(const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700)),
-                                            ),
-                                          ],
-                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 8.0,
+                                      ),
+                                      Text(
+                                        "${listaM.distrito}",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle2!
+                                            .merge(const TextStyle(
+                                                fontWeight: FontWeight.w700)),
                                       ),
                                     ],
                                   ),

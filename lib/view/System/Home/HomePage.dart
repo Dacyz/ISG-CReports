@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../../Pages/MainPages/EntityChatPage.dart';
 import '../../Pages/MainPages/MyReportsPage.dart';
-import '../../Pages/MainPages/StartPage.dart';
+import '../../Pages/MainPages/ResumePage.dart';
 import '../ProfileConstant.dart';
 
 class StartHomePage extends StatefulWidget {
@@ -62,7 +62,7 @@ class _StartHomePageState extends State<StartHomePage> {
           }),
           children: [
             const MyReportsPage(),
-            const StartPage(),
+            const ResumePage(),
             EntityChatPage(user: usuario),
           ],
         ),
@@ -76,8 +76,8 @@ class _StartHomePageState extends State<StartHomePage> {
               curve: Curves.easeIn,
             );
           },
-          selectedItemColor: Colors.blueAccent,
-          unselectedItemColor: Colors.grey,
+          selectedItemColor: Theme.of(context).primaryColor,
+          unselectedItemColor: Theme.of(context).unselectedWidgetColor,
           type: BottomNavigationBarType.shifting,
         ),
       ),
