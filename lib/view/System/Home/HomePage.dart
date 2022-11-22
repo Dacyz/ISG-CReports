@@ -9,7 +9,7 @@ import '../ProfileConstant.dart';
 
 class StartHomePage extends StatefulWidget {
   final User user;
-  StartHomePage({super.key, required this.user});
+  const StartHomePage({super.key, required this.user});
 
   @override
   State<StartHomePage> createState() => _StartHomePageState(usuario: user);
@@ -25,7 +25,7 @@ class _StartHomePageState extends State<StartHomePage> {
     keepPage: true,
   );
 
-  final _PageList = [
+  final _pageList = [
     const BottomNavigationBarItem(
       icon: Icon(Icons.paypal_rounded),
       label: 'Proyectos',
@@ -67,12 +67,12 @@ class _StartHomePageState extends State<StartHomePage> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: _PageList,
+          items: _pageList,
           currentIndex: _selectedIndex,
           onTap: (index) {
             _pageController.animateToPage(
               index,
-              duration: Duration(milliseconds: 250),
+              duration: const Duration(milliseconds: 250),
               curve: Curves.easeIn,
             );
           },

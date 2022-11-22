@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
@@ -17,20 +17,12 @@ class ResultProyectPage extends StatefulWidget {
 class _ResultProyectPageState extends State<ResultProyectPage> {
   String res = '';
   List<ProyectoModel>? proyectoData;
-  Stream<List<ProyectoModel>> ListaDeProyects = Stream.empty();
-
-  void Carga() {
-    Search_helper.read(widget.query).then((value) {
-      setState(() {
-        ListaDeProyects = value;
-      });
-    });
-  }
+  Stream<List<ProyectoModel>> listaDeProyects = const Stream.empty();
 
   @override
   void initState() {
     super.initState();
-    Carga();
+    _chargeData();
   }
 
   @override
@@ -61,7 +53,7 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
               ),
               Text(res),
               StreamBuilder<List<ProyectoModel>>(
-                  stream: ListaDeProyects,
+                  stream: listaDeProyects,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -97,7 +89,7 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
                         itemBuilder: (context, index) {
                           final singleproyecto = proyectoData![index];
                           return Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: defaultShortPadding),
                             decoration: defaultBoxDecoration(
                                 Theme.of(context).cardColor,
@@ -134,7 +126,7 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        proyectodetalle(singleproyecto),
+                                        DetailProyectPage(singleproyecto),
                                   ),
                                 );
                               },
@@ -150,5 +142,13 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
             ]),
       )),
     );
+  }
+
+  void _chargeData() {
+    Search_helper.read(widget.query).then((value) {
+      setState(() {
+        listaDeProyects = value;
+      });
+    });
   }
 }

@@ -9,17 +9,17 @@ import '../../../controller/remote_data_source/reportes_helper.dart';
 import '../../../model/proyecto_Model.dart';
 import '../../../model/reportes_Model.dart';
 import '../../System/ProfileConstant.dart';
-import 'CameraPages/GalleryCameraPage.dart';
+import 'CameraPages/PhotoViewScream.dart';
 import 'CameraPages/PhotosPrintPage.dart';
 
-class newreport extends StatefulWidget {
-  ProyectoModel proyectoModel;
-  newreport(this.proyectoModel);
+class NewReportPage extends StatefulWidget {
+  final ProyectoModel proyectoModel;
+  const NewReportPage(this.proyectoModel, {super.key});
   @override
-  State<newreport> createState() => _newreportState();
+  State<NewReportPage> createState() => _NewReportPageState();
 }
 
-class _newreportState extends State<newreport> {
+class _NewReportPageState extends State<NewReportPage> {
   List<XFile> images = [XFile('')];
 
   bool isVisible2 = true;
@@ -34,8 +34,9 @@ class _newreportState extends State<newreport> {
   int? groupValueInit;
 
   //Varobservacion
-  TextEditingController _observacionController = TextEditingController();
+  final TextEditingController _observacionController = TextEditingController();
 
+  @override
   void dispose() {
     _observacionController.dispose();
     super.dispose();
@@ -43,7 +44,6 @@ class _newreportState extends State<newreport> {
 
   @override
   void initState() {
-    // TODO: implement initState
     groupValueInit = groupValue! - 1;
     super.initState();
   }
@@ -94,20 +94,20 @@ class _newreportState extends State<newreport> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  _radiocategorias("Entrega de Materiales", 1),
-                  _radiocategorias("Ubicación y limpieza de terreno", 2),
-                  _radiocategorias(
+                  _radioCategorias("Entrega de Materiales", 1),
+                  _radioCategorias("Ubicación y limpieza de terreno", 2),
+                  _radioCategorias(
                       "Trazo y excavación de zanjas para cimiento", 3),
-                  _radiocategorias("Armado de columnas", 4),
-                  _radiocategorias("Vaciado de cimientos", 5),
-                  _radiocategorias("Armado y vaciado de sobrecimiento", 6),
-                  _radiocategorias("Asentado de ladrillos", 7),
-                  _radiocategorias("Vaciado de Columna", 8),
-                  _radiocategorias("Acero de techo y encofrado", 9),
+                  _radioCategorias("Armado de columnas", 4),
+                  _radioCategorias("Vaciado de cimientos", 5),
+                  _radioCategorias("Armado y vaciado de sobrecimiento", 6),
+                  _radioCategorias("Asentado de ladrillos", 7),
+                  _radioCategorias("Vaciado de Columna", 8),
+                  _radioCategorias("Acero de techo y encofrado", 9),
                 ],
               ),
             ),
-            _RowTitle("CheckList", isVisible2, () {
+            _rowTitle("CheckList", isVisible2, () {
               setState(() {
                 isVisible2 = !isVisible2;
               });
@@ -118,16 +118,16 @@ class _newreportState extends State<newreport> {
               maintainState: true,
               child: Column(
                 children: [
-                  _CheckRow('Se encontraba el Beneficiario', value1, (value) {
+                  _checkRow('Se encontraba el Beneficiario', value1, (value) {
                     value1 = value!;
                     (context as Element).markNeedsBuild();
                   }),
-                  _CheckRow('Se encontraba el maestro a cargo', value2,
+                  _checkRow('Se encontraba el maestro a cargo', value2,
                       (value) {
                     value2 = value!;
                     (context as Element).markNeedsBuild();
                   }),
-                  _CheckRow('Se encontraban obreros trabajando', value3,
+                  _checkRow('Se encontraban obreros trabajando', value3,
                       (value) {
                     value3 = value!;
                     (context as Element).markNeedsBuild();
@@ -136,7 +136,7 @@ class _newreportState extends State<newreport> {
               ),
             ),
             //Titulo Fotografias
-            _RowTitle("Fotografias", isVisible4, () {
+            _rowTitle("Fotografias", isVisible4, () {
               setState(() {
                 isVisible4 = !isVisible4;
               });
@@ -160,7 +160,8 @@ class _newreportState extends State<newreport> {
                                   String paths = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => photoPrint()));
+                                          builder: (context) =>
+                                              PhotosPrintPage()));
                                   XFile pickedFile = XFile(paths);
                                   images.insert(0, pickedFile);
                                   setState(() {});
@@ -209,19 +210,19 @@ class _newreportState extends State<newreport> {
                               String paths = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => photoPrint()));
+                                      builder: (context) => const PhotosPrintPage()));
                               XFile pickedFile = XFile(paths);
                               images.insert(0, pickedFile);
                               setState(() {});
                             },
-                            icon: Icon(Icons.add),
+                            icon: const Icon(Icons.add),
                           )
                         ],
                       ),
                     ),
             ),
             //Titulo Observacion
-            _RowTitle("Observación", isVisible3, () {
+            _rowTitle("Observación", isVisible3, () {
               setState(() {
                 isVisible3 = !isVisible3;
               });
@@ -233,7 +234,7 @@ class _newreportState extends State<newreport> {
               child: Card(
                   color: Colors.grey.shade200,
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(defaultShortPadding),
                     child: TextFormField(
                       controller: _observacionController,
                       maxLines: 5,
@@ -251,8 +252,8 @@ class _newreportState extends State<newreport> {
     );
   }
 
-  _radiocategorias(String title, int index) {
-    return Container(
+  _radioCategorias(String title, int index) {
+    return SizedBox(
       width: 120,
       child: Card(
         color: index > groupValueInit! ? Colors.white : Colors.white54,
@@ -336,7 +337,7 @@ class _newreportState extends State<newreport> {
             ],
           ));
 
-  _RowTitle(String title, bool Boolean, void Function() funcion) => Row(
+  _rowTitle(String title, bool Boolean, void Function() funcion) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -353,7 +354,7 @@ class _newreportState extends State<newreport> {
         ],
       );
 
-  _CheckRow(String description, bool Boolean, Function(bool? value) funcion) =>
+  _checkRow(String description, bool Boolean, Function(bool? value) funcion) =>
       Row(
         children: [
           Transform.scale(

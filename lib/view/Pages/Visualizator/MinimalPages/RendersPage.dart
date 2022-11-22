@@ -62,6 +62,7 @@ class _RendersPageState extends State<RendersPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -211,7 +212,7 @@ class _RendersPageState extends State<RendersPage> {
                       onTap: () {
                         if (listModulsIndex != 0) {
                           listModulsIndex--;
-                          PreviusModule();
+                          previusModule();
                           defaultValues();
                           setState(() {});
                         }
@@ -228,7 +229,7 @@ class _RendersPageState extends State<RendersPage> {
                       onTap: () {
                         if (listModulsIndex != _listModuls.length - 1) {
                           listModulsIndex++;
-                          NextModule();
+                          nextModule();
                           defaultValues();
                           setState(() {});
                         }
@@ -315,7 +316,7 @@ class _RendersPageState extends State<RendersPage> {
         'Received scene loaded from unity buildIndex: ${sceneInfo.buildIndex}');
   }
 
-  void NextModule() {
+  void nextModule() {
     _unityWidgetController.postMessage(
       'Cube',
       'NextModule',
@@ -323,7 +324,7 @@ class _RendersPageState extends State<RendersPage> {
     );
   }
 
-  void PreviusModule() {
+  void previusModule() {
     _unityWidgetController.postMessage(
       'Cube',
       'PreviusModule',

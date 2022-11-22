@@ -1,42 +1,25 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
-import 'package:photo_view/photo_view.dart';
-
-import '../../../../controller/remote_data_source/reportes_helper.dart';
 import '../../../../model/proyecto_Model.dart';
 import '../../../../model/reportes_Model.dart';
+import 'PhotoViewScream.dart';
 import 'PhotosPrintPage.dart';
 
-class PhotoViewScream extends StatelessWidget {
-  PhotoViewScream({super.key, required this.imageFile});
-  File imageFile;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: PhotoView(
-        imageProvider: FileImage(imageFile),
-      ),
-    );
-  }
-}
-
-class galleryCamera extends StatefulWidget {
-  ProyectoModel proyectoModel;
+class GalleryCameraPage extends StatefulWidget {
+  final ProyectoModel proyectoModel;
   final ReportesModel reporte;
-  galleryCamera(this.proyectoModel, {required this.reporte});
+  const GalleryCameraPage(this.proyectoModel, {super.key, required this.reporte});
 
   @override
-  State<galleryCamera> createState() => _galleryCameraState(nreporte: reporte);
+  State<GalleryCameraPage> createState() => _GalleryCameraPageState(nreporte: reporte);
 }
 
-class _galleryCameraState extends State<galleryCamera> {
+class _GalleryCameraPageState extends State<GalleryCameraPage> {
   final ReportesModel nreporte;
   List<XFile> images = [XFile('')];
-  _galleryCameraState({required this.nreporte});
+  _GalleryCameraPageState({required this.nreporte});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +41,7 @@ class _galleryCameraState extends State<galleryCamera> {
                       String paths = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => photoPrint()));
+                              builder: (context) => PhotosPrintPage()));
                       XFile pickedFile = XFile(paths);
                       images.insert(0, pickedFile);
                       setState(() {});
@@ -100,6 +83,7 @@ class _galleryCameraState extends State<galleryCamera> {
     );
   }
 
+  /*
   _showMessageDialog(BuildContext context) => showDialog(
       context: context,
       barrierDismissible: false,
@@ -135,5 +119,5 @@ class _galleryCameraState extends State<galleryCamera> {
                 child: const Text("No"),
               )
             ],
-          ));
+          ));*/
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:insergemobileapplication/controller/remote_data_source/home_helper.dart';
+import 'package:insergemobileapplication/controller/remote_data_source/resume_helper.dart';
+import 'package:insergemobileapplication/controller/usermanagement.dart';
 import 'package:insergemobileapplication/model/proyecto_Model.dart';
 import 'package:insergemobileapplication/view/Pages/ProyectPages/DetailProyectPage.dart';
 
-import '../../System/CardConstant.dart';
 import '../../System/ProfileConstant.dart';
 
+import '../../System/Widgets/LargeButtonRoundWidget.dart';
+import '../../System/Widgets/MenuCardWidget.dart';
 import '../Visualizator/VisualizatorPage.dart';
 
 class ResumePage extends StatefulWidget {
@@ -16,20 +18,13 @@ class ResumePage extends StatefulWidget {
 }
 
 class _ResumePageState extends State<ResumePage> {
-  ProyectoModel LastProyect = ProyectoModel(address: 'Sin');
+  ProyectoModel lastProyect = ProyectoModel(address: '...');
+  int proyectCount = 0;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    ChargeData();
-  }
-
-  void ChargeData() {
-    var miau = LastObject_helper.getLastProyect();
-    miau.then((value) => value.elementAt(0).then((value) {
-          LastProyect = value.elementAt(0);
-          setState(() {});
-        }));
+    chargeData();
   }
 
   @override
@@ -82,72 +77,32 @@ class _ResumePageState extends State<ResumePage> {
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
             children: [
-              FutureBuilder(
-                future: LastObject_helper.getCountProyects(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    snapshot.data?.elementAt(0).then((value) {
-                      LastProyect == value.elementAt(0);
-                    });
-                    return CardMenu(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    proyectodetalle(LastProyect)));
-                      },
-                      title: 'Ultimo Proyecto registrado',
-                      desc: LastProyect.address!,
-                      icono: const Icon(
-                        Icons.business,
-                        color: secondColor,
-                        size: 36,
-                      ),
-                    );
-                  } else {
-                    return CardMenu(
-                      onTap: () {},
-                      title: 'Ultimo Proyecto registrado',
-                      desc: '...',
-                      icono: const Icon(
-                        Icons.business,
-                        color: secondColor,
-                        size: 36,
-                      ),
-                    );
-                  }
+              CardMenu(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DetailProyectPage(lastProyect)));
                 },
+                title: 'Ultimo Proyecto registrado',
+                desc: lastProyect.address!,
+                icono: const Icon(
+                  Icons.business,
+                  color: secondColor,
+                  size: 36,
+                ),
               ),
-              FutureBuilder(
-                future: LastObject_helper.countDocuments(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    snapshot.data;
-                    return CardMenu(
-                      onTap: () {},
-                      title: 'Número de Proyectos registrados',
-                      desc: snapshot.data.toString(),
-                      icono: const Icon(
-                        Icons.open_in_browser,
-                        color: secondColor,
-                        size: 36,
-                      ),
-                    );
-                  } else {
-                    return CardMenu(
-                      onTap: () {},
-                      title: 'Número de Proyectos registrados',
-                      desc: '...',
-                      icono: const Icon(
-                        Icons.open_in_browser,
-                        color: secondColor,
-                        size: 36,
-                      ),
-                    );
-                  }
-                },
-              ),
+              CardMenu(
+                onTap: () {},
+                title: 'Número de Proyectos registrados',
+                desc: '$proyectCount',
+                icono: const Icon(
+                  Icons.open_in_browser,
+                  color: secondColor,
+                  size: 36,
+                ),
+              )
             ],
           ),
           const SizedBox(height: defaultPadding),
@@ -163,7 +118,7 @@ class _ResumePageState extends State<ResumePage> {
             ],
           ),
           const SizedBox(height: defaultPadding),
-          largeButtonRound(
+          LargeButtonRound(
             onTap: () async {
               Navigator.push(
                 context,
@@ -178,5 +133,11 @@ class _ResumePageState extends State<ResumePage> {
         ],
       ),
     );
+  }
+
+  void chargeData() async {
+    lastProyect = await resume_helper.getLastProyec();
+    proyectCount = await resume_helper.countDocuments();
+    setState(() {});
   }
 }

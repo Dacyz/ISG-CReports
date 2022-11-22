@@ -7,47 +7,22 @@ import '../../System/ProfileConstant.dart';
 import '../ReportPages/ListReportPage.dart';
 import '../ReportPages/NewReportPage.dart';
 
-class proyectodetalle extends StatefulWidget {
+class DetailProyectPage extends StatefulWidget {
   final ProyectoModel proyectoModel;
 
-  const proyectodetalle(this.proyectoModel, {super.key});
+  const DetailProyectPage(this.proyectoModel, {super.key});
 
   @override
-  State<proyectodetalle> createState() => _proyectodetalleState();
+  State<DetailProyectPage> createState() => _DetailProyectPageState();
 }
 
-class _proyectodetalleState extends State<proyectodetalle> {
-  List<String> ImagenesURLs = [];
+class _DetailProyectPageState extends State<DetailProyectPage> {
+  List<String> imagenesURLs = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Future<ListResult> archivo = FirebaseStorage.instance
-        .ref('/reportes')
-        .child(widget.proyectoModel.dni.toString())
-        .listAll();
-    archivo.then((value) {
-      value.items.forEach((element) async {
-        ImagenesURLs.add(await DownloadFile(element));
-        setState(() {});
-      });
-    });
-  }
-
-  Future<String> DownloadFile(Reference ref) async {
-    final URL = await ref.getDownloadURL();
-    return URL;
-  }
-
-  List<Widget> generateImages() {
-    return ImagenesURLs.map((element) => ClipRRect(
-          child: Image.network(
-            element,
-            fit: BoxFit.cover,
-          ),
-          borderRadius: BorderRadius.circular(15.0),
-        )).toList();
+    _chargeData();
   }
 
   @override
@@ -65,7 +40,8 @@ class _proyectodetalleState extends State<proyectodetalle> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => newreport(widget.proyectoModel)));
+                        builder: (context) =>
+                            NewReportPage(widget.proyectoModel)));
               },
               child: Container(
                 width: 150.0,
@@ -110,10 +86,10 @@ class _proyectodetalleState extends State<proyectodetalle> {
             //Botón Historial de Reportes
             InkWell(
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          listreportes(widget.proyectoModel))),
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ListReportPage(widget.proyectoModel)),
+              ),
               child: Container(
                 width: 150.0,
                 decoration: BoxDecoration(
@@ -158,18 +134,18 @@ class _proyectodetalleState extends State<proyectodetalle> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
             //Imagen
             Column(
               children: [
-                ImagenesURLs.isNotEmpty
+                imagenesURLs.isNotEmpty
                     ? Card(
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(15))),
-                        color: Color(0xFFFAFAFA),
+                        color: const Color(0xFFFAFAFA),
                         elevation: 0,
                         child: CarouselSlider(
                           items: generateImages(),
@@ -221,28 +197,28 @@ class _proyectodetalleState extends State<proyectodetalle> {
                     ),
                   ),
                   const SizedBox(height: defaultPadding),
-                  _RowConstant(
+                  _rowConstant(
                       'Beneficiario:', "${widget.proyectoModel.beneficiario}"),
                   const SizedBox(height: defaultShortPadding),
-                  _RowConstant('DNI:', "${widget.proyectoModel.dni}"),
+                  _rowConstant('DNI:', "${widget.proyectoModel.dni}"),
                   const SizedBox(height: defaultShortPadding),
-                  _RowConstant('Teléfono:', "${widget.proyectoModel.telefono}"),
+                  _rowConstant('Teléfono:', "${widget.proyectoModel.telefono}"),
                   const SizedBox(height: defaultShortPadding),
-                  _RowConstant(
+                  _rowConstant(
                       'Contrato:', "${widget.proyectoModel.codProyecto}"),
                   const SizedBox(height: defaultShortPadding),
-                  _RowConstant('Módulo:', "${widget.proyectoModel.modulo}"),
+                  _rowConstant('Módulo:', "${widget.proyectoModel.modulo}"),
                   const SizedBox(height: defaultShortPadding),
-                  _RowConstant(
+                  _rowConstant(
                       'Coordenadas:', "${widget.proyectoModel.coordenadas}"),
                   const SizedBox(height: defaultShortPadding),
-                  _RowConstant(
+                  _rowConstant(
                       'Departamento:', "${widget.proyectoModel.departamento}"),
                   const SizedBox(height: defaultShortPadding),
-                  _RowConstant(
+                  _rowConstant(
                       'Provincia:', "${widget.proyectoModel.provincia}"),
                   const SizedBox(height: defaultShortPadding),
-                  _RowConstant('Distrito:', "${widget.proyectoModel.distrito}"),
+                  _rowConstant('Distrito:', "${widget.proyectoModel.distrito}"),
                 ],
               ),
             ),
@@ -251,25 +227,55 @@ class _proyectodetalleState extends State<proyectodetalle> {
       ),
     );
   }
-}
 
-_RowConstant(String title, String content) => Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
+  void _chargeData() {
+    Future<ListResult> archivo = FirebaseStorage.instance
+        .ref('/reportes')
+        .child(widget.proyectoModel.dni.toString())
+        .listAll();
+    archivo.then((value) {
+      value.items.forEach((element) async {
+        imagenesURLs.add(await downloadFile(element));
+        setState(() {});
+      });
+    });
+  }
+
+  Future<String> downloadFile(Reference ref) async {
+    final String url = await ref.getDownloadURL();
+    return url;
+  }
+
+  List<Widget> generateImages() {
+    return imagenesURLs
+        .map((element) => ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: Image.network(
+                element,
+                fit: BoxFit.cover,
+              ),
+            ))
+        .toList();
+  }
+
+  _rowConstant(String title, String content) => Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-        Text(
-          content,
-          style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
-              overflow: TextOverflow.fade),
-        ),
-      ],
-    );
+          Text(
+            content,
+            style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+                overflow: TextOverflow.fade),
+          ),
+        ],
+      );
+}

@@ -6,19 +6,19 @@ import '../../../controller/remote_data_source/proyectos_helper.dart';
 import '../../../model/proyecto_Model.dart';
 import '../../System/ProfileConstant.dart';
 
-class listproyect extends StatefulWidget {
+class ListProyectPage extends StatefulWidget {
+  const ListProyectPage({super.key});
+
   @override
-  State<listproyect> createState() => _listproyectState();
+  State<ListProyectPage> createState() => _ListProyectPageState();
 }
 
 enum ViewType { grid, list }
 
-class _listproyectState extends State<listproyect> {
+class _ListProyectPageState extends State<ListProyectPage> {
   final formKey = GlobalKey<FormState>();
   late List<ProyectoModel> lista;
 
-  int _crossAxisCount = 2;
-  double _aspectRatio = 1.5;
   ViewType _viewType = ViewType.grid;
 
   final TextEditingController _searchQuery = TextEditingController();
@@ -110,16 +110,7 @@ class _listproyectState extends State<listproyect> {
                             ? Icons.grid_on
                             : Icons.view_list),
                         onPressed: () {
-                          if (_viewType == ViewType.list) {
-                            _crossAxisCount = 2;
-                            _aspectRatio = 1.5;
-                            _viewType = ViewType.grid;
-                          } else {
-                            _crossAxisCount = 1;
-                            _aspectRatio = 5;
-                            _viewType = ViewType.list;
-                          }
-                          setState(() {});
+                          changeList();
                         },
                       ),
                     ),
@@ -169,7 +160,8 @@ class _listproyectState extends State<listproyect> {
                                 decoration: defaultBoxDecoration(
                                     Theme.of(context).cardColor,
                                     Theme.of(context).shadowColor),
-                                padding: EdgeInsets.all(4),
+                                padding:
+                                    const EdgeInsets.all(defaultMiniPadding),
                                 child: ListTile(
                                   title: Text(
                                     "${singleproyecto.address}",
@@ -196,7 +188,7 @@ class _listproyectState extends State<listproyect> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            proyectodetalle(singleproyecto),
+                                            DetailProyectPage(singleproyecto),
                                       ),
                                     );
                                   },
@@ -206,7 +198,7 @@ class _listproyectState extends State<listproyect> {
                           )
                         : GridView.builder(
                             padding: const EdgeInsets.all(defaultPadding),
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: proyectoData!.length,
                             gridDelegate:
@@ -224,7 +216,7 @@ class _listproyectState extends State<listproyect> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          proyectodetalle(listaM),
+                                          DetailProyectPage(listaM),
                                     ),
                                   );
                                 },
@@ -301,5 +293,14 @@ class _listproyectState extends State<listproyect> {
         ],
       ),
     );
+  }
+
+  void changeList() {
+    if (_viewType == ViewType.list) {
+      _viewType = ViewType.grid;
+    } else {
+      _viewType = ViewType.list;
+    }
+    setState(() {});
   }
 }

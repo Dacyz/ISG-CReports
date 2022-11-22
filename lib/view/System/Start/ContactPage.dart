@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
 class ContactPage extends StatefulWidget {
@@ -27,7 +26,7 @@ class _ContactPageState extends State<ContactPage> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Container(
             color: Colors.white,
             child: Column(
@@ -66,7 +65,7 @@ class _ContactPageState extends State<ContactPage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                       horizontal: defaultLargePadding,
                       vertical: defaultShortPadding),
                   child: Row(
@@ -89,7 +88,7 @@ class _ContactPageState extends State<ContactPage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                       horizontal: defaultLargePadding,
                       vertical: defaultShortPadding),
                   child: Row(

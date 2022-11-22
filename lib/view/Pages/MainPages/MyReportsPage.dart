@@ -7,6 +7,6 @@ class MyReportsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return listproyect();
+    return const ListProyectPage();
   }
 }

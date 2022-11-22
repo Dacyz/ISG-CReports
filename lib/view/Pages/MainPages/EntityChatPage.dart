@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insergemobileapplication/controller/usermanagement.dart';
-import 'package:restart_app/restart_app.dart';
 
-import '../../System/CardConstant.dart';
 import '../../System/ProfileConstant.dart';
+import '../../System/Widgets/ShortButtonRoundWidget.dart';
 
 class EntityChatPage extends StatefulWidget {
   final User user;
@@ -18,62 +16,82 @@ class EntityChatPage extends StatefulWidget {
 class _EntityChatPageState extends State<EntityChatPage> {
   final User usuario;
   String nombreString = "";
+  String descString = "";
+
+  TextEditingController nombreController = TextEditingController();
+  TextEditingController descripcionController = TextEditingController();
+
   _EntityChatPageState({required this.usuario});
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     nombreString = usuario.displayName.toString() == 'null'
         ? ''
         : usuario.displayName.toString();
-    return Container(
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
+    nombreController.text = nombreString;
+    descString = UsuarioGlobal.descripcion.toString() == 'null'
+        ? ''
+        : UsuarioGlobal.descripcion.toString();
+    descripcionController.text = descString;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(defaultPadding),
+          child: Text(
+            'Mi perfil',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              onPressed: () {
+                _metodoEditData();
+              },
+              icon: const Icon(Icons.edit),
+            ),
+            Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.orangeAccent,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(defaultMiniPadding),
-                child: Center(
-                  child: usuario.photoURL.toString() != 'null'
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(100)),
-                          child: Image.network(
-                            usuario.photoURL.toString(),
-                          ),
-                        )
-                      : const Icon(
-                          Icons.person_off,
-                          size: 72,
+              padding: EdgeInsets.all(defaultMiniPadding),
+              child: Center(
+                child: usuario.photoURL.toString() != 'null'
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                        child: Image.network(
+                          usuario.photoURL.toString(),
                         ),
-                ),
+                      )
+                    : const Icon(
+                        Icons.person_off,
+                        size: 72,
+                      ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(defaultPadding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Mi perfil',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _MetodoEditName();
-                  },
-                  child: const Icon(Icons.edit),
-                ),
-              ],
+            IconButton(
+              onPressed: () {
+                _metodoEditPhoto();
+              },
+              icon: const Icon(Icons.camera_alt),
             ),
-          ),
-          Container(
+          ],
+        ),
+        const SizedBox(height: defaultPadding),
+        _descriptionProfile(descString),
+        const SizedBox(height: defaultPadding),
+        Expanded(
+          child: Container(
             margin: const EdgeInsets.symmetric(horizontal: defaultPadding),
             padding: const EdgeInsets.all(defaultPadding),
             decoration: BoxDecoration(
@@ -82,38 +100,44 @@ class _EntityChatPageState extends State<EntityChatPage> {
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24), topRight: Radius.circular(24)),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _RowConstant('Email:', usuario.email.toString()),
-                _RowConstant('Nombre:', nombreString),
-                _RowConstant('Verificacion:', usuario.emailVerified.toString()),
-                _RowConstant('Anonimo:', usuario.isAnonymous.toString()),
-                _RowConstant('Telefono:', usuario.phoneNumber.toString()),
-                _RowConstant('UID:', usuario.uid.toString()),
-                _RowConstant('Rol:', UsuarioGlobal.role),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    shortButtonRound(
-                      title: 'Cerrar sesión',
-                      onTap: () {
-                        UserManagement().signOut(context);
-                      },
-                    ),
-                  ],
-                ),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _rowConstant('Nombre:', nombreString),
+                  _rowConstant('Area:', UsuarioGlobal.area),
+                  _rowConstant('Cargo:', UsuarioGlobal.cargo),
+                  _rowConstant('Rol:', UsuarioGlobal.role),
+                  _rowConstant('Telefono:', usuario.phoneNumber.toString()),
+                  _rowConstant('Email:', usuario.email.toString()),
+                  _rowConstant(
+                      'Verificacion:', usuario.emailVerified.toString()),
+                  _rowConstant('Anonimo:', usuario.isAnonymous.toString()),
+                  _rowConstant('UID:', usuario.uid.toString()),
+                  _rowConstant('Num sesiones:', "${UsuarioGlobal.sesiones}"),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ShortButtonRound(
+                        title: 'Cerrar sesión',
+                        onTap: () {
+                          UserManagement().signOut(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  _MetodoEditName() => showDialog(
+  _metodoEditData() => showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -125,30 +149,36 @@ class _EntityChatPageState extends State<EntityChatPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Nombre',
-                ),
-                onChanged: (String value) {
-                  nombreString = value;
-                },
-              ),
+                  controller: nombreController,
+                  decoration: const InputDecoration(
+                    hintText: 'Nombre',
+                  )),
+              TextField(
+                  controller: descripcionController,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    hintText: 'Descripcion',
+                  )),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: () {
-                usuario.updateDisplayName(nombreString);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: const Text("Para ver los cambios reinicia sesión"),
-                  action: SnackBarAction(
-                    label: 'Reiniciar',
-                    onPressed: () {
-                      Restart.restartApp();
-                    },
-                  ),
-                ));
-                setState(() {});
-                Navigator.of(context).pop();
+              onPressed: () async {
+                nombreString = nombreController.text;
+                descString = descripcionController.text;
+                try {
+                  await usuario.updateDisplayName(nombreString);
+                  await UserManagement.updateUserDescription(
+                      descripcionController.text);
+                  setState(() {});
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Cambios guardados correctamente")));
+                  Navigator.of(context).pop();
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Ocurrio un error al guardar")));
+                  Navigator.of(context).pop();
+                }
               },
               child: const Text("Actualizar"),
             ),
@@ -162,7 +192,7 @@ class _EntityChatPageState extends State<EntityChatPage> {
         );
       });
 
-  _RowConstant(String title, String? content) {
+  _rowConstant(String title, String? content) {
     if (content != null && content != '' && content != 'null') {
       return Column(
         children: [
@@ -192,4 +222,24 @@ class _EntityChatPageState extends State<EntityChatPage> {
       return const SizedBox();
     }
   }
+
+  _descriptionProfile(String? content) {
+    if (content != null && content != '' && content != 'null') {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 42),
+        child: Text(
+          content,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      );
+    } else {
+      return const SizedBox();
+    }
+  }
+
+  void _metodoEditPhoto() {}
 }

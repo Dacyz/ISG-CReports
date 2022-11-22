@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProyectoModel {
@@ -42,7 +43,7 @@ class ProyectoModel {
       departamento: snapshot["departamento"],
       provincia: snapshot["provincia"],
       distrito: snapshot["distrito"],
-      image: 'assets/images/FachadaModulo62.jpeg',
+      image: '',
     );
   }
 
@@ -58,5 +59,12 @@ class ProyectoModel {
         "provincia": provincia,
         "distrito": distrito,
       };
-      
+
+  @override
+  String toString() {
+    if (codProyecto != null) {
+      return 'codigo: $codProyecto';
+    }
+    return 'Without Data';
+  }
 }

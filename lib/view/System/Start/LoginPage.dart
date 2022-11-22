@@ -1,30 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insergemobileapplication/controller/usermanagement.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 import 'package:insergemobileapplication/view/System/Start/ContactPage.dart';
 
-import '../../../model/user_model.dart';
-import '../Home/HomePage.dart';
-
-class login extends StatefulWidget {
-  const login({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<login> createState() => _loginState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _loginState extends State<login> {
+class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
-  Future<FirebaseApp> _initializeFirebase() async {
-    FirebaseApp firebaseApp = await Firebase.initializeApp();
-    return firebaseApp;
-  }
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool _isVisible = false;
 
@@ -164,11 +156,11 @@ class _loginState extends State<login> {
                                 pass: _passwordController.text,
                                 context: context);
                             if (user != null) {
+                              Navigator.pop(context);
                               ScaffoldMessenger.of(this.context)
                                   .showSnackBar(const SnackBar(
                                 content: Text("Sesión iniciada"),
                               ));
-                              Navigator.pop(context);
                             } else {
                               ScaffoldMessenger.of(this.context)
                                   .showSnackBar(SnackBar(

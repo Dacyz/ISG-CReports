@@ -94,11 +94,11 @@ class _StartPageState extends State<StartPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => login(),
+                      builder: (context) => LoginPage(),
                     ),
                   );
                 },
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding),
@@ -135,7 +135,7 @@ class _StartPageState extends State<StartPage> {
                     ),
                   );
                 },
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding),

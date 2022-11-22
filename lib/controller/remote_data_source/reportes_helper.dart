@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../model/reportes_Model.dart';
 
-class Reportes_helper {
+mixin Reportes_helper {
   static Stream<List<ReportesModel>> read(String id) {
     final reportesCollection = FirebaseFirestore.instance
         .collection("proyectos")

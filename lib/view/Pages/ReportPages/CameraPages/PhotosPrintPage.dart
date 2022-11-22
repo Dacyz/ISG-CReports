@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
-class photoPrint extends StatefulWidget {
+class PhotosPrintPage extends StatefulWidget {
+  const PhotosPrintPage({super.key});
+
   @override
-  State<photoPrint> createState() => _photoPrintState();
+  State<PhotosPrintPage> createState() => _PhotosPrintPageState();
 }
 
 enum WidgetState { none, loading, loaded, error }
 
-class _photoPrintState extends State<photoPrint> {
+class _PhotosPrintPageState extends State<PhotosPrintPage> {
   //Inicializamos la cam en estado none antes del initstate
   WidgetState _widgetState = WidgetState.none;
   //Creamos arreglo de variables camaras debido a la cantidad de cámaras que tiene un celular

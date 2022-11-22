@@ -6,16 +6,16 @@ import '../../../model/reportes_Model.dart';
 import '../../System/ProfileConstant.dart';
 import 'DetailReportPage.dart';
 
-class listreportes extends StatefulWidget {
-  ProyectoModel proyectoModel;
+class ListReportPage extends StatefulWidget {
+  final ProyectoModel proyectoModel;
 
-  listreportes(this.proyectoModel);
+  const ListReportPage(this.proyectoModel, {super.key});
 
   @override
-  State<listreportes> createState() => _listreportestState();
+  State<ListReportPage> createState() => _ListReportPageState();
 }
 
-class _listreportestState extends State<listreportes> {
+class _ListReportPageState extends State<ListReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +26,7 @@ class _listreportestState extends State<listreportes> {
             stream: Reportes_helper.read(widget.proyectoModel.id.toString()),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
@@ -39,7 +39,7 @@ class _listreportestState extends State<listreportes> {
                 final reportesData = snapshot.data;
                 return ListView.separated(
                   separatorBuilder: (context, index) {
-                    return Divider(
+                    return const Divider(
                       height: 3,
                       indent: 73,
                       endIndent: 15,
@@ -55,7 +55,7 @@ class _listreportestState extends State<listreportes> {
                     return SizedBox(
                       child: Container(
                         child: ListTile(
-                          leading: Icon(
+                          leading: const Icon(
                             Icons.account_balance_wallet_outlined,
                             color: Color(0xFFFC4B08),
                             size: 35,
@@ -63,13 +63,13 @@ class _listreportestState extends State<listreportes> {
                           title: Text(
                             "Fecha: " +
                                 "${singlereportes.fecharegistro?.day}/${singlereportes.fecharegistro?.month}/${singlereportes.fecharegistro?.year}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                             ),
                           ),
                           subtitle: Text("Hora: " +
                               "${singlereportes.fecharegistro?.hour}:${singlereportes.fecharegistro?.minute}"),
-                          trailing: Icon(Icons.arrow_forward_rounded,
+                          trailing: const Icon(Icons.arrow_forward_rounded,
                               color: Color(0xFFFC4B08)),
                           onTap: () {
                             Navigator.push(
@@ -84,7 +84,7 @@ class _listreportestState extends State<listreportes> {
                   },
                 );
               }
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }),

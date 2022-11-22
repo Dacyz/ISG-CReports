@@ -8,38 +8,41 @@ import '../../System/ProfileConstant.dart';
 class DetailReportPage extends StatefulWidget {
   final ReportesModel reporteModel;
 
-  DetailReportPage(this.reporteModel);
+  const DetailReportPage(this.reporteModel, {super.key});
 
   @override
   State<DetailReportPage> createState() => _DetailReportPageState();
 }
 
 class _DetailReportPageState extends State<DetailReportPage> {
+  late String _estadoString;
+  late String _observacionString;
+  late String _fechaString;
+  late String _horaString;
+  late String _preguntaUnoString;
+  late String _preguntaDosString;
+  late String _preguntaTresString;
+
   List<Widget> generateImages() {
     return widget.reporteModel.url!
         .map((element) => ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
               child: Image.network(
                 element,
                 fit: BoxFit.cover,
               ),
-              borderRadius: BorderRadius.circular(15.0),
             ))
         .toList();
   }
 
   @override
-  Widget build(BuildContext context) {
-    String _estadoString = "Estado:  " "${_estado()}";
-    String _observacionString =
-        "Observacion: ${widget.reporteModel.observacion}";
-    String _fechaString =
-        "Fecha: ${widget.reporteModel.fecharegistro?.day}/${widget.reporteModel.fecharegistro?.month}/${widget.reporteModel.fecharegistro?.year}";
-    String _horaString =
-        "Hora: ${widget.reporteModel.fecharegistro?.hour}:${widget.reporteModel.fecharegistro?.minute}";
-    String _preguntaUnoString = "${_preguntaone()}";
-    String _preguntaDosString = "${_preguntatwo()}";
-    String _preguntaTresString = "${_preguntathree()}";
+  void initState() {
+    _chargeData();
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: defaultAppBarTitle('Reportes'),
       body: Column(
@@ -66,7 +69,7 @@ class _DetailReportPageState extends State<DetailReportPage> {
           ),
           //Card Detalle
           Container(
-            padding: EdgeInsets.all(defaultPadding),
+            padding: const EdgeInsets.all(defaultPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -82,13 +85,13 @@ class _DetailReportPageState extends State<DetailReportPage> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     )),
                     IconButton(
-                        icon: Icon(Icons.content_copy),
+                        icon: const Icon(Icons.content_copy),
                         onPressed: () async {
                           await FlutterClipboard.copy(
-                              "${_estadoString}\n${_observacionString}\n${_fechaString}\n${_horaString}\n${_preguntaUnoString}\n${_preguntaDosString}\n${_preguntaTresString}");
+                              "$_estadoString\n$_observacionString\n$_fechaString\n$_horaString\n$_preguntaUnoString\n$_preguntaDosString\n$_preguntaTresString");
                           ScaffoldMessenger.of(this.context)
-                              .showSnackBar(SnackBar(
-                            content: const Text("Copiado correctamente"),
+                              .showSnackBar(const SnackBar(
+                            content: Text("Copiado correctamente"),
                           ));
                         })
                   ],
@@ -134,6 +137,18 @@ class _DetailReportPageState extends State<DetailReportPage> {
         ],
       ),
     );
+  }
+
+  _chargeData() {
+    _estadoString = "Estado:  " "${_estado()}";
+    _observacionString = "Observacion: ${widget.reporteModel.observacion}";
+    _fechaString =
+        "Fecha: ${widget.reporteModel.fecharegistro?.day}/${widget.reporteModel.fecharegistro?.month}/${widget.reporteModel.fecharegistro?.year}";
+    _horaString =
+        "Hora: ${widget.reporteModel.fecharegistro?.hour}:${widget.reporteModel.fecharegistro?.minute}";
+    _preguntaUnoString = "${_preguntaone()}";
+    _preguntaDosString = "${_preguntatwo()}";
+    _preguntaTresString = "${_preguntathree()}";
   }
 
   _estado() {

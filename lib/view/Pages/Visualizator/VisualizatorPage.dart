@@ -16,11 +16,12 @@ class _VisualizatorPageState extends State<VisualizatorPage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           automaticallyImplyLeading: false,
           centerTitle: true,
           foregroundColor: Colors.blueAccent,
-          backgroundColor: Colors.white,
           title: const Text(
             'Visualizador',
             style: TextStyle(color: Colors.blueAccent),

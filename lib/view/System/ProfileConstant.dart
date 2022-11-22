@@ -16,7 +16,7 @@ class ThemesConstants {
       onError: Colors.redAccent,
     ),
     primaryColor: Colors.blueAccent,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       color: Colors.white,
     ),
     shadowColor: Colors.white.withOpacity(0.1),
@@ -34,7 +34,7 @@ class ThemesConstants {
       onError: Colors.redAccent,
     ),
     appBarTheme:
-        AppBarTheme(color: Colors.black, foregroundColor: Colors.black),
+        const AppBarTheme(color: Colors.black, foregroundColor: Colors.black),
     cardColor: Colors.white,
     primaryColor: Colors.blueAccent,
     unselectedWidgetColor: Colors.black45,
