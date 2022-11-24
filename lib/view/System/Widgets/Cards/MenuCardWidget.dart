@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../ProfileConstant.dart';
+import '../../ProfileConstant.dart';
 
 class CardMenu extends StatelessWidget {
   const CardMenu({
@@ -23,7 +23,7 @@ class CardMenu extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
+          color: Theme.of(context).canvasColor,
           borderRadius: BorderRadius.circular(defaultBorderRadius),
           boxShadow: defaultBoxShadow(Theme.of(context).shadowColor),
         ),

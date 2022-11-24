@@ -25,6 +25,7 @@ class UserManagement {
       UserCredential userCredential =
           await auth.signInWithEmailAndPassword(email: userd, password: pass);
       user = userCredential.user;
+      await updateUserSesion();
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {}
     }
@@ -53,7 +54,6 @@ class UserManagement {
         if (snapshot.hasData) {
           UserManagement.readUserProperties().then((value) {
             UsuarioGlobal = UserModel.fromSnapshot(value.docs[0]);
-            print(UsuarioGlobal.area);
           });
           return StartHomePage(user: FirebaseAuth.instance.currentUser!);
         }
@@ -70,18 +70,51 @@ class UserManagement {
         .get();
   }
 
-  static updateUserDescription(String description) async {
+  static getUserName(String? uid) async {
+    QuerySnapshot user = await FirebaseFirestore.instance
+        .collection("/users")
+        .where('uid', isEqualTo: uid)
+        .get();
+    return UserModel.fromSnapshot(user.docs[0]).nombre;
+  }
+
+  static updateUserData(String description, String name) async {
     try {
       var user = FirebaseAuth.instance.currentUser;
       QuerySnapshot asd = await FirebaseFirestore.instance
           .collection("/users")
           .where('uid', isEqualTo: user?.uid)
           .get();
-      await asd.docs[0].reference.update({"descripcion": description});
+      await asd.docs[0].reference
+          .update({"descripcion": description, "nombre": name});
       return true;
     } catch (e) {
       return false;
     }
+  }
+
+  static updateUserSesion() async {
+    try {
+      var user = FirebaseAuth.instance.currentUser;
+      QuerySnapshot asd = await FirebaseFirestore.instance
+          .collection("/users")
+          .where('uid', isEqualTo: user?.uid)
+          .get();
+      int numSesions = await asd.docs[0].get('sesiones');
+      await asd.docs[0].reference.update({"sesiones": numSesions + 1});
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static updateUserPhoto(String url) async {
+    var user = FirebaseAuth.instance.currentUser;
+    QuerySnapshot asd = await FirebaseFirestore.instance
+        .collection("/users")
+        .where('uid', isEqualTo: user?.uid)
+        .get();
+    await asd.docs[0].reference.update({"urlImage": url});
   }
 
   signOut(BuildContext context) {

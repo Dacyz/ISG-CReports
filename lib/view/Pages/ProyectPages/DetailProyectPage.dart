@@ -1,9 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:insergemobileapplication/view/System/Widgets/AppBar/DefaultsAppBar.dart';
 
 import '../../../model/proyecto_Model.dart';
 import '../../System/ProfileConstant.dart';
+import '../../System/Widgets/Buttons/ShortButtonRoundWidget.dart';
+import '../../System/Widgets/Content/ContentBordersWidget.dart';
+import '../../System/Widgets/Content/RowDescriptionWidget.dart';
 import '../ReportPages/ListReportPage.dart';
 import '../ReportPages/NewReportPage.dart';
 
@@ -26,204 +30,108 @@ class _DetailProyectPageState extends State<DetailProyectPage> {
   }
 
   @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       //Barra
-      appBar: defaultAppBarBack,
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            //Botón Nuevo Reporte
-            InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            NewReportPage(widget.proyectoModel)));
-              },
-              child: Container(
-                width: 150.0,
-                decoration: BoxDecoration(
-                    boxShadow: const [
-                      BoxShadow(
-                          offset: Offset(0.0, 20),
-                          blurRadius: 30.0,
-                          color: Colors.black12)
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(22.0)),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      height: 50.0,
-                      width: 100.0,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 7.0, horizontal: 12.0),
-                      decoration: const BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(95.0),
-                              topLeft: Radius.circular(95.0),
-                              bottomRight: Radius.circular(200.0))),
-                      child: Text(
-                        'Nuevo Reporte',
-                        style: Theme.of(context)
-                            .textTheme
-                            .button
-                            ?.apply(color: Colors.black),
-                      ),
+      appBar: DefaultsAppBar.defaultAppBarTitleChild(
+          'Proyecto ${widget.proyectoModel.codProyecto}', [], context),
+      body: Column(
+        children: [
+          Expanded(
+            child: imagenesURLs.isNotEmpty
+                ? CarouselSlider(
+                    items: generateImages(),
+                    options: CarouselOptions(
+                      enlargeCenterPage: true,
+                      aspectRatio: 1,
+                      autoPlay: true,
+                      scrollPhysics: const BouncingScrollPhysics(),
+                      enableInfiniteScroll: false,
+                      pauseAutoPlayInFiniteScroll: true,
+                      viewportFraction: 1,
                     ),
-                    const Icon(
-                      Icons.article_outlined,
-                      size: 30.0,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            //Botón Historial de Reportes
-            InkWell(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ListReportPage(widget.proyectoModel)),
-              ),
-              child: Container(
-                width: 150.0,
-                decoration: BoxDecoration(
-                    boxShadow: const [
-                      BoxShadow(
-                          offset: Offset(0.0, 20),
-                          blurRadius: 30.0,
-                          color: Colors.black12)
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(22.0)),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      height: 50.0,
-                      width: 100.0,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 7.0, horizontal: 12.0),
-                      decoration: const BoxDecoration(
-                          color: Colors.blueAccent,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(95.0),
-                              topLeft: Radius.circular(95.0),
-                              bottomRight: Radius.circular(200.0))),
+                  )
+                : const SizedBox(
+                    height: 100,
+                    child: Center(
                       child: Text(
-                        'Historial de Reportes',
-                        style: Theme.of(context)
-                            .textTheme
-                            .button
-                            ?.apply(color: Colors.black),
-                      ),
-                    ),
-                    const Icon(
-                      Icons.amp_stories_outlined,
-                      size: 30.0,
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            //Imagen
-            Column(
-              children: [
-                imagenesURLs.isNotEmpty
-                    ? Card(
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(15))),
-                        color: const Color(0xFFFAFAFA),
-                        elevation: 0,
-                        child: CarouselSlider(
-                          items: generateImages(),
-                          options: CarouselOptions(
-                            enlargeCenterPage: true,
-                            aspectRatio: 1,
-                            viewportFraction: 1,
-                          ),
-                        ),
-                      )
-                    : const SizedBox(
-                        height: 100,
-                        child: Center(
-                          child: Text(
-                              'Aún no hay fotografias en los reportes para mostrar'),
-                        ),
-                      ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  defaultPadding, 5.0, defaultPadding, 0.0),
-              child: Text(
-                "Dirección: ${widget.proyectoModel.address}",
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            //DETALLES DEL PROYECTO
-            Container(
-              padding: const EdgeInsets.fromLTRB(defaultPadding, defaultPadding,
-                  defaultPadding, defaultPadding),
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(defaultBorderRadius * 3),
-                  topRight: Radius.circular(defaultBorderRadius * 3),
-                ),
-              ),
-              child: Column(
-                children: [
-                  const Center(
-                    child: Text(
-                      "DETALLES DEL PROYECTO",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          'Aún no hay fotografias en los reportes para mostrar'),
                     ),
                   ),
-                  const SizedBox(height: defaultPadding),
-                  _rowConstant(
-                      'Beneficiario:', "${widget.proyectoModel.beneficiario}"),
-                  const SizedBox(height: defaultShortPadding),
-                  _rowConstant('DNI:', "${widget.proyectoModel.dni}"),
-                  const SizedBox(height: defaultShortPadding),
-                  _rowConstant('Teléfono:', "${widget.proyectoModel.telefono}"),
-                  const SizedBox(height: defaultShortPadding),
-                  _rowConstant(
-                      'Contrato:', "${widget.proyectoModel.codProyecto}"),
-                  const SizedBox(height: defaultShortPadding),
-                  _rowConstant('Módulo:', "${widget.proyectoModel.modulo}"),
-                  const SizedBox(height: defaultShortPadding),
-                  _rowConstant(
-                      'Coordenadas:', "${widget.proyectoModel.coordenadas}"),
-                  const SizedBox(height: defaultShortPadding),
-                  _rowConstant(
-                      'Departamento:', "${widget.proyectoModel.departamento}"),
-                  const SizedBox(height: defaultShortPadding),
-                  _rowConstant(
-                      'Provincia:', "${widget.proyectoModel.provincia}"),
-                  const SizedBox(height: defaultShortPadding),
-                  _rowConstant('Distrito:', "${widget.proyectoModel.distrito}"),
+          ),
+
+          //Imagen
+
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: defaultPadding, vertical: defaultShortPadding),
+            child: Text(
+              "Dirección: ${widget.proyectoModel.address}",
+              style: const TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          //DETALLES DEL PROYECTO
+          Expanded(
+            child: ContentBorders(
+              child: Column(
+                children: [
+                  RowDescription(
+                      title: 'Beneficiario:',
+                      desc: "${widget.proyectoModel.beneficiario}"),
+                  RowDescription(
+                      title: 'DNI:', desc: "${widget.proyectoModel.dni}"),
+                  RowDescription(
+                      title: 'Teléfono:',
+                      desc: "${widget.proyectoModel.telefono}"),
+                  RowDescription(
+                      title: 'Módulo:', desc: "${widget.proyectoModel.modulo}"),
+                  RowDescription(
+                      title: 'Coordenadas:',
+                      desc: "${widget.proyectoModel.coordenadas}"),
+                  RowDescription(
+                      title: 'Ubigeo:',
+                      desc:
+                          "${widget.proyectoModel.departamento} - ${widget.proyectoModel.provincia} - ${widget.proyectoModel.distrito}"),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Botón Nuevo de Reportes
+                      ShortButtonRound(
+                          title: 'Nuevo Reporte',
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        NewReportPage(widget.proyectoModel)));
+                          }),
+                      //Botón Historial de Reportes
+                      ShortButtonRound(
+                          title: 'Historial de reporte',
+                          onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ListReportPage(widget.proyectoModel)),
+                              )),
+                    ],
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -257,25 +165,4 @@ class _DetailProyectPageState extends State<DetailProyectPage> {
             ))
         .toList();
   }
-
-  _rowConstant(String title, String content) => Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          Text(
-            content,
-            style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-                overflow: TextOverflow.fade),
-          ),
-        ],
-      );
 }

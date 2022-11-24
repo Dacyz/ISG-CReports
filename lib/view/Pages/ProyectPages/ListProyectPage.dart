@@ -158,7 +158,7 @@ class _ListProyectPageState extends State<ListProyectPage> {
                               final singleproyecto = proyectoData![index];
                               return Container(
                                 decoration: defaultBoxDecoration(
-                                    Theme.of(context).cardColor,
+                                    Theme.of(context).canvasColor,
                                     Theme.of(context).shadowColor),
                                 padding:
                                     const EdgeInsets.all(defaultMiniPadding),

@@ -156,11 +156,11 @@ class _LoginPageState extends State<LoginPage> {
                                 pass: _passwordController.text,
                                 context: context);
                             if (user != null) {
-                              Navigator.pop(context);
                               ScaffoldMessenger.of(this.context)
                                   .showSnackBar(const SnackBar(
                                 content: Text("Sesión iniciada"),
                               ));
+                              Navigator.of(context).pop();
                             } else {
                               ScaffoldMessenger.of(this.context)
                                   .showSnackBar(SnackBar(

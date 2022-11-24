@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_unity_widget/flutter_unity_widget.dart';
 
 import '../../../System/ProfileConstant.dart';
+import '../../../System/Widgets/Buttons/IconButtonWidget.dart';
 
 class RendersPage extends StatefulWidget {
   const RendersPage({Key? key}) : super(key: key);
@@ -84,7 +85,7 @@ class _RendersPageState extends State<RendersPage> {
                           children: [
                             Row(
                               children: [
-                                iconModify(
+                                IconButtonWidget(
                                   icono: Icon(
                                     Icons.close,
                                     color:
@@ -101,7 +102,7 @@ class _RendersPageState extends State<RendersPage> {
                             ),
                             Row(
                               children: [
-                                iconModify(
+                                IconButtonWidget(
                                   icono: Icon(
                                     Icons.currency_yuan,
                                     color:
@@ -128,7 +129,7 @@ class _RendersPageState extends State<RendersPage> {
                         elevation: 2,
                         child: Row(
                           children: [
-                            iconModify(
+                            IconButtonWidget(
                               icono: Icon(
                                 wallsVisibility
                                     ? Icons.remove_red_eye
@@ -144,7 +145,7 @@ class _RendersPageState extends State<RendersPage> {
                                 setWallsVisibility(wallsVisibility.toString());
                               },
                             ),
-                            iconModify(
+                            IconButtonWidget(
                               icono: Icon(
                                 _listPersons[listPersonIndex] == ""
                                     ? Icons.person_off
@@ -154,7 +155,6 @@ class _RendersPageState extends State<RendersPage> {
                                                 "Adult"
                                             ? Icons.boy_rounded
                                             : Icons.woman,
-                                color: Colors.black,
                               ),
                               onTap: () {
                                 if (listPersonIndex ==
@@ -168,7 +168,6 @@ class _RendersPageState extends State<RendersPage> {
                               },
                             ),
                             Container(
-                              color: Colors.white,
                               height: 25,
                               width: 25,
                             )
@@ -207,7 +206,7 @@ class _RendersPageState extends State<RendersPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    labelModify(
+                    IconButtonWidget(
                       icono: const Icon(Icons.arrow_left),
                       onTap: () {
                         if (listModulsIndex != 0) {
@@ -219,12 +218,12 @@ class _RendersPageState extends State<RendersPage> {
                       },
                     ),
                     Text("Modulo de ${_listModuls[listModulsIndex][0]}",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
-                          color: Colors.black,
+                          color: Theme.of(context).appBarTheme.backgroundColor,
                         )),
-                    labelModify(
+                    IconButtonWidget(
                       icono: const Icon(Icons.arrow_right),
                       onTap: () {
                         if (listModulsIndex != _listModuls.length - 1) {
@@ -239,13 +238,12 @@ class _RendersPageState extends State<RendersPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(defaultPadding),
+                padding: const EdgeInsets.all(defaultLargePadding),
                 child: Text(_listModuls[listModulsIndex][1],
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.black,
-                    )),
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15,
+                        color: Theme.of(context).appBarTheme.backgroundColor)),
               ),
             ],
           ),

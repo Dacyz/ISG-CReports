@@ -7,6 +7,8 @@ class UserModel {
   final int? sesiones;
   final String? cargo;
   final String? area;
+  final String? nombre;
+  final String? urlImage;
 
   UserModel(
       {this.descripcion,
@@ -14,7 +16,9 @@ class UserModel {
       this.cargo,
       this.area,
       this.uid,
-      this.role});
+      this.role,
+      this.nombre,
+      this.urlImage});
 
   factory UserModel.fromSnapshot(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
@@ -24,11 +28,8 @@ class UserModel {
         role: snapshot["role"],
         sesiones: snapshot["sesiones"],
         cargo: snapshot["cargo"],
+        nombre: snapshot["nombre"],
+        urlImage: snapshot["urlImage"],
         area: snapshot["area"]);
   }
-
-  Map<String, dynamic> toUpdateDescriptionJson() =>
-      {"descripcion": descripcion};
-
-  Map<String, dynamic> toUpdateSesionsJson() => {"sesiones": sesiones};
 }

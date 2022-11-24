@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../controller/ListGalery.dart';
 import '../../../../model/ModeloImageGallery.dart';
 import '../../../System/ProfileConstant.dart';
-import '../../../System/Widgets/ImageCardWidget.dart';
+import '../../../System/Widgets/Cards/ImageCardWidget.dart';
 
 class GalleryPage extends StatefulWidget {
   const GalleryPage({Key? key}) : super(key: key);
@@ -58,7 +58,6 @@ class _GalleryPageState extends State<GalleryPage> {
                     _customRadioButton2("Planos", 3),
                   ],
                 ),
-                const SizedBox(height: defaultPadding),
                 GridView.count(
                   physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
@@ -137,13 +136,13 @@ class _GalleryPageState extends State<GalleryPage> {
       child: Container(
         padding: const EdgeInsets.all(defaultPadding),
         decoration: defaultBoxDecoration(
-            Theme.of(context).primaryColor, Theme.of(context).shadowColor),
+            Theme.of(context).canvasColor, Theme.of(context).shadowColor),
         child: Text(
           title,
           style: TextStyle(
               color: (_currentSelection == index)
                   ? Colors.blueAccent
-                  : Colors.black,
+                  : Theme.of(context).appBarTheme.backgroundColor,
               fontWeight: (_currentSelection == index)
                   ? FontWeight.bold
                   : FontWeight.normal),
@@ -168,13 +167,13 @@ class _GalleryPageState extends State<GalleryPage> {
       child: Container(
         padding: const EdgeInsets.all(defaultPadding),
         decoration: defaultBoxDecoration(
-            Theme.of(context).cardColor, Theme.of(context).shadowColor),
+            Theme.of(context).canvasColor, Theme.of(context).shadowColor),
         child: Text(
           title,
           style: TextStyle(
               color: (_currentSelection2 == index)
                   ? Colors.blueAccent
-                  : Colors.black,
+                  : Theme.of(context).appBarTheme.backgroundColor,
               fontWeight: (_currentSelection2 == index)
                   ? FontWeight.bold
                   : FontWeight.normal),

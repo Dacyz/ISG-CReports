@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
+import 'package:insergemobileapplication/view/System/Widgets/AppBar/DefaultsAppBar.dart';
 
 class PhotosPrintPage extends StatefulWidget {
   const PhotosPrintPage({super.key});
@@ -53,7 +54,7 @@ class _PhotosPrintPageState extends State<PhotosPrintPage> {
   Widget _builScaffold(BuildContext context, Widget body) {
     return Scaffold(
       //UiAppbar
-      appBar: defaultAppBar,
+      appBar: DefaultsAppBar.defaultAppBar(context),
       body: body,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

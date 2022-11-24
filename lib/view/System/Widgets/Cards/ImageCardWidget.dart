@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../model/ModeloImageGallery.dart';
-import '../ProfileConstant.dart';
+import '../../../../model/ModeloImageGallery.dart';
+import '../../ProfileConstant.dart';
 import 'GalleryCardWidget.dart';
 
 class ImageCardWidget extends StatelessWidget {
@@ -36,7 +36,7 @@ class ImageCardWidget extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).canvasColor,
           borderRadius:
               const BorderRadius.all(Radius.circular(defaultBorderRadius)),
           boxShadow: defaultBoxShadow(Theme.of(context).shadowColor),
@@ -53,6 +53,8 @@ class ImageCardWidget extends StatelessWidget {
               child: Text(
                 title,
                 overflow: TextOverflow.clip,
+                style: TextStyle(
+                    color: Theme.of(context).appBarTheme.backgroundColor),
                 softWrap: false,
               ),
             ),

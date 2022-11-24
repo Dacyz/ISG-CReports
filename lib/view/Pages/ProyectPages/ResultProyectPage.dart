@@ -4,6 +4,7 @@ import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
 
 import '../../../controller/remote_data_source/intelligence_helper.dart';
 import '../../../model/proyecto_Model.dart';
+import '../../System/Widgets/AppBar/DefaultsAppBar.dart';
 import 'DetailProyectPage.dart';
 
 class ResultProyectPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: defaultAppBarTitle('Resultado de busqueda'),
+      appBar: DefaultsAppBar.defaultAppBarTitle('Resultado de Busqueda', context),
       body: SafeArea(
           child: Container(
         padding: const EdgeInsets.all(defaultPadding),

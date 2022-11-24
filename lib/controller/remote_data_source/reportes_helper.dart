@@ -7,7 +7,8 @@ mixin Reportes_helper {
     final reportesCollection = FirebaseFirestore.instance
         .collection("proyectos")
         .doc(id)
-        .collection("reportes").orderBy("fecharegistro",descending: true);
+        .collection("reportes")
+        .orderBy("fecharegistro", descending: true);
     return reportesCollection.snapshots().map((querySnapshot) =>
         querySnapshot.docs.map((e) => ReportesModel.fromSnapshot(e)).toList());
   }
@@ -26,6 +27,7 @@ mixin Reportes_helper {
       preguntathree: report.preguntathree,
       observacion: report.observacion,
       url: report.url,
+      userUID: report.userUID,
     ).toJson();
     try {
       await docref.set(newReport);
@@ -33,5 +35,15 @@ mixin Reportes_helper {
     } catch (e) {
       print("ocurrio un error $e");
     }
+  }
+
+  static Future<Stream<List<ReportesModel>>> getLastReport(String id) async {
+    final reporteCollection = FirebaseFirestore.instance
+        .collection("proyectos").doc(id).collection("reportes")
+        .orderBy('fecharegistro', descending: true)
+        .limit(1);
+    var aaaa = reporteCollection.snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => ReportesModel.fromSnapshot(e)).toList());
+    return aaaa;
   }
 }

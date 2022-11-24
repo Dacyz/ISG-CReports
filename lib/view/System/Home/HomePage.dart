@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:insergemobileapplication/controller/usermanagement.dart';
 
 import '../../Pages/MainPages/EntityChatPage.dart';
 import '../../Pages/MainPages/MyReportsPage.dart';
 import '../../Pages/MainPages/ResumePage.dart';
 import '../ProfileConstant.dart';
+import '../Widgets/AppBar/DefaultsAppBar.dart';
 
 class StartHomePage extends StatefulWidget {
   final User user;
@@ -52,8 +55,9 @@ class _StartHomePageState extends State<StartHomePage> {
         return Future.value(false);
       },
       child: Scaffold(
-        appBar: defaultAppBar,
+        appBar: DefaultsAppBar.defaultAppBar(context),
         body: PageView(
+          physics: const BouncingScrollPhysics(),
           controller: _pageController,
           onPageChanged: ((value) {
             setState(() {
@@ -67,6 +71,8 @@ class _StartHomePageState extends State<StartHomePage> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Theme.of(context).canvasColor,
+          elevation: 1,
           items: _pageList,
           currentIndex: _selectedIndex,
           onTap: (index) {
@@ -95,8 +101,8 @@ class _StartHomePageState extends State<StartHomePage> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(true);
-                  Navigator.of(context).pop(true);
+                  UserManagement().signOut(context);
+                  Navigator.of(context).pop();
                 },
                 child: const Text("Sí"),
               ),

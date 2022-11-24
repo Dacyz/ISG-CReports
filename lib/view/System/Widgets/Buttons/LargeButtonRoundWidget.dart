@@ -16,7 +16,10 @@ class LargeButtonRound extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          minimumSize: const Size(double.infinity, 60),
+          minimumSize: Size(
+            double.infinity,
+            desc != '' ? 60 : 35,
+          ),
           backgroundColor: Theme.of(context).focusColor,
           elevation: 0,
           shape: const RoundedRectangleBorder(
@@ -30,11 +33,13 @@ class LargeButtonRound extends StatelessWidget {
             title,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 1),
-          Text(
-            desc,
-            style: const TextStyle(fontWeight: FontWeight.normal),
-          )
+          desc != '' ? const SizedBox(height: 1) : const SizedBox(),
+          desc != ''
+              ? Text(
+                  desc,
+                  style: const TextStyle(fontWeight: FontWeight.normal),
+                )
+              : const SizedBox(),
         ],
       ),
     );

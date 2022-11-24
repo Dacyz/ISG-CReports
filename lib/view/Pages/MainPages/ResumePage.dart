@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:insergemobileapplication/controller/remote_data_source/resume_helper.dart';
-import 'package:insergemobileapplication/controller/usermanagement.dart';
 import 'package:insergemobileapplication/model/proyecto_Model.dart';
 import 'package:insergemobileapplication/view/Pages/ProyectPages/DetailProyectPage.dart';
 
 import '../../System/ProfileConstant.dart';
 
-import '../../System/Widgets/LargeButtonRoundWidget.dart';
-import '../../System/Widgets/MenuCardWidget.dart';
+import '../../System/Widgets/Buttons/LargeButtonRoundWidget.dart';
+import '../../System/Widgets/Cards/MenuCardWidget.dart';
 import '../Visualizator/VisualizatorPage.dart';
 
 class ResumePage extends StatefulWidget {
@@ -25,6 +24,14 @@ class _ResumePageState extends State<ResumePage> {
   void initState() {
     super.initState();
     chargeData();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override

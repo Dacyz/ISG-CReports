@@ -5,6 +5,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:insergemobileapplication/view/System/Widgets/AppBar/DefaultsAppBar.dart';
+import 'package:insergemobileapplication/view/System/Widgets/Buttons/LargeButtonRoundWidget.dart';
 import '../../../controller/remote_data_source/reportes_helper.dart';
 import '../../../model/proyecto_Model.dart';
 import '../../../model/reportes_Model.dart';
@@ -30,11 +32,31 @@ class _NewReportPageState extends State<NewReportPage> {
   bool value2 = false;
   bool value3 = false;
 
-  int? groupValue = 3;
-  int? groupValueInit;
+  int? groupValue = 0;
+  int? groupValueInit = 0;
+
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
 
   //Varobservacion
   final TextEditingController _observacionController = TextEditingController();
+
+  ReportesModel LastReport = ReportesModel(estado: 1);
+  void chargeData() {
+    var miau =
+        Reportes_helper.getLastReport(widget.proyectoModel.id.toString());
+    miau.then((value) => value.elementAt(0).then((value) {
+          LastReport = value.elementAt(0);
+          groupValue = LastReport.estado;
+          groupValueInit = groupValue! - 1;
+          setState(() {});
+        }));
+  }
 
   @override
   void dispose() {
@@ -44,45 +66,15 @@ class _NewReportPageState extends State<NewReportPage> {
 
   @override
   void initState() {
-    groupValueInit = groupValue! - 1;
     super.initState();
+    chargeData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.all(defaultPadding),
-        child: ElevatedButton(
-          onPressed: () {
-            if (images.length == 1) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text("Debes agregar almenos una fotografia"),
-                action: SnackBarAction(
-                  label: 'Ok',
-                  onPressed: () {},
-                ),
-              ));
-            } else {
-              _showMessageDialog(context);
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 14),
-            side: const BorderSide(color: Color(0xFF084460)),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            shadowColor: Colors.lightBlue,
-          ),
-          child: const Text("Guardar",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: Colors.white)),
-        ),
-      ),
       //UiAppbar
-      appBar: defaultAppBar,
+      appBar: DefaultsAppBar.defaultAppBar(context),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(defaultPadding),
         child: Column(
@@ -161,7 +153,7 @@ class _NewReportPageState extends State<NewReportPage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              PhotosPrintPage()));
+                                              const PhotosPrintPage()));
                                   XFile pickedFile = XFile(paths);
                                   images.insert(0, pickedFile);
                                   setState(() {});
@@ -210,7 +202,8 @@ class _NewReportPageState extends State<NewReportPage> {
                               String paths = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const PhotosPrintPage()));
+                                      builder: (context) =>
+                                          const PhotosPrintPage()));
                               XFile pickedFile = XFile(paths);
                               images.insert(0, pickedFile);
                               setState(() {});
@@ -232,19 +225,35 @@ class _NewReportPageState extends State<NewReportPage> {
               visible: isVisible3,
               maintainState: true,
               child: Card(
-                  color: Colors.grey.shade200,
                   child: Padding(
-                    padding: const EdgeInsets.all(defaultShortPadding),
-                    child: TextFormField(
-                      controller: _observacionController,
-                      maxLines: 5,
-                      keyboardType: TextInputType.multiline, //or null
-                      decoration: const InputDecoration.collapsed(
-                        hintText: "Ingresa tu observación aquí",
-                      ),
-                      inputFormatters: [LengthLimitingTextInputFormatter(200)],
+                padding: const EdgeInsets.all(defaultShortPadding),
+                child: TextFormField(
+                  controller: _observacionController,
+                  maxLines: 5,
+                  keyboardType: TextInputType.multiline, //or null
+                  decoration: const InputDecoration.collapsed(
+                    hintText: "Ingresa tu observación aquí",
+                  ),
+                  inputFormatters: [LengthLimitingTextInputFormatter(200)],
+                ),
+              )),
+            ),
+            LargeButtonRound(
+              title: 'Guardar',
+              desc: '',
+              onTap: () {
+                if (images.length == 1) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: const Text("Debes agregar almenos una fotografia"),
+                    action: SnackBarAction(
+                      label: 'Ok',
+                      onPressed: () {},
                     ),
-                  )),
+                  ));
+                } else {
+                  _showMessageDialog(context);
+                }
+              },
             ),
           ],
         ),
@@ -256,7 +265,9 @@ class _NewReportPageState extends State<NewReportPage> {
     return SizedBox(
       width: 120,
       child: Card(
-        color: index > groupValueInit! ? Colors.white : Colors.white54,
+        color: index > groupValueInit!
+            ? Theme.of(context).cardColor
+            : Theme.of(context).cardColor.withAlpha(10),
         child: Column(
           children: [
             Radio(
@@ -287,55 +298,81 @@ class _NewReportPageState extends State<NewReportPage> {
   _showMessageDialog(BuildContext context) => showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-            title: const Text("Guardar reporte"),
-            content: const Text("¿Está seguro de registrar este reporte?"),
-            actions: [
-              TextButton(
-                onPressed: () async {
-                  try {
-                    ReportesModel reportenuevo = ReportesModel(
-                        estado: groupValue,
-                        fecharegistro: DateTime.now(),
-                        preguntaone: value1,
-                        preguntatwo: value2,
-                        preguntathree: value3,
-                        observacion: _observacionController.text);
-                    List<String> imagenesurls = [];
-                    reportenuevo.url = imagenesurls;
-                    DocumentReference as = await Reportes_helper.create(
-                        reportenuevo, widget.proyectoModel.id.toString());
-                    for (var i = 0; i < images.length; i++) {
-                      if (images.length - 1 != i) {
-                        File imageFile = File(images.elementAt(i).path);
-                        Reference imageref = FirebaseStorage.instance
-                            .ref()
-                            .child("reportes")
-                            .child(widget.proyectoModel.dni.toString())
-                            .child(images.elementAt(i).name);
-                        await imageref.putFile(imageFile);
-                        imagenesurls.add(await imageref.getDownloadURL());
-                        as.update({
-                          "url": imagenesurls,
-                        });
-                      }
-                    }
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Ocurrio un error"),
-                    ));
-                  }
-                },
-                child: const Text("Sí"),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop("Cancel"),
-                child: const Text("No"),
-              )
-            ],
-          ));
+      builder: (context) {
+        bool isCharging = true;
+        return StatefulBuilder(builder: (context, setState) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              title: const Text("Guardar reporte"),
+              content: isCharging
+                  ? const Text("¿Está seguro de registrar este reporte?")
+                  : SizedBox(
+                      height: 100,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Center(child: CircularProgressIndicator()),
+                        ],
+                      ),
+                    ),
+              actions: isCharging
+                  ? [
+                      TextButton(
+                        onPressed: () async {
+                          isCharging = false;
+                          setState(() {});
+                          try {
+                            ReportesModel reportenuevo = ReportesModel(
+                                estado: groupValue,
+                                fecharegistro: DateTime.now(),
+                                preguntaone: value1,
+                                preguntatwo: value2,
+                                preguntathree: value3,
+                                observacion: _observacionController.text,
+                                userUID: UsuarioGlobal.uid);
+                            List<String> imagenesurls = [];
+                            reportenuevo.url = imagenesurls;
+                            DocumentReference as = await Reportes_helper.create(
+                                reportenuevo,
+                                widget.proyectoModel.id.toString());
+                            for (var i = 0; i < images.length; i++) {
+                              if (images.length - 1 != i) {
+                                File imageFile = File(images.elementAt(i).path);
+                                Reference imageref = FirebaseStorage.instance
+                                    .ref()
+                                    .child("reportes")
+                                    .child(widget.proyectoModel.dni.toString())
+                                    .child(images.elementAt(i).name);
+                                await imageref.putFile(imageFile);
+                                imagenesurls
+                                    .add(await imageref.getDownloadURL());
+                                as.update({
+                                  "url": imagenesurls,
+                                });
+                              }
+                            }
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          } catch (e) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Ocurrio un error"),
+                            ));
+                          }
+                        },
+                        child: const Text("Sí"),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop("Cancel"),
+                        child: const Text("No"),
+                      )
+                    ]
+                  : [],
+            ),
+          );
+        });
+      });
 
   _rowTitle(String title, bool Boolean, void Function() funcion) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -348,7 +385,6 @@ class _NewReportPageState extends State<NewReportPage> {
             onPressed: funcion,
             icon: Icon(
               Boolean ? Icons.arrow_drop_down : Icons.arrow_drop_up,
-              color: Colors.black,
             ),
           ),
         ],

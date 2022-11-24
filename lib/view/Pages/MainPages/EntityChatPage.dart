@@ -1,9 +1,18 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:insergemobileapplication/controller/usermanagement.dart';
+import 'package:insergemobileapplication/view/System/Widgets/Content/ImageBordersWidget.dart';
 
 import '../../System/ProfileConstant.dart';
-import '../../System/Widgets/ShortButtonRoundWidget.dart';
+import '../../System/Widgets/Content/ContentBordersWidget.dart';
+import '../../System/Widgets/Content/RowDescriptionWidget.dart';
+import '../../System/Widgets/Buttons/ShortButtonRoundWidget.dart';
 
 class EntityChatPage extends StatefulWidget {
   final User user;
@@ -17,6 +26,10 @@ class _EntityChatPageState extends State<EntityChatPage> {
   final User usuario;
   String nombreString = "";
   String descString = "";
+  String urlImage = "";
+  XFile? imageFile;
+
+  final ImagePicker _imagePicker = ImagePicker();
 
   TextEditingController nombreController = TextEditingController();
   TextEditingController descripcionController = TextEditingController();
@@ -28,10 +41,13 @@ class _EntityChatPageState extends State<EntityChatPage> {
     nombreString = usuario.displayName.toString() == 'null'
         ? ''
         : usuario.displayName.toString();
-    nombreController.text = nombreString;
     descString = UsuarioGlobal.descripcion.toString() == 'null'
         ? ''
         : UsuarioGlobal.descripcion.toString();
+    urlImage = UsuarioGlobal.urlImage.toString() == 'null'
+        ? ''
+        : UsuarioGlobal.urlImage.toString();
+    nombreController.text = nombreString;
     descripcionController.text = descString;
     super.initState();
   }
@@ -50,86 +66,99 @@ class _EntityChatPageState extends State<EntityChatPage> {
             ),
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              onPressed: () {
-                _metodoEditData();
-              },
-              icon: const Icon(Icons.edit),
-            ),
-            Container(
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.orangeAccent,
+        SizedBox(
+          height: 150,
+          child: Row(
+            verticalDirection: VerticalDirection.down,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: IconButton(
+                  onPressed: () {
+                    _metodoEditData();
+                  },
+                  icon: const Icon(Icons.edit),
+                ),
               ),
-              padding: EdgeInsets.all(defaultMiniPadding),
-              child: Center(
-                child: usuario.photoURL.toString() != 'null'
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                        child: Image.network(
-                          usuario.photoURL.toString(),
+              urlImage != ''
+                  ? Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          _viewImage();
+                        },
+                        child: ImageBorders(
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(100)),
+                            child: Image.network(
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                }
+                                return CircularProgressIndicator();
+                              },
+                              urlImage,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      )
-                    : const Icon(
+                      ),
+                    )
+                  : const Expanded(
+                      child: Icon(
                         Icons.person_off,
                         size: 72,
                       ),
+                    ),
+              Expanded(
+                child: IconButton(
+                  onPressed: () {
+                    _metodoEditPhoto();
+                  },
+                  icon: const Icon(Icons.camera_alt),
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                _metodoEditPhoto();
-              },
-              icon: const Icon(Icons.camera_alt),
-            ),
-          ],
+            ],
+          ),
         ),
         const SizedBox(height: defaultPadding),
         _descriptionProfile(descString),
         const SizedBox(height: defaultPadding),
         Expanded(
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: defaultPadding),
-            padding: const EdgeInsets.all(defaultPadding),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              boxShadow: defaultBoxShadow(Theme.of(context).shadowColor),
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24), topRight: Radius.circular(24)),
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _rowConstant('Nombre:', nombreString),
-                  _rowConstant('Area:', UsuarioGlobal.area),
-                  _rowConstant('Cargo:', UsuarioGlobal.cargo),
-                  _rowConstant('Rol:', UsuarioGlobal.role),
-                  _rowConstant('Telefono:', usuario.phoneNumber.toString()),
-                  _rowConstant('Email:', usuario.email.toString()),
-                  _rowConstant(
-                      'Verificacion:', usuario.emailVerified.toString()),
-                  _rowConstant('Anonimo:', usuario.isAnonymous.toString()),
-                  _rowConstant('UID:', usuario.uid.toString()),
-                  _rowConstant('Num sesiones:', "${UsuarioGlobal.sesiones}"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ShortButtonRound(
-                        title: 'Cerrar sesión',
-                        onTap: () {
-                          UserManagement().signOut(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+          child: ContentBorders(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RowDescription(title: 'Nombre:', desc: nombreString),
+                RowDescription(title: 'Area:', desc: UsuarioGlobal.area),
+                RowDescription(title: 'Cargo:', desc: UsuarioGlobal.cargo),
+                RowDescription(title: 'Rol:', desc: UsuarioGlobal.role),
+                RowDescription(
+                    title: 'Telefono:', desc: usuario.phoneNumber.toString()),
+                RowDescription(title: 'Email:', desc: usuario.email.toString()),
+                RowDescription(
+                    title: 'Verificacion:',
+                    desc: usuario.emailVerified.toString()),
+                RowDescription(
+                    title: 'Anonimo:', desc: usuario.isAnonymous.toString()),
+                RowDescription(title: 'UID:', desc: usuario.uid.toString()),
+                RowDescription(
+                    title: 'Num sesiones:', desc: "${UsuarioGlobal.sesiones}"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ShortButtonRound(
+                      title: 'Cerrar sesión',
+                      onTap: () {
+                        UserManagement().signOut(context);
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
@@ -139,89 +168,85 @@ class _EntityChatPageState extends State<EntityChatPage> {
 
   _metodoEditData() => showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          title: const Text("Actualizar"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                  controller: nombreController,
-                  decoration: const InputDecoration(
-                    hintText: 'Nombre',
-                  )),
-              TextField(
-                  controller: descripcionController,
-                  maxLines: 5,
-                  decoration: const InputDecoration(
-                    hintText: 'Descripcion',
-                  )),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () async {
-                nombreString = nombreController.text;
-                descString = descripcionController.text;
-                try {
-                  await usuario.updateDisplayName(nombreString);
-                  await UserManagement.updateUserDescription(
-                      descripcionController.text);
-                  setState(() {});
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Cambios guardados correctamente")));
-                  Navigator.of(context).pop();
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Ocurrio un error al guardar")));
-                  Navigator.of(context).pop();
-                }
-              },
-              child: const Text("Actualizar"),
+        bool isCharging = true;
+        return StatefulBuilder(builder: (context, setState) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              title: const Text("Actualizar"),
+              content: isCharging
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextField(
+                            controller: nombreController,
+                            decoration: const InputDecoration(
+                              hintText: 'Nombre',
+                            )),
+                        TextField(
+                            controller: descripcionController,
+                            maxLines: 3,
+                            maxLength: 80,
+                            decoration: const InputDecoration(
+                              hintText: 'Descripcion',
+                            )),
+                      ],
+                    )
+                  : SizedBox(
+                      height: 100,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Center(child: CircularProgressIndicator()),
+                        ],
+                      ),
+                    ),
+              actions: isCharging
+                  ? <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          isCharging = false;
+                          setState(() {});
+                          nombreString = nombreController.text;
+                          descString = descripcionController.text;
+                          try {
+                            await UserManagement.updateUserData(
+                              descripcionController.text,
+                              nombreController.text,
+                            );
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(this.context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        "Cambios guardados correctamente")));
+                            this.setState(() {});
+                          } catch (e) {
+                            ScaffoldMessenger.of(this.context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text("Ocurrio un error al guardar")));
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        child: const Text("Actualizar"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("Cerrar"),
+                      )
+                    ]
+                  : [],
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Cerrar"),
-            )
-          ],
-        );
+          );
+        });
       });
-
-  _rowConstant(String title, String? content) {
-    if (content != null && content != '' && content != 'null') {
-      return Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                content,
-                style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    overflow: TextOverflow.ellipsis),
-              ),
-            ],
-          ),
-          const SizedBox(height: defaultPadding),
-        ],
-      );
-    } else {
-      return const SizedBox();
-    }
-  }
 
   _descriptionProfile(String? content) {
     if (content != null && content != '' && content != 'null') {
@@ -241,5 +266,135 @@ class _EntityChatPageState extends State<EntityChatPage> {
     }
   }
 
-  void _metodoEditPhoto() {}
+  _metodoEditPhoto() => showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        bool isCharging = true;
+        return StatefulBuilder(builder: (context, setState) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              title: const Text("Actualizar Foto"),
+              content: isCharging
+                  ? SizedBox(
+                      height: 100,
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: ImageBorders(
+                                child: usuario.photoURL.toString() != 'null'
+                                    ? ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(100)),
+                                        child: Image.network(
+                                          urlImage,
+                                        ),
+                                      )
+                                    : const Icon(
+                                        Icons.person_off,
+                                        size: 72,
+                                      )),
+                          ),
+                          const Icon(Icons.arrow_forward_sharp),
+                          Flexible(
+                            child: GestureDetector(
+                              onTap: () async {
+                                XFile? picture = await _imagePicker.pickImage(
+                                    source: ImageSource.gallery);
+                                if (picture == null) return;
+                                File? img = File(picture.path);
+                                img = await _cropImage(imageFile: img);
+                                if (img == null) return;
+                                setState(() {
+                                  imageFile = XFile(img!.path);
+                                });
+                              },
+                              child: ImageBorders(
+                                  child: imageFile != null
+                                      ? ClipRRect(
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(100)),
+                                          child: Image.file(
+                                            File(imageFile!.path),
+                                          ),
+                                        )
+                                      : const Icon(
+                                          Icons.camera,
+                                          size: 72,
+                                        )),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  : SizedBox(
+                      height: 100,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Center(child: CircularProgressIndicator()),
+                        ],
+                      ),
+                    ),
+              actions: isCharging
+                  ? <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          isCharging = false;
+                          setState(() {});
+                          if (imageFile != null) {
+                            File image = File(imageFile!.path);
+                            Reference imageref = FirebaseStorage.instance
+                                .ref()
+                                .child("usuarios")
+                                .child(imageFile!.name);
+                            await imageref.putFile(image);
+                            urlImage = await imageref.getDownloadURL();
+                            usuario.updatePhotoURL(urlImage);
+                            await UserManagement.updateUserPhoto(urlImage);
+                            imageFile = null;
+                            Navigator.of(context).pop();
+                            this.setState(() {});
+                          } else {}
+                        },
+                        child: const Text("Actualizar"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("Cancelar"),
+                      )
+                    ]
+                  : [],
+            ),
+          );
+        });
+      });
+
+  Future<File?> _cropImage({required File imageFile}) async {
+    CroppedFile? croppedImage = await ImageCropper().cropImage(
+        sourcePath: imageFile.path,
+        compressQuality: 20,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1));
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
+  }
+
+  _viewImage() => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return GestureDetector(
+          onTap: () => Navigator.of(context).pop(),
+          child: Padding(
+            padding: const EdgeInsets.all(defaultLargePadding),
+            child: Image.network(
+              urlImage,
+            ),
+          ),
+        );
+      });
 }

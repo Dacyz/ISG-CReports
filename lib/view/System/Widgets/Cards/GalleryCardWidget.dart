@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
-import '../../../model/ModeloImageGallery.dart';
-import '../ProfileConstant.dart';
+import '../../../../model/ModeloImageGallery.dart';
+import '../../ProfileConstant.dart';
 
 class GalleryWidget extends StatefulWidget {
   final List<ModeloCardGallery> list;
