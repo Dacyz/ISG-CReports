@@ -12,9 +12,7 @@ class _ContactPageState extends State<ContactPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       bottomNavigationBar: Container(
-        color: Colors.white,
         padding: const EdgeInsets.all(defaultShortPadding),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -28,7 +26,6 @@ class _ContactPageState extends State<ContactPage> {
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
-            color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,

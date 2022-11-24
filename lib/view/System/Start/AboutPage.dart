@@ -13,9 +13,7 @@ class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
       bottomNavigationBar: Container(
-        color: Colors.white,
         padding: const EdgeInsets.all(defaultShortPadding),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -29,7 +27,6 @@ class _AboutPageState extends State<AboutPage> {
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
-            color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
