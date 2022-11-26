@@ -199,11 +199,12 @@ class _NewReportPageState extends State<NewReportPage> {
                           TextButton.icon(
                             label: const Text('Agregar evidencia'),
                             onPressed: () async {
-                              String paths = await Navigator.push(
+                              String? paths = await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           const PhotosPrintPage()));
+                              if (paths == null) return;
                               XFile pickedFile = XFile(paths);
                               images.insert(0, pickedFile);
                               setState(() {});
