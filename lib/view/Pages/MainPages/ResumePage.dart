@@ -46,21 +46,13 @@ class _ResumePageState extends State<ResumePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: const [
               Text(
-                'Bienvenido, Diego',
+                'Bienvenido a Inserge',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.indigo,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              RotatedBox(
-                quarterTurns: 135,
-                child: Icon(
-                  Icons.bar_chart_rounded,
-                  color: Colors.indigo,
-                  size: 28,
-                ),
-              )
             ],
           ),
           const SizedBox(height: defaultPadding),
@@ -92,7 +84,7 @@ class _ResumePageState extends State<ResumePage> {
                           builder: (context) =>
                               DetailProyectPage(lastProyect)));
                 },
-                title: 'Ultimo Proyecto registrado',
+                title: 'Último proyecto registrado',
                 desc: lastProyect.address!,
                 icono: const Icon(
                   Icons.business,
@@ -102,7 +94,7 @@ class _ResumePageState extends State<ResumePage> {
               ),
               CardMenu(
                 onTap: () {},
-                title: 'Número de Proyectos registrados',
+                title: 'Número de proyectos registrados',
                 desc: '$proyectCount',
                 icono: const Icon(
                   Icons.open_in_browser,
@@ -134,7 +126,7 @@ class _ResumePageState extends State<ResumePage> {
                 ),
               );
             },
-            title: 'Modulos',
+            title: 'Módulos',
             desc: 'Modelados 3D',
           ),
         ],

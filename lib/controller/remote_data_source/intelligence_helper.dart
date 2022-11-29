@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
+import 'package:insergemobileapplication/model/querybutton_model.dart';
 
 import '../../model/proyecto_Model.dart';
 
@@ -13,12 +14,8 @@ mixin Search_helper {
     return decoded;
   }
 
-  static Future<Map<String, dynamic>> getFutureData(query) async {
-    return await getData(query);
-  }
-
-  static Future<Stream<List<ProyectoModel>>> read(String query) async {
-    Map<String, dynamic> decoded = await getData(query);
+  static Future<Stream<List<ProyectoModel>>> read(
+      Map<String, dynamic> decoded) async {
     int count = 0;
     late Query<Map<String, dynamic>> fireWhere;
     var fireCollection =
@@ -26,7 +23,10 @@ mixin Search_helper {
     decoded['Answer']['campos'].forEach((key, value) {
       if (count == 0) {
         if (value['Operator'] == '=') {
-          fireWhere = fireCollection.where(key, isEqualTo: value['Value']);
+          fireWhere = fireCollection.where(
+            key,
+            isEqualTo: value['Value'],
+          );
         } else if (value['Operator'] == '>') {
           fireWhere = fireCollection.where(key, isGreaterThan: value['Value']);
         } else if (value['Operator'] == '<') {
@@ -46,5 +46,14 @@ mixin Search_helper {
     return fireWhere.snapshots().map((querySnapshot) =>
         querySnapshot.docs.map((e) => ProyectoModel.fromSnapshot(e)).toList());
     ;
+  }
+
+  static List<QueryButtonModel> readMap(Map<String, dynamic> decoded) {
+    List<QueryButtonModel> listado = [];
+    decoded['Answer']['campos'].forEach((key, value) {
+      listado.add(QueryButtonModel(
+          type: key, sing: value['Operator'], modulo: value['Value']));
+    });
+    return listado;
   }
 }

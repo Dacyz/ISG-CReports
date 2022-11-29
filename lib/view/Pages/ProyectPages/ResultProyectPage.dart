@@ -1,9 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
+import 'package:insergemobileapplication/view/System/Widgets/Buttons/DoubleIconWidget.dart';
 
 import '../../../controller/remote_data_source/intelligence_helper.dart';
 import '../../../model/proyecto_Model.dart';
+import '../../../model/querybutton_model.dart';
 import '../../System/Widgets/AppBar/DefaultsAppBar.dart';
 import 'DetailProyectPage.dart';
 
@@ -18,6 +19,7 @@ class ResultProyectPage extends StatefulWidget {
 class _ResultProyectPageState extends State<ResultProyectPage> {
   String res = '';
   List<ProyectoModel>? proyectoData;
+  List<QueryButtonModel> buttonsData = [];
   Stream<List<ProyectoModel>> listaDeProyects = const Stream.empty();
 
   @override
@@ -29,7 +31,8 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultsAppBar.defaultAppBarTitle('Resultado de Busqueda', context),
+      appBar:
+          DefaultsAppBar.defaultAppBarTitle('Resultado de búsqueda', context),
       body: SafeArea(
           child: Container(
         padding: const EdgeInsets.all(defaultPadding),
@@ -38,7 +41,7 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Termino buscado: ${widget.query}',
+                'Término buscado: ${widget.query}',
               ),
               const SizedBox(
                 height: defaultPadding,
@@ -47,12 +50,25 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
                   Text(
-                    'Resultado de busqueda:',
+                    'Resultado de búsqueda:',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-              Text(res),
+              SizedBox(
+                height: 50,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: buttonsData.length,
+                  itemBuilder: (context, index) {
+                    return DoubleIconWidget(
+                      desc: buttonsData[index].modulo,
+                      sign: buttonsData[index].sing,
+                      title: buttonsData[index].type,
+                    );
+                  },
+                ),
+              ),
               StreamBuilder<List<ProyectoModel>>(
                   stream: listaDeProyects,
                   builder: (context, snapshot) {
@@ -73,6 +89,10 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
                     }
                     if (snapshot.hasData) {
                       proyectoData = snapshot.data;
+                      if (proyectoData!.isEmpty)
+                        return const Text(
+                            'No se encontraron proyectos que cumplan con estos requisitos.');
+
                       // Acá cambiar
                       return Expanded(
                           child: ListView.separated(
@@ -145,11 +165,10 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
     );
   }
 
-  void _chargeData() {
-    Search_helper.read(widget.query).then((value) {
-      setState(() {
-        listaDeProyects = value;
-      });
-    });
+  void _chargeData() async {
+    Map<String, dynamic> decoded = await Search_helper.getData(widget.query);
+    listaDeProyects = await Search_helper.read(decoded);
+    buttonsData = Search_helper.readMap(decoded);
+    setState(() {});
   }
 }

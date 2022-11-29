@@ -42,14 +42,12 @@ class _ListProyectPageState extends State<ListProyectPage> {
               children: [
                 Text(
                   "Proyectos",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .copyWith(fontWeight: FontWeight.w500),
+                  style: Theme.of(context).textTheme.headline4!.copyWith(
+                      fontWeight: FontWeight.w500, color: Colors.indigo),
                 ),
                 const SizedBox(height: defaultPadding),
                 const Text(
-                  "Repositorio de Proyectos Inserge",
+                  "Repositorio de proyectos Inserge",
                   style: TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: defaultPadding),
@@ -58,14 +56,14 @@ class _ListProyectPageState extends State<ListProyectPage> {
                   child: TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Ingresa una busqueda";
+                        return "Ingresa una búsqueda";
                       } else {
                         return null;
                       }
                     },
                     controller: _searchQuery,
                     decoration: InputDecoration(
-                        hintText: "Buscar Proyectos...",
+                        hintText: "Buscar proyectos...",
                         filled: true,
                         border: InputBorder.none,
                         enabledBorder: outlineInputBorder,

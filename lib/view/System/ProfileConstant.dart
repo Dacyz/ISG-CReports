@@ -22,6 +22,7 @@ class ThemesConstants {
   );
 
   static final lightTheme = ThemeData(
+    scaffoldBackgroundColor: Colors.grey.shade100,
     shadowColor: Colors.grey.withOpacity(0.5),
     colorScheme: const ColorScheme.light(
       primary: Colors.orange,

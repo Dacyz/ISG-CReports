@@ -38,9 +38,9 @@ class _EntityChatPageState extends State<EntityChatPage> {
 
   @override
   void initState() {
-    nombreString = usuario.displayName.toString() == 'null'
+    nombreString = UsuarioGlobal.nombre.toString() == 'null'
         ? ''
-        : usuario.displayName.toString();
+        : UsuarioGlobal.nombre.toString();
     descString = UsuarioGlobal.descripcion.toString() == 'null'
         ? ''
         : UsuarioGlobal.descripcion.toString();
@@ -96,7 +96,9 @@ class _EntityChatPageState extends State<EntityChatPage> {
                                 if (loadingProgress == null) {
                                   return child;
                                 }
-                                return CircularProgressIndicator();
+                                return const CircularProgressIndicator(
+                                  color: Colors.blue,
+                                );
                               },
                               urlImage,
                               fit: BoxFit.cover,
@@ -133,20 +135,20 @@ class _EntityChatPageState extends State<EntityChatPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 RowDescription(title: 'Nombre:', desc: nombreString),
-                RowDescription(title: 'Area:', desc: UsuarioGlobal.area),
+                RowDescription(title: 'Área:', desc: UsuarioGlobal.area),
                 RowDescription(title: 'Cargo:', desc: UsuarioGlobal.cargo),
                 RowDescription(title: 'Rol:', desc: UsuarioGlobal.role),
                 RowDescription(
-                    title: 'Telefono:', desc: usuario.phoneNumber.toString()),
+                    title: 'Teléfono:', desc: usuario.phoneNumber.toString()),
                 RowDescription(title: 'Email:', desc: usuario.email.toString()),
                 RowDescription(
-                    title: 'Verificacion:',
+                    title: 'Verificación:',
                     desc: usuario.emailVerified.toString()),
                 RowDescription(
-                    title: 'Anonimo:', desc: usuario.isAnonymous.toString()),
-                RowDescription(title: 'UID:', desc: usuario.uid.toString()),
+                    title: 'Anónimo:', desc: usuario.isAnonymous.toString()),
                 RowDescription(
-                    title: 'Num sesiones:', desc: "${UsuarioGlobal.sesiones}"),
+                    title: 'Número sesiones:',
+                    desc: "${UsuarioGlobal.sesiones}"),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
