@@ -1,7 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:insergemobileapplication/controller/LaunchAppsUrl.dart';
 import 'package:insergemobileapplication/view/System/Widgets/AppBar/DefaultsAppBar.dart';
+import 'package:insergemobileapplication/view/System/Widgets/Buttons/IconButtonRoundWidget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../model/proyecto_Model.dart';
 import '../../System/ProfileConstant.dart';
@@ -103,29 +106,51 @@ class _DetailProyectPageState extends State<DetailProyectPage> {
                       title: 'Ubigeo:',
                       desc:
                           "${widget.proyectoModel.departamento} - ${widget.proyectoModel.provincia} - ${widget.proyectoModel.distrito}"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Botón Nuevo de Reportes
-                      ShortButtonRound(
-                          title: 'Nuevo Reporte',
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        NewReportPage(widget.proyectoModel)));
-                          }),
-                      //Botón Historial de Reportes
-                      ShortButtonRound(
-                          title: 'Historial de reporte',
-                          onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ListReportPage(widget.proyectoModel)),
-                              )),
-                    ],
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Botón Llamadas
+                        (widget.proyectoModel.telefono != '' &&
+                                widget.proyectoModel.telefono != null)
+                            ? IconButtonRound(
+                                icon: Icons.call,
+                                onTap: () => LaunchAppsURL.launchCall(
+                                    widget.proyectoModel.telefono),
+                              )
+                            : const SizedBox(),
+                        // Botón Google Maps
+                        (widget.proyectoModel.coordenadas != '' &&
+                                widget.proyectoModel.coordenadas != null)
+                            ? IconButtonRound(
+                                icon: Icons.local_taxi_outlined,
+                                onTap: () => LaunchAppsURL.launchMap(
+                                    '${widget.proyectoModel.coordenadas}'),
+                              )
+                            : const SizedBox(),
+                        // Botón Nuevo de Reportes
+                        ShortButtonRound(
+                            title: 'Nuevo Reporte',
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          NewReportPage(widget.proyectoModel)));
+                            }),
+                        //Botón Historial de Reportes
+                        ShortButtonRound(
+                            title: 'Historial de reporte',
+                            onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ListReportPage(widget.proyectoModel)),
+                                )),
+                      ],
+                    ),
                   ),
                 ],
               ),

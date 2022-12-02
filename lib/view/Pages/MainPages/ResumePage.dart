@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:insergemobileapplication/controller/remote_data_source/resume_helper.dart';
 import 'package:insergemobileapplication/model/proyecto_Model.dart';
 import 'package:insergemobileapplication/view/Pages/ProyectPages/DetailProyectPage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../System/ProfileConstant.dart';
 
@@ -128,6 +129,18 @@ class _ResumePageState extends State<ResumePage> {
             },
             title: 'Módulos',
             desc: 'Modelados 3D',
+          ),
+          const SizedBox(height: defaultShortPadding),
+          LargeButtonRound(
+            onTap: () async {
+              String url =
+                  'https://www.mivivienda.com.pe/PORTALWEB/usuario-busca-viviendas/estados-tramite.aspx';
+              if (await canLaunch(url)) {
+                await launch(url);
+              }
+            },
+            title: 'Fondo MIVIVIENDA',
+            desc: 'Consulta de estados de tramite',
           ),
         ],
       ),

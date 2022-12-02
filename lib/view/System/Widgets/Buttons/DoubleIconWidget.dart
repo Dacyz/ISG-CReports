@@ -1,9 +1,10 @@
+
 import 'package:flutter/material.dart';
 
 import '../../ProfileConstant.dart';
 
 class DoubleIconWidget extends StatelessWidget {
-  DoubleIconWidget({
+  const DoubleIconWidget({
     Key? key,
     required this.title,
     required this.sign,
@@ -17,15 +18,25 @@ class DoubleIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(defaultShortPadding),
-      margin: EdgeInsets.symmetric(
+      padding: const EdgeInsets.all(defaultShortPadding),
+      margin: const EdgeInsets.symmetric(
           horizontal: defaultMiniPadding, vertical: defaultShortPadding),
       decoration: BoxDecoration(
         color: Theme.of(context).canvasColor,
         borderRadius: BorderRadius.circular(defaultBorderRadius),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Colors.orange,
+            color: (title == 'Probabilidad')
+                ? double.parse(desc!) > 0.5
+                    ? (double.parse(desc!) >= 0.75)
+                        ? Colors.green.shade500
+                        : Colors.green.shade100
+                    : (double.parse(desc!) > 0.25)
+                        ? Colors.red.shade700
+                        : Colors.red.shade900
+                : (title == 'Colección')
+                    ? Colors.blue
+                    : Colors.orange,
             spreadRadius: 1,
             blurRadius: 1,
             offset: Offset(
@@ -41,7 +52,7 @@ class DoubleIconWidget extends StatelessWidget {
         children: [
           Text(
             '$title $sign ',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text('$desc'),
         ],

@@ -55,7 +55,7 @@ class _ListProyectPageState extends State<ListProyectPage> {
                   key: formKey,
                   child: TextFormField(
                     validator: (value) {
-                      if (value!.isEmpty) {
+                      if (value!.trim().isEmpty) {
                         return "Ingresa una búsqueda";
                       } else {
                         return null;

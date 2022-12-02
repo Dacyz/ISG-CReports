@@ -89,9 +89,10 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
                     }
                     if (snapshot.hasData) {
                       proyectoData = snapshot.data;
-                      if (proyectoData!.isEmpty)
+                      if (proyectoData!.isEmpty) {
                         return const Text(
                             'No se encontraron proyectos que cumplan con estos requisitos.');
+                      }
 
                       // Acá cambiar
                       return Expanded(
@@ -167,8 +168,11 @@ class _ResultProyectPageState extends State<ResultProyectPage> {
 
   void _chargeData() async {
     Map<String, dynamic> decoded = await Search_helper.getData(widget.query);
-    listaDeProyects = await Search_helper.read(decoded);
-    buttonsData = Search_helper.readMap(decoded);
+    if (!decoded.containsKey('Error')) {
+      // En caso de error no retorna nada
+      listaDeProyects = await Search_helper.read(decoded);
+      buttonsData = Search_helper.readMap(decoded);
+    }
     setState(() {});
   }
 }

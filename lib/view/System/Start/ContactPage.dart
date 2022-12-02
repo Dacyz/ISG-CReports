@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:insergemobileapplication/controller/LaunchAppsUrl.dart';
 import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
+import 'package:insergemobileapplication/view/System/Widgets/Buttons/IconButtonRoundWidget.dart';
+import 'package:insergemobileapplication/view/System/Widgets/Buttons/ShortButtonRoundWidget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({super.key});
@@ -107,6 +111,25 @@ class _ContactPageState extends State<ContactPage> {
                     ],
                   ),
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButtonRound(
+                      icon: Icons.call,
+                      onTap: () => LaunchAppsURL.launchCall('+51 923206089'),
+                    ),
+                    IconButtonRound(
+                      icon: Icons.mail,
+                      onTap: () => LaunchAppsURL.launchEmail(
+                        Correo: 'Insergepiurasac@gmail.com',
+                        cuerpo:
+                            '¡Hola, es un gusto ponerme en contacto con ustedes!',
+                        sujeto:
+                            'Es mi primera vez en el aplicativo inserge, busco contactarme con alguien',
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
           ),

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../ProfileConstant.dart';
 
-class ShortButtonRound extends StatelessWidget {
-  const ShortButtonRound({
+class IconButtonRound extends StatelessWidget {
+  const IconButtonRound({
     Key? key,
-    required this.title,
+    required this.icon,
     required this.onTap,
   }) : super(key: key);
 
-  final String title;
+  final IconData icon;
   final VoidCallback? onTap;
 
   @override
@@ -25,9 +25,8 @@ class ShortButtonRound extends StatelessWidget {
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(50)))),
         onPressed: onTap,
-        child: Text(
-          title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+        child: Icon(
+          icon,
         ),
       ),
     );
