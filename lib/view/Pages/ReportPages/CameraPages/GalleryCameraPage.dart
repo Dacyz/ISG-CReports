@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../../model/proyecto_Model.dart';
-import '../../../../model/reportes_Model.dart';
+import '../../../../model/proyecto_model.dart';
+import '../../../../model/reportes_model.dart';
 import '../../../System/Widgets/AppBar/DefaultsAppBar.dart';
 import 'PhotoViewScream.dart';
 import 'PhotosPrintPage.dart';

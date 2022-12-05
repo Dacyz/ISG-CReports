@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../ProfileConstant.dart';
+import '../../Settings/ProfileConstant.dart';
 
 class RowDescription extends StatelessWidget {
   RowDescription({

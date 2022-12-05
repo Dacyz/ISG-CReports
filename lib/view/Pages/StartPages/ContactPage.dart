@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:insergemobileapplication/controller/LaunchAppsUrl.dart';
-import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
+import 'package:insergemobileapplication/controller/static/LaunchAppsUrl.dart';
+import 'package:insergemobileapplication/view/System/Settings/ProfileConstant.dart';
 import 'package:insergemobileapplication/view/System/Widgets/Buttons/IconButtonRoundWidget.dart';
 import 'package:insergemobileapplication/view/System/Widgets/Buttons/ShortButtonRoundWidget.dart';
 import 'package:url_launcher/url_launcher.dart';

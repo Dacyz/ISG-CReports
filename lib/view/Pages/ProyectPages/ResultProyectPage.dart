@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
+import 'package:insergemobileapplication/view/System/Settings/ProfileConstant.dart';
 import 'package:insergemobileapplication/view/System/Widgets/Buttons/DoubleIconWidget.dart';
 
-import '../../../controller/remote_data_source/intelligence_helper.dart';
-import '../../../model/proyecto_Model.dart';
+import '../../../controller/Api/intelligence_helper.dart';
+import '../../../model/proyecto_model.dart';
 import '../../../model/querybutton_model.dart';
 import '../../System/Widgets/AppBar/DefaultsAppBar.dart';
 import 'DetailProyectPage.dart';

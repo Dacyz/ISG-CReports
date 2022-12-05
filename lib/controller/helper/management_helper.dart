@@ -4,10 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:insergemobileapplication/model/user_model.dart';
-import 'package:insergemobileapplication/view/System/Home/HomePage.dart';
-import 'package:insergemobileapplication/view/System/Start/StartPage.dart';
 
-import '../view/System/ProfileConstant.dart';
+import '../../view/Pages/StartPages/HomePage.dart';
+import '../../view/Pages/StartPages/StartPage.dart';
+import '../../view/System/Settings/ProfileConstant.dart';
 
 class UserManagement {
   Future<FirebaseApp> initializeFirebase() async {

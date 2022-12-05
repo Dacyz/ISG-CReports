@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../controller/ListGalery.dart';
-import '../../../../model/ModeloImageGallery.dart';
-import '../../../System/ProfileConstant.dart';
+import '../../../../controller/static/ListGalery.dart';
+import '../../../../model/ImageGallery_model.dart';
+import '../../../System/Settings/ProfileConstant.dart';
 import '../../../System/Widgets/Cards/ImageCardWidget.dart';
 
 class GalleryPage extends StatefulWidget {

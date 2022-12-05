@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:insergemobileapplication/model/querybutton_model.dart';
 
-import '../../model/proyecto_Model.dart';
+import '../../model/proyecto_model.dart';
 
 mixin Search_helper {
   static Future<Map<String, dynamic>> getData(url) async {

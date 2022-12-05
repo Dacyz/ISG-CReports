@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:insergemobileapplication/controller/usermanagement.dart';
-import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
+import 'package:insergemobileapplication/controller/helper/management_helper.dart';
+import 'package:insergemobileapplication/view/System/Settings/ProfileConstant.dart';
 import 'package:flutter/services.dart';
 
 void main() {

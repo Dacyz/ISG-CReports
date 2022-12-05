@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:insergemobileapplication/view/System/Start/LoginPage.dart';
 
-import '../../Pages/Visualizator/VisualizatorPage.dart';
-import '../ProfileConstant.dart';
+import '../../System/Settings/ProfileConstant.dart';
+import '../Visualizator/VisualizatorPage.dart';
 import 'AboutPage.dart';
+import 'LoginPage.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key});

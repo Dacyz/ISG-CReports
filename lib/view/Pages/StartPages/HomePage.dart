@@ -2,13 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:insergemobileapplication/controller/usermanagement.dart';
+import 'package:insergemobileapplication/controller/helper/management_helper.dart';
 
-import '../../Pages/MainPages/EntityChatPage.dart';
-import '../../Pages/MainPages/MyReportsPage.dart';
-import '../../Pages/MainPages/ResumePage.dart';
-import '../ProfileConstant.dart';
-import '../Widgets/AppBar/DefaultsAppBar.dart';
+import '../../System/Widgets/AppBar/DefaultsAppBar.dart';
+import '../MainPages/EntityChatPage.dart';
+import '../MainPages/MyReportsPage.dart';
+import '../MainPages/ResumePage.dart';
+
 
 class StartHomePage extends StatefulWidget {
   final User user;

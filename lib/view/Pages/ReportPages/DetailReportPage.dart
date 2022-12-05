@@ -1,13 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
-import 'package:insergemobileapplication/controller/usermanagement.dart';
+import 'package:insergemobileapplication/controller/helper/management_helper.dart';
 import 'package:insergemobileapplication/view/System/Widgets/AppBar/DefaultsAppBar.dart';
 import 'package:insergemobileapplication/view/System/Widgets/Content/ContentBordersWidget.dart';
 import 'package:insergemobileapplication/view/System/Widgets/Content/RowDescriptionWidget.dart';
 
-import '../../../model/reportes_Model.dart';
-import '../../System/ProfileConstant.dart';
+import '../../../model/reportes_model.dart';
+import '../../System/Settings/ProfileConstant.dart';
 
 class DetailReportPage extends StatefulWidget {
   final ReportesModel reporteModel;

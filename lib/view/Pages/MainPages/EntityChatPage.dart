@@ -6,10 +6,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:insergemobileapplication/controller/usermanagement.dart';
+import 'package:insergemobileapplication/controller/helper/management_helper.dart';
 import 'package:insergemobileapplication/view/System/Widgets/Content/ImageBordersWidget.dart';
 
-import '../../System/ProfileConstant.dart';
+import '../../System/Settings/ProfileConstant.dart';
 import '../../System/Widgets/Content/ContentBordersWidget.dart';
 import '../../System/Widgets/Content/RowDescriptionWidget.dart';
 import '../../System/Widgets/Buttons/ShortButtonRoundWidget.dart';

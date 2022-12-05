@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:insergemobileapplication/view/Pages/ProyectPages/DetailProyectPage.dart';
 import 'package:insergemobileapplication/view/Pages/ProyectPages/ResultProyectPage.dart';
 
-import '../../../controller/remote_data_source/proyectos_helper.dart';
-import '../../../model/proyecto_Model.dart';
-import '../../System/ProfileConstant.dart';
+import '../../../controller/helper/proyectos_helper.dart';
+import '../../../model/proyecto_model.dart';
+import '../../System/Settings/ProfileConstant.dart';
 
 class ListProyectPage extends StatefulWidget {
   const ListProyectPage({super.key});

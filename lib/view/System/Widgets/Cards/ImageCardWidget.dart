@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../model/ModeloImageGallery.dart';
-import '../../ProfileConstant.dart';
+import '../../../../model/ImageGallery_model.dart';
+import '../../Settings/ProfileConstant.dart';
 import 'GalleryCardWidget.dart';
 
 class ImageCardWidget extends StatelessWidget {

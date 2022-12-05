@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../model/proyecto_Model.dart';
+import '../../model/proyecto_model.dart';
 
 mixin Proyecto_helper {
   static Stream<List<ProyectoModel>> read() {

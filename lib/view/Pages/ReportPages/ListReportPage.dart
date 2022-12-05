@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:insergemobileapplication/view/System/Widgets/AppBar/DefaultsAppBar.dart';
 
-import '../../../controller/remote_data_source/reportes_helper.dart';
-import '../../../model/proyecto_Model.dart';
-import '../../../model/reportes_Model.dart';
-import '../../System/ProfileConstant.dart';
+import '../../../controller/helper/reportes_helper.dart';
+import '../../../model/proyecto_model.dart';
+import '../../../model/reportes_model.dart';
+import '../../System/Settings/ProfileConstant.dart';
 import 'DetailReportPage.dart';
 
 class ListReportPage extends StatefulWidget {

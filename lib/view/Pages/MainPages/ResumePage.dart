@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:insergemobileapplication/controller/remote_data_source/resume_helper.dart';
-import 'package:insergemobileapplication/model/proyecto_Model.dart';
+import 'package:insergemobileapplication/controller/helper/resume_helper.dart';
+import 'package:insergemobileapplication/model/proyecto_model.dart';
 import 'package:insergemobileapplication/view/Pages/ProyectPages/DetailProyectPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../System/ProfileConstant.dart';
+import '../../System/Settings/ProfileConstant.dart';
 
 import '../../System/Widgets/Buttons/LargeButtonRoundWidget.dart';
 import '../../System/Widgets/Cards/MenuCardWidget.dart';

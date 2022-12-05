@@ -1,4 +1,4 @@
-import '../model/ModeloImageGallery.dart';
+import '../../model/ImageGallery_model.dart';
 
 List<ModeloCardGallery> modeloCardGallery = [
   ModeloCardGallery(

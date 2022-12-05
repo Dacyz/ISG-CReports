@@ -1,13 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:insergemobileapplication/controller/LaunchAppsUrl.dart';
+import 'package:insergemobileapplication/controller/static/LaunchAppsUrl.dart';
 import 'package:insergemobileapplication/view/System/Widgets/AppBar/DefaultsAppBar.dart';
 import 'package:insergemobileapplication/view/System/Widgets/Buttons/IconButtonRoundWidget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../model/proyecto_Model.dart';
-import '../../System/ProfileConstant.dart';
+import '../../../model/proyecto_model.dart';
+import '../../System/Settings/ProfileConstant.dart';
 import '../../System/Widgets/Buttons/ShortButtonRoundWidget.dart';
 import '../../System/Widgets/Content/ContentBordersWidget.dart';
 import '../../System/Widgets/Content/RowDescriptionWidget.dart';

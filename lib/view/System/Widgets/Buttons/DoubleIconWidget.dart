@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../ProfileConstant.dart';
+import '../../Settings/ProfileConstant.dart';
 
 class DoubleIconWidget extends StatelessWidget {
   const DoubleIconWidget({

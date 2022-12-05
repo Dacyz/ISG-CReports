@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../model/reportes_Model.dart';
+import '../../model/reportes_model.dart';
 
 mixin Reportes_helper {
   static Stream<List<ReportesModel>> read(String id) {

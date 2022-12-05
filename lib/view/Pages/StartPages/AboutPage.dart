@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
+import 'package:insergemobileapplication/view/System/Settings/ProfileConstant.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});

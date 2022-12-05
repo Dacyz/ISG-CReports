@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:insergemobileapplication/view/System/ProfileConstant.dart';
+import 'package:insergemobileapplication/view/System/Settings/ProfileConstant.dart';
 import 'package:insergemobileapplication/view/System/Widgets/AppBar/DefaultsAppBar.dart';
 
 class PhotosPrintPage extends StatefulWidget {
